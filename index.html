@@ -7,21 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #ffffff;
-    --bg2: #f5f5f5;
+    --bg: #f5f5f5;
+    --bg2: #efefef;
     --bg3: #e8e8e8;
-    --card: #fafafa;
-    --card2: #f0f0f0;
-    --border: #d1d5db;
-    --accent1: #0891b2;
+    --card: #ffffff;
+    --card2: #fafafa;
+    --border: #d0d0d0;
+    --accent1: #0066cc;
     --accent2: #7c3aed;
     --accent3: #10b981;
     --accent4: #f59e0b;
     --accent5: #ef4444;
     --text: #1f2937;
-    --text2: #6b7280;
-    --text3: #9ca3af;
-    --glow: rgba(8, 145, 178, 0.1);
+    --text2: #555555;
+    --text3: #888888;
+    --glow: rgba(0, 102, 204, 0.15);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -38,8 +38,8 @@
     content: '';
     position: fixed; inset: 0; z-index: 0;
     background-image:
-      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(100,100,100,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100,100,100,0.03) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
   }
@@ -47,7 +47,7 @@
   /* ── Header ── */
   header {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(245, 245, 245, 0.95);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     padding: 0 2rem;
@@ -83,7 +83,7 @@
   }
   #searchBox:focus {
     border-color: var(--accent1);
-    box-shadow: 0 0 0 2px rgba(0,212,255,0.1);
+    box-shadow: 0 0 0 2px rgba(0,102,204,0.1);
   }
   .search-icon {
     position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
@@ -142,7 +142,7 @@
   .nav-item:hover, .nav-item.active {
     color: var(--accent1);
     border-left-color: var(--accent1);
-    background: rgba(0, 212, 255, 0.04);
+    background: rgba(0, 102, 204, 0.08);
   }
   .nav-dot {
     width: 6px; height: 6px; border-radius: 50%;
@@ -223,16 +223,17 @@
     opacity: 0; transition: opacity .2s;
   }
   .card:hover {
-    border-color: rgba(0,212,255,0.3);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    border-color: rgba(0,102,204,0.3);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
     transform: translateY(-1px);
   }
   .card:hover::before { opacity: 1; }
-  .card-cyan::before { background: linear-gradient(90deg, var(--accent1), transparent); }
+  .card-cyan::before { background: linear-gradient(90deg, #0066cc, transparent); }
   .card-purple::before { background: linear-gradient(90deg, var(--accent2), transparent); }
   .card-green::before { background: linear-gradient(90deg, var(--accent3), transparent); }
   .card-amber::before { background: linear-gradient(90deg, var(--accent4), transparent); }
   .card-red::before { background: linear-gradient(90deg, var(--accent5), transparent); }
+  .card-red { border-color: rgba(239,68,68,0.2); }
 
   .card-title {
     font-size: 0.85rem; font-weight: 700;
@@ -251,7 +252,7 @@
     font-size: 0.78rem;
   }
   .code-block {
-    background: #f3f4f6;
+    background: #f9f9f9;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 1rem 1.25rem;
@@ -287,7 +288,7 @@
     transition: all .2s; cursor: default;
   }
   .tag:hover {
-    background: rgba(0,212,255,0.1);
+    background: rgba(0,102,204,0.15);
     border-color: var(--accent1);
     transform: scale(1.03);
   }
@@ -351,7 +352,7 @@
     font-family: 'JetBrains Mono', monospace;
     vertical-align: top; line-height: 1.5;
   }
-  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
+  .data-table tr:hover td { background: rgba(0,102,204,0.05); }
 
   /* ── Flow diagram ── */
   .flow {
@@ -373,10 +374,10 @@
   .flow-node:hover {
     border-color: var(--accent1);
     color: var(--accent1);
-    box-shadow: 0 0 12px var(--glow);
+    box-shadow: 0 0 12px rgba(0, 102, 204, 0.15);
   }
   .flow-node.highlight {
-    background: rgba(0,212,255,0.1);
+    background: rgba(0,102,204,0.15);
     border-color: var(--accent1);
     color: var(--accent1);
   }
@@ -508,7 +509,7 @@
     content: attr(data-tip);
     position: absolute; bottom: calc(100% + 6px); left: 50%;
     transform: translateX(-50%);
-    background: #f0f0f0; border: 1px solid var(--border);
+    background: #ffffff; border: 1px solid var(--border);
     border-radius: 5px; padding: 5px 10px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem; color: var(--text);
@@ -522,11 +523,11 @@
   /* scrollbar */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: #cccccc; border-radius: 3px; }
 
   /* hero */
   .hero {
-    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    background: linear-gradient(135deg, #efefef, #e8e8e8);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 2rem; margin-bottom: 3rem;
@@ -537,12 +538,12 @@
     position: absolute; right: -10px; top: -20px;
     font-family: 'Syne', sans-serif;
     font-size: 8rem; font-weight: 800;
-    color: rgba(0,212,255,0.04);
+    color: rgba(0,102,204,0.04);
     line-height: 1; pointer-events: none;
   }
   .hero-title {
     font-size: 2rem; font-weight: 800;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    background: linear-gradient(90deg, #0066cc, #7c3aed);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: .5rem; line-height: 1.2;
@@ -576,6 +577,11 @@
 
 <div class="layout">
   <nav class="sidebar">
+    <div class="nav-section-title">Foundations</div>
+    <a class="nav-item" href="#n1"><span class="nav-dot"></span>SAP Architecture</a>
+    <a class="nav-item" href="#n2"><span class="nav-dot"></span>SAP Landscape</a>
+    <a class="nav-item" href="#n3"><span class="nav-dot"></span>Client Administration</a>
+    <a class="nav-item" href="#n4"><span class="nav-dot"></span>User Administration</a>
     <div class="nav-section-title">Core Concepts</div>
     <a class="nav-item" href="#s1"><span class="nav-dot"></span>Profile Concept</a>
     <a class="nav-item" href="#s2"><span class="nav-dot"></span>Role Administration</a>
@@ -603,14 +609,407 @@
     <!-- HERO -->
     <div class="hero">
       <div class="hero-title">SAP Security — Complete Notes</div>
-      <div class="hero-sub">ECC 6.0 · Profile Concept · Role Administration · Authorizations · Troubleshooting</div>
+      <div class="hero-sub">Architecture · Landscape · Client & User Admin · Profile Concept · Role Administration · Authorizations · Troubleshooting</div>
       <div class="hero-tags">
+        <div class="hero-tag">🏗 <span>R3 Architecture</span></div>
+        <div class="hero-tag">🌐 <span>SAP Landscape</span></div>
+        <div class="hero-tag">🖥 <span>Client Admin</span></div>
+        <div class="hero-tag">👤 <span>User Admin SU01</span></div>
         <div class="hero-tag">⚙ <span>ECC 6.0 + EHP1-8</span></div>
         <div class="hero-tag">🔐 <span>PFCG</span></div>
-        <div class="hero-tag">👤 <span>SU01/SU10</span></div>
         <div class="hero-tag">🔍 <span>SU53/SU56</span></div>
         <div class="hero-tag">📊 <span>SUIM</span></div>
         <div class="hero-tag">📡 <span>ST01 / STAUTHTRACE</span></div>
+      </div>
+    </div>
+
+    <!-- SECTION N1: SAP Architecture -->
+    <div class="section" id="n1">
+      <div class="section-header">
+        <div>
+          <div class="section-num">00A — FOUNDATIONS</div>
+          <h2 class="section-title">SAP Architecture</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="card card-cyan">
+        <div class="card-title">SAP Timeline — Architecture Evolution</div>
+        <div class="flow" style="flex-wrap:wrap; gap:10px;">
+          <div class="flow-node">1972<br><small>Founded in Waldorf, Germany</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node purple-node">R1 Architecture<br><small>R = Real Time (Online)</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">1972: R2<br><small>2-Tier</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node highlight">1992: R3<br><small>3-Tier</small></div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card card-amber">
+          <div class="card-title amber" style="font-size:1rem;">R1</div>
+          <ul class="notes-list">
+            <li>R = Real Time (Online)</li>
+            <li>A = 1 Tier / 1 Layer</li>
+            <li>Single layer architecture</li>
+          </ul>
+        </div>
+        <div class="card card-purple">
+          <div class="card-title purple" style="font-size:1rem;">R2 (1972)</div>
+          <ul class="notes-list">
+            <li class="info"><strong>Layer 1:</strong> Presentation — SAP GUI (User Interface)</li>
+            <li class="info"><strong>Layer 2:</strong> Database Layer</li>
+          </ul>
+        </div>
+        <div class="card card-cyan">
+          <div class="card-title" style="font-size:1rem;">R3 (1992) — Current</div>
+          <ul class="notes-list">
+            <li class="info"><strong>Layer 1:</strong> Presentation Layer</li>
+            <li class="success"><strong>Layer 2:</strong> Application Layer</li>
+            <li class="info"><strong>Layer 3:</strong> Database Layer</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Application Layer — Processes & Services</div>
+        <div class="grid-2">
+          <div>
+            <div class="code-label green">Processes</div>
+            <table class="data-table" style="margin-top:.5rem;">
+              <tr><th>Process</th><th>Purpose</th></tr>
+              <tr><td>Dialog</td><td>All interactions between user and system — max <strong>600ms</strong></td></tr>
+              <tr><td>Background</td><td>Long duration & recurring activities (batch jobs)</td></tr>
+              <tr><td>Spool</td><td>Printer-related activities</td></tr>
+              <tr><td>Update</td><td>Updating database — Create, Modify, Delete</td></tr>
+              <tr><td>Enqueue</td><td>Queuing / locking while updating DB</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="code-label">Services</div>
+            <table class="data-table" style="margin-top:.5rem;">
+              <tr><th>Service</th><th>Purpose</th></tr>
+              <tr><td>Message</td><td>Load balancing among application servers</td></tr>
+              <tr><td>Gateway</td><td>Communication channel between 2 SAP systems or 1 SAP + 1 Non-SAP</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION N2: SAP Landscape -->
+    <div class="section" id="n2">
+      <div class="section-header">
+        <div>
+          <div class="section-num">00B — FOUNDATIONS</div>
+          <h2 class="section-title">SAP Landscape</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert info">
+        <span class="alert-icon">🌐</span>
+        <div><strong>SAP Landscape</strong> = Total systems and applications being used in a project. Example — Client: <strong class="hl">BMW</strong>, IT Company: <strong class="hl-g">Accenture</strong></div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Typical BMW Project Landscape</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1rem;">
+          <span class="tag">SAP Finance (FI)</span>
+          <span class="tag">SAP HR</span>
+          <span class="tag">SAP SD (Sales)</span>
+          <span class="tag">SAP MM</span>
+          <span class="tag">SAP CRM</span>
+        </div>
+        <div class="alert purple">
+          <span class="alert-icon">🔧</span>
+          <div><strong>BASIS, Security and ABAP</strong> are technical and admin teams — they support all functional modules.</div>
+        </div>
+      </div>
+
+      <div class="card card-purple">
+        <div class="card-title purple">System Environments (Per Module)</div>
+        <div class="flow" style="align-items:center; gap:8px; flex-wrap:wrap;">
+          <div class="flow-node">Sandbox</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node purple-node">Development (D)</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Test / Quality (Q)</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node highlight">Production (P)</div>
+        </div>
+        <div class="code-block" style="margin-top:.75rem;">
+ECC  :  ED1 → EQ1 → EP1
+FI   :  FD1 → FQ1 → FP1
+Sales:  SD1 → SQ1 → SP1
+HR   :  HD1 → HQ1 → HP1
+CRM  :  CD1 → CQ1 → CP1</div>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title amber">Analogy — How to Remember</div>
+        <div class="grid-2">
+          <div class="alert info"><span class="alert-icon">🐒</span><div><strong>Development</strong> — Like a Monkey. You can experiment, break things, test freely.</div></div>
+          <div class="alert success"><span class="alert-icon">🧑</span><div><strong>Production</strong> — Like a Human Being. Stable, real data, must be handled carefully.</div></div>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Non-Technical Project Questions to Know</div>
+        <ul class="notes-list">
+          <li>Total number of users in the project</li>
+          <li>Security team size</li>
+          <li>Total number of teams</li>
+          <li>Project TL (Team Lead) Name</li>
+          <li>Client Headquarters location</li>
+          <li>Client CEO name</li>
+          <li>IT Company CEO name</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION N3: Client Administration -->
+    <div class="section" id="n3">
+      <div class="section-header">
+        <div>
+          <div class="section-num">00C — FOUNDATIONS</div>
+          <h2 class="section-title">Client Administration</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert info">
+        <span class="alert-icon">🖥</span>
+        <div>A <strong class="hl">Client</strong> is an independent space within a SAP system. It is represented by a <strong>3-digit number (000–999)</strong>.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card card-cyan">
+          <div class="card-title">Default Clients — Non-IDES System</div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <span class="tag">000</span>
+            <span class="tag">001</span>
+            <span class="tag">006</span>
+          </div>
+        </div>
+        <div class="card card-purple">
+          <div class="card-title purple">Default Clients — IDES System</div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <span class="tag purple">000</span><span class="tag purple">001</span><span class="tag purple">066</span><span class="tag purple">800</span><span class="tag purple">810</span><span class="tag purple">811</span><span class="tag purple">812</span>
+          </div>
+          <div style="margin-top:.6rem; font-size:.78rem; color:var(--text3);">IDES = International Demonstration and Education System</div>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Client Data Types</div>
+        <div class="grid-2">
+          <div class="compare-col">
+            <div class="compare-header" style="background:rgba(0,212,255,0.1); color:var(--accent1);">Client Independent Data</div>
+            <div class="compare-body">
+              <div style="font-size:.8rem; color:var(--text3); margin-bottom:.4rem;">Standard Data — same across all clients</div>
+              <ul class="notes-list">
+                <li>T-codes</li>
+                <li>ABAP Code / Programs</li>
+                <li>Repository objects</li>
+              </ul>
+            </div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-header" style="background:rgba(124,58,237,0.1); color:var(--accent2);">Client Dependent Data</div>
+            <div class="compare-body">
+              <div style="font-size:.8rem; color:var(--text3); margin-bottom:.4rem;">Customized Data — specific per client</div>
+              <ul class="notes-list">
+                <li>Users</li>
+                <li>Transactional Data</li>
+                <li>Business Data / Config</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title amber">Client T-Codes (SCC*)</div>
+        <table class="data-table">
+          <tr><th>T-Code</th><th>Description</th></tr>
+          <tr><td><span class="tcode">SCC4</span></td><td>Client Creation</td></tr>
+          <tr><td><span class="tcode">SCC5</span></td><td>Client Deletion</td></tr>
+          <tr><td><span class="tcode">SCCL</span></td><td>Local Client Copy</td></tr>
+          <tr><td><span class="tcode">SCC9</span></td><td>Remote Client Copy</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION N4: User Administration -->
+    <div class="section" id="n4">
+      <div class="section-header">
+        <div>
+          <div class="section-num">00D — FOUNDATIONS</div>
+          <h2 class="section-title">User Administration — SU01</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert info">
+        <span class="alert-icon">👤</span>
+        <div>All user-related activities are handled via <span class="tcode">SU01</span> — User Maintenance T-code.</div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">User Activities</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span class="tag">User Creation</span>
+          <span class="tag">User Modification</span>
+          <span class="tag">User Deletion</span>
+          <span class="tag">User Lock / Unlock</span>
+          <span class="tag">User Copy</span>
+          <span class="tag">Password Reset</span>
+        </div>
+      </div>
+
+      <div class="card card-purple">
+        <div class="card-title purple">SU01 Tabs — Explained</div>
+        <table class="data-table">
+          <tr><th>Tab</th><th>Purpose</th></tr>
+          <tr><td><strong>Address</strong></td><td>First name, last name, email, department info</td></tr>
+          <tr><td><strong>Logon Data</strong></td><td>User Type, User Group, Validity Period (Valid From / Valid Thru)</td></tr>
+          <tr><td><strong>SNC</strong></td><td>Secure Network Communication — when activated, no password needed to login</td></tr>
+          <tr><td><strong>Defaults</strong></td><td>Date format, decimal notation, time format, printer details — common settings</td></tr>
+          <tr><td><strong>Parameters</strong></td><td>Only entered when requested by user (e.g. default values for fields)</td></tr>
+          <tr><td><strong>Roles</strong></td><td>Assign authorizations through roles</td></tr>
+          <tr><td><strong>Profiles</strong></td><td>Auto-assigned once roles are assigned (interlinked)</td></tr>
+          <tr><td><strong>Groups</strong></td><td>Assign user to extra groups if they belong to multiple groups</td></tr>
+          <tr><td><strong>Personalization</strong></td><td>⚠ Do NOT enter any details here</td></tr>
+          <tr><td><strong>License Data</strong></td><td>Related to user licensing</td></tr>
+          <tr><td><strong>Change Docs</strong></td><td>View all changes made to user in a time interval — Path: SU01 → Information → Change Documents for User</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">User Types — All 5</div>
+        <div class="accordion" id="accU1">
+          <div class="accordion-header" onclick="toggleAccordion('accU1')" style="border-left:3px solid var(--accent1);">
+            <span>1️⃣ Dialog — Default User Type</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="success">Interactive user — humans logging in daily</li>
+                <li class="success">Password parameters ARE applied</li>
+                <li class="success">GUI Login is allowed</li>
+                <li class="info">Example: All employees of the organization</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="accU2">
+          <div class="accordion-header" onclick="toggleAccordion('accU2')" style="border-left:3px solid var(--accent3);">
+            <span>2️⃣ Service — Multiple Dialog Logons</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="success">Used for multiple dialog logons simultaneously</li>
+                <li class="warn">Password parameters are NOT applied</li>
+                <li class="success">GUI Login is allowed</li>
+                <li class="info">Example: FFID in GRC, TEST IDs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="accU3">
+          <div class="accordion-header" onclick="toggleAccordion('accU3')" style="border-left:3px solid var(--accent2);">
+            <span>3️⃣ System — Internal Communication</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="warn">Password parameters are NOT applied</li>
+                <li class="danger">GUI Login NOT allowed</li>
+                <li class="info">Example: Background jobs, Internal RFC</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="accU4">
+          <div class="accordion-header" onclick="toggleAccordion('accU4')" style="border-left:3px solid var(--accent4);">
+            <span>4️⃣ Communication — External Communication</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="warn">Password parameters are NOT applied</li>
+                <li class="danger">GUI Login NOT allowed</li>
+                <li class="info">Example: RFC (Remote Function Call)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="accU5">
+          <div class="accordion-header" onclick="toggleAccordion('accU5')" style="border-left:3px solid var(--accent5);">
+            <span>5️⃣ Reference — Extra Access Provider</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="info">Used when Dialog user hits the 312-profile limit</li>
+                <li class="warn">No password required</li>
+                <li class="danger">Cannot login through GUI</li>
+                <li class="info">Provides extra access to Dialog IDs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title amber">User Lock Types</div>
+        <table class="data-table">
+          <tr><th>Code</th><th>Lock Type</th><th>Description</th></tr>
+          <tr><td><span class="rc-badge rc-0">0</span></td><td>Not Locked</td><td>User can login normally</td></tr>
+          <tr><td><span class="rc-badge rc-4">32</span></td><td>Global Lock (CUA)</td><td>Locked from Central User Administration</td></tr>
+          <tr><td><span class="rc-badge rc-8">64</span></td><td>Administrator Lock</td><td>Manually locked by admin via SU01</td></tr>
+          <tr><td><span class="rc-badge rc-12">128</span></td><td>Incorrect Logon Lock</td><td>Too many failed login attempts</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-red" style="border-color: rgba(239,68,68,0.3);">
+        <div class="card-title red">Standard / Default Users (Post-Installation)</div>
+        <table class="data-table">
+          <tr><th>User ID</th><th>Password</th><th>Client</th></tr>
+          <tr><td><span class="tcode">SAP*</span></td><td><code>phss/06071992</code></td><td>All clients</td></tr>
+          <tr><td><span class="tcode">DDIC</span></td><td><code>19920607</code></td><td>000, 001</td></tr>
+          <tr><td><span class="tcode">SAPCPIC</span></td><td><code>admin</code></td><td>000, 001</td></tr>
+          <tr><td><span class="tcode">EARLYWATCH</span></td><td><code>support</code></td><td>066</td></tr>
+        </table>
+        <div class="alert warn" style="margin-top:.75rem;">
+          <span class="alert-icon">⚠</span>
+          <div>These are the initial login IDs after SAP installation. <strong>Change/lock them immediately</strong> in production environments.</div>
+        </div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Key Facts to Remember</div>
+        <div class="grid-2">
+          <ul class="notes-list">
+            <li><strong class="hl">Max User ID length:</strong> 12 characters</li>
+            <li><strong class="hl">Naming convention:</strong> First Name + Last Name (e.g., BALATHARAN MURALI → BALAMU)</li>
+            <li><strong class="hl">Max profiles per user:</strong> 312</li>
+          </ul>
+          <ul class="notes-list">
+            <li><strong class="hl">Mandatory fields:</strong> Last Name + Password</li>
+            <li><strong class="hl">User tables:</strong> All start with <code>USR*</code></li>
+            <li><span class="tag">USR02</span> User Logon Data</li>
+            <li><span class="tag">USRA40</span> Illegal Passwords list</li>
+          </ul>
+        </div>
       </div>
     </div>
 
