@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Security — Complete Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f5;
+    --bg3: #e8e8e8;
+    --card: #fafafa;
+    --card2: #f0f0f0;
+    --border: #d1d5db;
+    --accent1: #0891b2;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #1f2937;
+    --text2: #6b7280;
+    --text3: #9ca3af;
+    --glow: rgba(8, 145, 178, 0.1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Grid background ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ── Header ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 2rem;
+    height: 60px;
+  }
+  .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent1);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--accent2); }
+
+  /* Search */
+  .search-wrap {
+    flex: 1; max-width: 400px;
+    position: relative;
+  }
+  #searchBox {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px 6px 36px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  #searchBox:focus {
+    border-color: var(--accent1);
+    box-shadow: 0 0 0 2px rgba(0,212,255,0.1);
+  }
+  .search-icon {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    color: var(--text3); font-size: 0.8rem;
+  }
+
+  /* Progress */
+  .progress-bar {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--text3);
+  }
+  .progress-track {
+    width: 100px; height: 4px;
+    background: var(--border); border-radius: 2px;
+  }
+  .progress-fill {
+    height: 100%; background: var(--accent1); border-radius: 2px;
+    width: 0%; transition: width .3s;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 60px);
+    position: relative; z-index: 1;
+  }
+
+  /* ── Sidebar ── */
+  nav.sidebar {
+    position: sticky; top: 60px; height: calc(100vh - 60px);
+    overflow-y: auto;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  }
+  .nav-section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--text3);
+    padding: 0.8rem 1.5rem 0.3rem;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 1.5rem;
+    cursor: pointer;
+    font-size: 0.78rem; color: var(--text2);
+    border-left: 2px solid transparent;
+    transition: all .2s;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .nav-item:hover, .nav-item.active {
+    color: var(--accent1);
+    border-left-color: var(--accent1);
+    background: rgba(0, 212, 255, 0.04);
+  }
+  .nav-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); flex-shrink: 0;
+    transition: background .2s;
+  }
+  .nav-item.active .nav-dot, .nav-item:hover .nav-dot {
+    background: var(--accent1);
+    box-shadow: 0 0 8px var(--accent1);
+  }
+
+  /* ── Main content ── */
+  main {
+    padding: 2.5rem 3rem;
+    max-width: 1000px;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 4rem;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp .5s ease forwards;
+  }
+  .section:nth-child(1) { animation-delay: .05s }
+  .section:nth-child(2) { animation-delay: .1s }
+  .section:nth-child(3) { animation-delay: .15s }
+  .section:nth-child(4) { animation-delay: .2s }
+  .section:nth-child(5) { animation-delay: .25s }
+  .section:nth-child(6) { animation-delay: .3s }
+  .section:nth-child(7) { animation-delay: .35s }
+  .section:nth-child(8) { animation-delay: .4s }
+  .section:nth-child(9) { animation-delay: .45s }
+  .section:nth-child(10) { animation-delay: .5s }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--accent1);
+    letter-spacing: 2px; opacity: .7;
+  }
+  .section-icon {
+    width: 38px; height: 38px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  h2.section-title {
+    font-size: 1.4rem; font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent1), transparent);
+    margin-bottom: 1.5rem;
+    opacity: 0.3;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    opacity: 0; transition: opacity .2s;
+  }
+  .card:hover {
+    border-color: rgba(0,212,255,0.3);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    transform: translateY(-1px);
+  }
+  .card:hover::before { opacity: 1; }
+  .card-cyan::before { background: linear-gradient(90deg, var(--accent1), transparent); }
+  .card-purple::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+  .card-green::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+  .card-amber::before { background: linear-gradient(90deg, var(--accent4), transparent); }
+  .card-red::before { background: linear-gradient(90deg, var(--accent5), transparent); }
+
+  .card-title {
+    font-size: 0.85rem; font-weight: 700;
+    color: var(--accent1); margin-bottom: .5rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .card-title.purple { color: var(--accent2); }
+  .card-title.green { color: var(--accent3); }
+  .card-title.amber { color: var(--accent4); }
+  .card-title.red { color: var(--accent5); }
+
+  /* ── Code ── */
+  code, .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+  }
+  .code-block {
+    background: #f3f4f6;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: .75rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .code-label {
+    display: inline-block;
+    background: var(--accent1); color: #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 3px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+  .code-label.purple { background: var(--accent2); color: #fff; }
+  .code-label.green { background: var(--accent3); color: #000; }
+  .code-label.amber { background: var(--accent4); color: #000; }
+
+  /* ── Tags / Pills ── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--accent1);
+    margin: 3px;
+    transition: all .2s; cursor: default;
+  }
+  .tag:hover {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--accent1);
+    transform: scale(1.03);
+  }
+  .tag.purple { color: var(--accent2); }
+  .tag.purple:hover { background: rgba(124,58,237,0.1); border-color: var(--accent2); }
+  .tag.green { color: var(--accent3); }
+  .tag.green:hover { background: rgba(16,185,129,0.1); border-color: var(--accent3); }
+  .tag.amber { color: var(--accent4); }
+  .tag.amber:hover { background: rgba(245,158,11,0.1); border-color: var(--accent4); }
+  .tag.red { color: var(--accent5); }
+  .tag.red:hover { background: rgba(239,68,68,0.1); border-color: var(--accent5); }
+
+  /* ── List ── */
+  ul.notes-list { list-style: none; }
+  ul.notes-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0;
+    font-size: 0.875rem; color: var(--text);
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(30,42,66,0.5);
+  }
+  ul.notes-list li:last-child { border-bottom: none; }
+  ul.notes-list li::before {
+    content: '▸';
+    color: var(--accent1); flex-shrink: 0;
+    margin-top: 1px; font-size: 0.7rem;
+  }
+  ul.notes-list li.warn::before { color: var(--accent4); content: '⚠'; }
+  ul.notes-list li.danger::before { color: var(--accent5); content: '✖'; }
+  ul.notes-list li.success::before { color: var(--accent3); content: '✔'; }
+  ul.notes-list li.info::before { color: var(--accent2); content: '●'; }
+
+  /* ── Alert boxes ── */
+  .alert {
+    border-radius: 8px; padding: 1rem 1.25rem;
+    margin: .75rem 0;
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 0.85rem; line-height: 1.6;
+  }
+  .alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .alert.info { background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); }
+  .alert.warn { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); }
+  .alert.danger { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); }
+  .alert.success { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); }
+  .alert.purple { background: rgba(124,58,237,0.07); border: 1px solid rgba(124,58,237,0.2); }
+
+  /* ── Table ── */
+  .data-table { width: 100%; border-collapse: collapse; margin: .75rem 0; }
+  .data-table th {
+    background: var(--bg3);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent1);
+    padding: 10px 14px; text-align: left;
+    border-bottom: 2px solid var(--accent1);
+  }
+  .data-table td {
+    padding: 9px 14px;
+    font-size: 0.82rem; color: var(--text);
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    vertical-align: top; line-height: 1.5;
+  }
+  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
+
+  /* ── Flow diagram ── */
+  .flow {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    padding: 1rem; background: var(--bg3);
+    border-radius: 8px; margin: .75rem 0;
+    border: 1px solid var(--border);
+  }
+  .flow-node {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; color: var(--text);
+    white-space: nowrap;
+    transition: all .2s; cursor: default;
+  }
+  .flow-node:hover {
+    border-color: var(--accent1);
+    color: var(--accent1);
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .flow-node.highlight {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--accent1);
+    color: var(--accent1);
+  }
+  .flow-node.purple-node {
+    background: rgba(124,58,237,0.1);
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+  .flow-node.green-node {
+    background: rgba(16,185,129,0.1);
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+  .flow-arrow { color: var(--text3); font-size: 0.9rem; }
+
+  /* ── Grid layouts ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media(max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* ── Compare table ── */
+  .compare-col {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .compare-header {
+    padding: 10px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .compare-body { padding: 1rem; }
+
+  /* ── RC badges ── */
+  .rc-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 4px;
+    margin-right: 8px;
+  }
+  .rc-0 { background: rgba(16,185,129,0.2); color: var(--accent3); border: 1px solid var(--accent3); }
+  .rc-4 { background: rgba(245,158,11,0.2); color: var(--accent4); border: 1px solid var(--accent4); }
+  .rc-8 { background: rgba(239,68,68,0.15); color: var(--accent5); border: 1px solid var(--accent5); }
+  .rc-12 { background: rgba(239,68,68,0.25); color: #ff6b6b; border: 1px solid #ff6b6b; }
+
+  /* ── Highlight text ── */
+  .hl { color: var(--accent1); font-weight: 700; }
+  .hl-p { color: var(--accent2); font-weight: 700; }
+  .hl-g { color: var(--accent3); font-weight: 700; }
+  .hl-a { color: var(--accent4); font-weight: 700; }
+  .hl-r { color: var(--accent5); font-weight: 700; }
+
+  /* ── Steps ── */
+  .steps { counter-reset: step; }
+  .step-item {
+    display: flex; gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(30,42,66,0.5);
+    counter-increment: step;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--accent1);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--accent1);
+    flex-shrink: 0;
+  }
+  .step-content { font-size: 0.875rem; line-height: 1.6; }
+
+  /* ── Accordion ── */
+  .accordion { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: .75rem; }
+  .accordion-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px;
+    background: var(--card);
+    cursor: pointer;
+    font-size: 0.85rem; font-weight: 700;
+    transition: background .2s;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--card2); }
+  .accordion-arrow { transition: transform .3s; color: var(--accent1); }
+  .accordion.open .accordion-arrow { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease, padding .35s;
+    background: var(--bg2);
+  }
+  .accordion.open .accordion-body { max-height: 1000px; }
+  .accordion-body-inner { padding: 1rem 1.25rem; }
+
+  /* ── TCode chip ── */
+  .tcode {
+    display: inline-block;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: #a78bfa;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tcode:hover {
+    background: rgba(124,58,237,0.3);
+    transform: scale(1.05);
+  }
+
+  /* ── Search highlight ── */
+  mark {
+    background: rgba(245,158,11,0.3);
+    color: var(--accent4);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  /* ── Hide when search no match ── */
+  .section.hidden { display: none; }
+
+  /* ── Tooltip ── */
+  [data-tip] { position: relative; cursor: help; }
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute; bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%);
+    background: #f0f0f0; border: 1px solid var(--border);
+    border-radius: 5px; padding: 5px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--text);
+    white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s;
+    z-index: 999;
+  }
+  [data-tip]:hover::after { opacity: 1; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* hero */
+  .hero {
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem; margin-bottom: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: 'SAP';
+    position: absolute; right: -10px; top: -20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 8rem; font-weight: 800;
+    color: rgba(0,212,255,0.04);
+    line-height: 1; pointer-events: none;
+  }
+  .hero-title {
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: .5rem; line-height: 1.2;
+  }
+  .hero-sub { color: var(--text2); font-size: 0.9rem; margin-bottom: 1.25rem; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-tag {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 5px; padding: 5px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--text2);
+    letter-spacing: 1px;
+  }
+  .hero-tag span { color: var(--accent1); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SAP<span>//</span>SEC</div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchBox" placeholder="Search topics, tcodes, objects..." />
+  </div>
+  <div class="progress-bar">
+    <span id="progressLabel">0%</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="nav-section-title">Core Concepts</div>
+    <a class="nav-item" href="#s1"><span class="nav-dot"></span>Profile Concept</a>
+    <a class="nav-item" href="#s2"><span class="nav-dot"></span>Role Administration</a>
+    <a class="nav-item" href="#s3"><span class="nav-dot"></span>PFCG — Role Types</a>
+    <a class="nav-item" href="#s4"><span class="nav-dot"></span>Authorization Data</a>
+    <div class="nav-section-title">Role Types</div>
+    <a class="nav-item" href="#s5"><span class="nav-dot"></span>Composite Roles</a>
+    <a class="nav-item" href="#s6"><span class="nav-dot"></span>Derived Roles</a>
+    <a class="nav-item" href="#s7"><span class="nav-dot"></span>Role Modification</a>
+    <a class="nav-item" href="#s8"><span class="nav-dot"></span>Role Deletion</a>
+    <div class="nav-section-title">Troubleshooting</div>
+    <a class="nav-item" href="#s9"><span class="nav-dot"></span>Auth Issues</a>
+    <a class="nav-item" href="#s10"><span class="nav-dot"></span>Tools: SU53 / SU56</a>
+    <a class="nav-item" href="#s11"><span class="nav-dot"></span>ST01 / STAUTHTRACE</a>
+    <a class="nav-item" href="#s12"><span class="nav-dot"></span>SUIM</a>
+    <div class="nav-section-title">Mass Operations</div>
+    <a class="nav-item" href="#s13"><span class="nav-dot"></span>PFUD — User Compare</a>
+    <div class="nav-section-title">Implementation</div>
+    <a class="nav-item" href="#s14"><span class="nav-dot"></span>Projects & SU24/25</a>
+    <a class="nav-item" href="#s15"><span class="nav-dot"></span>TCode Reference</a>
+  </nav>
+
+  <main id="mainContent">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-title">SAP Security — Complete Notes</div>
+      <div class="hero-sub">ECC 6.0 · Profile Concept · Role Administration · Authorizations · Troubleshooting</div>
+      <div class="hero-tags">
+        <div class="hero-tag">⚙ <span>ECC 6.0 + EHP1-8</span></div>
+        <div class="hero-tag">🔐 <span>PFCG</span></div>
+        <div class="hero-tag">👤 <span>SU01/SU10</span></div>
+        <div class="hero-tag">🔍 <span>SU53/SU56</span></div>
+        <div class="hero-tag">📊 <span>SUIM</span></div>
+        <div class="hero-tag">📡 <span>ST01 / STAUTHTRACE</span></div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: Profile Concept -->
+    <div class="section" id="s1">
+      <div class="section-header">
+        <div>
+          <div class="section-num">01 — PROFILE CONCEPT</div>
+          <h2 class="section-title">SAP Versions & Profile History</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="grid-2">
+        <div class="card card-cyan">
+          <div class="card-title">Version History</div>
+          <div class="code-block">3.0 → 4.6a → 4.6b → 4.6C → 4.7
+→ ECC 5 → <span class="hl">ECC 6.0</span> + EHP1..8
+
+ECC  = ERP Central Component
+ERP  = Enterprise Resource Planning
+EHP  = Enhancement Package</div>
+        </div>
+        <div class="card card-purple">
+          <div class="card-title purple">Key Version Milestone</div>
+          <div class="alert warn">
+            <span class="alert-icon">⚠</span>
+            <div><strong class="hl-a">Version 4.7</strong> — Major changes in Security area. <strong>Role concept introduced</strong> from 4.7 onwards. Prior versions used Profile concept (SU02).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">SU02 vs PFCG (Version Evolution)</div>
+        <div class="flow">
+          <div>Before 4.7:</div>
+          <div class="flow-node"><span class="tcode">SU02</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Profile</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Tcodes + Auth</div>
+          <span class="flow-arrow">&nbsp;&nbsp;|&nbsp;&nbsp;4.7+:</span>
+          <div class="flow-node highlight"><span class="tcode">PFCG</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Role</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Tcodes + Auth</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node green-node">Profile (auto-generated)</div>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Types of Profiles</div>
+        <div class="grid-2">
+          <div class="compare-col">
+            <div class="compare-header" style="background:rgba(0,212,255,0.1); color:var(--accent1);">Standard Profiles</div>
+            <div class="compare-body">
+              <ul class="notes-list">
+                <li>Come with SAP installation</li>
+                <li>Can be assigned to users <strong>directly</strong></li>
+                <li class="danger">SAP recommends <strong>NEVER assign</strong> — gives extra access</li>
+              </ul>
+            </div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-header" style="background:rgba(124,58,237,0.1); color:var(--accent2);">Generated Profiles</div>
+            <div class="compare-body">
+              <ul class="notes-list">
+                <li>Created through Roles (PFCG)</li>
+                <li class="danger">Cannot be assigned to users directly</li>
+                <li class="info">Start with <span class="hl-p">T</span> alphabet (e.g. T:BW:REPORT_EXECUTION)</li>
+                <li class="success">Assign the <strong>Role</strong> to users instead</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert warn">
+        <span class="alert-icon">🔴</span>
+        <div>If a profile like <code>1-87970004</code> is generated, assign the associated <strong>role</strong> <code>X:BW:REPORT_EXECUTION</code> to the user — not the profile directly.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: Role Administration -->
+    <div class="section" id="s2">
+      <div class="section-header">
+        <div>
+          <div class="section-num">02 — ROLE ADMINISTRATION</div>
+          <h2 class="section-title">Role Basics & Role Matrix</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="card card-cyan">
+        <div class="card-title">What is a Role?</div>
+        <div class="alert info">
+          <span class="alert-icon">📦</span>
+          <div>A <strong class="hl">Role</strong> is a group of T-codes and its related Authorizations. Each team in a project gets their own set of roles.</div>
+        </div>
+        <div style="margin-top:.75rem;">
+          <div style="font-size:.75rem; color:var(--text3); margin-bottom:.5rem; font-family:'Space Mono',monospace;">COMMON PROJECT TEAMS</div>
+          <div>
+            <span class="tag">Finance</span>
+            <span class="tag">HR</span>
+            <span class="tag">Sales</span>
+            <span class="tag">CRM</span>
+            <span class="tag">BASIS</span>
+            <span class="tag">Security</span>
+            <span class="tag">ABAP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card card-purple">
+          <div class="card-title purple">Role Categories</div>
+          <ul class="notes-list">
+            <li class="info"><strong>Technical / Support Roles</strong> — for Support Users</li>
+            <li class="success"><strong>Functional / Business Roles</strong> — for End Users / Business Users</li>
+          </ul>
+        </div>
+        <div class="card card-amber">
+          <div class="card-title amber">Role Matrix</div>
+          <ul class="notes-list">
+            <li>Information gathered from all technical teams</li>
+            <li>Lists roles needed per team</li>
+            <li>Defines type and access level required</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Example: Sales Department Role Hierarchy</div>
+        <div class="flow">
+          <div class="flow-node">Sales Clerk Role</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Sales Supervisor Role</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Sales Manager Role</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node highlight">Sales Sr. Manager Role</div>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Role Creation/Modification Process</div>
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">Requester fills <strong>Change Request (CR)</strong> form</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">Approved by <strong class="hl">CAB — Change Advisory Board</strong></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">Security team creates roles in <span class="tcode">PFCG</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: PFCG -->
+    <div class="section" id="s3">
+      <div class="section-header">
+        <div>
+          <div class="section-num">03 — PFCG</div>
+          <h2 class="section-title">Profile Generator — Role Types & Naming</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="grid-3">
+        <div class="card card-cyan" style="text-align:center;">
+          <div class="card-title" style="font-size:1.5rem; margin-bottom:.25rem;">X</div>
+          <div class="card-title">Single Role</div>
+          <div style="font-size:.82rem; color:var(--text2);">Basic unit — one set of T-codes & authorizations</div>
+        </div>
+        <div class="card card-purple" style="text-align:center;">
+          <div class="card-title purple" style="font-size:1.5rem; margin-bottom:.25rem;">Y</div>
+          <div class="card-title purple">Composite Role</div>
+          <div style="font-size:.82rem; color:var(--text2);">Group of single roles</div>
+        </div>
+        <div class="card card-amber" style="text-align:center;">
+          <div class="card-title amber" style="font-size:1.5rem; margin-bottom:.25rem;">Z</div>
+          <div class="card-title amber">Derived Role</div>
+          <div style="font-size:.82rem; color:var(--text2);">Inherited from a master single role (org values differ)</div>
+        </div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Role Naming Convention (max 30 chars)</div>
+        <div class="code-block">
+[Role Type] : [Business Process / Module] : [Sub Process] : [Extra Info]
+
+<span class="hl">X</span>:HR:PERSONNEL_ADMIN:BMW  →  PA20, PA30, PA40
+<span class="hl">X</span>:BS:PROGRAM_EXECUTE:MURALI1  →  SE38, SU53
+        </div>
+        <div style="margin-top:.75rem; display:flex; flex-wrap:wrap; gap:6px; font-size:.8rem;">
+          <span>Role Type <span style="color:var(--text3)">|</span></span>
+          <span>Business/Module (FI, HR, SD…) <span style="color:var(--text3)">|</span></span>
+          <span>Sub Process (AP, GL…) <span style="color:var(--text3)">|</span></span>
+          <span>Extra info (Client/Branch)</span>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">PFCG Tabs Overview</div>
+        <table class="data-table">
+          <tr><th>Tab</th><th>Purpose</th></tr>
+          <tr><td>Description</td><td>Why, when & who is creating this role</td></tr>
+          <tr><td>Menu</td><td>Add list of T-codes here</td></tr>
+          <tr><td>Authorizations</td><td>Go to <strong>Change Auth Data</strong> → Generate Profile</td></tr>
+          <tr><td>User</td><td>Assign users to the role</td></tr>
+          <tr><td>Personalization</td><td>⚠ Do NOT touch</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title amber">Testing Methods</div>
+        <div class="grid-2">
+          <div>
+            <div class="code-label green">Positive Testing</div>
+            <div style="font-size:.85rem; margin-top:.5rem;">Verify user <strong>CAN execute</strong> the T-codes assigned under the role.</div>
+          </div>
+          <div>
+            <div class="code-label amber">Negative Testing</div>
+            <div style="font-size:.85rem; margin-top:.5rem;">Verify user <strong>CANNOT execute</strong> T-codes that are NOT in the role.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: Auth Data -->
+    <div class="section" id="s4">
+      <div class="section-header">
+        <div>
+          <div class="section-num">04 — AUTHORIZATION DATA</div>
+          <h2 class="section-title">Auth Objects, Fields & Org Levels</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="grid-2">
+        <div class="card card-cyan">
+          <div class="card-title">Normal Field vs Org Field</div>
+          <table class="data-table">
+            <tr><th>Normal Field</th><th>Org Field</th></tr>
+            <tr><td>Does NOT represent organization<br>e.g., Activity, Role Name</td><td>Represents organization<br>e.g., Plant, Company Code</td></tr>
+            <tr><td>Value meaning is <strong>universal</strong><br>Activity: 03 = Display everywhere</td><td>Value meaning <strong>differs per org</strong><br>BMW: Plant 100 = UK; WalMart: Plant 100 = USA</td></tr>
+            <tr><td>Maintained <strong>locally</strong> within auth</td><td>Must be maintained centrally in <strong>Org Levels tab</strong></td></tr>
+          </table>
+        </div>
+        <div class="card card-purple">
+          <div class="card-title purple">Auth Object Status Colors</div>
+          <ul class="notes-list">
+            <li><span class="tag green">Standard</span> SAP default values pulled from SU24</li>
+            <li><span class="tag">Maintained</span> Blank fields filled with values</li>
+            <li><span class="tag amber">Changed</span> SAP default values have been modified</li>
+            <li><span class="tag purple">Manually</span> Auth object inserted directly (not from SU24)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title amber">Deleting Auth Objects from Role (Prerequisites)</div>
+        <ul class="notes-list">
+          <li class="warn">Auth Object must be <strong>Deactivated</strong></li>
+          <li class="warn">Auth Object status must be <strong>MANUALLY</strong> or <strong>CHANGED</strong></li>
+        </ul>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Profile Generation Modes</div>
+        <div class="grid-2">
+          <div>
+            <div class="code-label">Manual Mode</div>
+            <div style="font-size:.85rem; margin-top:.5rem;">Go to <strong>Change Authorization Data</strong> and click Generate Profile.</div>
+          </div>
+          <div>
+            <div class="code-label purple">Expert Mode</div>
+            <div style="font-size:.85rem; margin-top:.5rem;">Used during Role Modification ONLY (not role creation). Has 3 sub-options.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Expert Mode — 3 Options</div>
+        <div class="accordion" id="acc1">
+          <div class="accordion-header" onclick="toggleAccordion('acc1')">
+            <span>🗑 Delete and Recreate Profile and Authorizations</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="danger">Deletes entire old data including customization</li>
+                <li class="success">Freshly loads auth data from SU24 for all T-codes in Menu</li>
+                <li class="info">Use when customization needs to be deleted</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="acc2">
+          <div class="accordion-header" onclick="toggleAccordion('acc2')">
+            <span>✏ Edit Old Status</span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="success">Keeps old data as-is (including customization)</li>
+                <li class="danger">Does NOT pull auth data for newly added T-codes</li>
+                <li class="info">Use when auth data needs direct modification without menu changes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="acc3">
+          <div class="accordion-header" onclick="toggleAccordion('acc3')">
+            <span>🔀 Read Old Status and Merge with New Data ✓ <span style="color:var(--accent3); font-size:.75rem;">RECOMMENDED on Menu Change</span></span>
+            <span class="accordion-arrow">▾</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="notes-list">
+                <li class="success">Keeps old data as-is (including customization)</li>
+                <li class="success">Pulls auth data for ALL T-codes in Menu (including new ones)</li>
+                <li class="success">Merges old data with new data wherever possible</li>
+                <li class="info">Best option when role menu has changed</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: Composite Roles -->
+    <div class="section" id="s5">
+      <div class="section-header">
+        <div>
+          <div class="section-num">05 — COMPOSITE ROLES</div>
+          <h2 class="section-title">Group of Single Roles</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert info">
+        <span class="alert-icon">📦</span>
+        <div>A <strong class="hl">Composite Role</strong> is a group of Single roles. Instead of assigning multiple single roles to a user, you bundle them into one composite role.</div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Example: Security Team Composite Role</div>
+        <div class="flow" style="flex-direction:column; align-items:flex-start; gap:12px;">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div class="flow-node">Security Admin Role</div>
+            <span class="flow-arrow">+</span>
+            <div class="flow-node">ABAP Display Role</div>
+            <span class="flow-arrow">+</span>
+            <div class="flow-node">BASIS Display Role</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node highlight">Security Composite Role</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Composite Role — PFCG Tabs</div>
+        <table class="data-table">
+          <tr><th>Tab</th><th>Action</th></tr>
+          <tr><td>Description</td><td>Fill LONG TEXT (Why, When, Who)</td></tr>
+          <tr><td>Roles</td><td>Add the single roles here</td></tr>
+          <tr><td>Menu</td><td>Click <strong>Import Menu</strong> to see single roles and their T-codes</td></tr>
+          <tr><td>User</td><td>List of users assigned to this composite role</td></tr>
+          <tr><td>Personalization</td><td>⚠ Do NOT touch</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 6: Derived Roles -->
+    <div class="section" id="s6">
+      <div class="section-header">
+        <div>
+          <div class="section-num">06 — DERIVED ROLES</div>
+          <h2 class="section-title">Master Role → Derived Roles</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert purple">
+        <span class="alert-icon">🌿</span>
+        <div>A <strong class="hl-p">Derived Role</strong> is a single role derived from another single role (Master Role). Only <strong>Organizational Level values</strong> differ between the master and derived roles. All menu/auth structure is inherited.</div>
+      </div>
+
+      <div class="card card-purple">
+        <div class="card-title purple">When to Use Derived Roles?</div>
+        <div class="alert info" style="margin-bottom:.75rem;">
+          <span class="alert-icon">🌐</span>
+          <div>When the client is an <strong>MNC</strong> (Multinational Company) or has multiple business units: Coke, BMW, NESTLE, TATA, DUPONT, etc. — same T-codes but different org values (e.g., different Company Codes or Plants).</div>
+        </div>
+
+        <div class="card-title purple" style="margin-top:1rem;">Example: India vs USA Finance</div>
+        <div class="flow" style="flex-direction:column; align-items:flex-start;">
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+            <div class="flow-node purple-node">Master Role<br><small>FBVO / F_FICO_BUK<br>Comp Code: *</small></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node highlight">India Derived Role<br><small>Comp Code: 100</small></div>
+            <span class="flow-arrow">+</span>
+            <div class="flow-node green-node">USA Derived Role<br><small>Comp Code: 300</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card card-cyan">
+          <div class="card-title">Master vs Derived — Key Difference</div>
+          <div class="alert info">
+            <span class="alert-icon">🔑</span>
+            <div>Only <strong>Org Level Values</strong> differ. Menu, auth objects, and auth field values are inherited from master.</div>
+          </div>
+          <ul class="notes-list">
+            <li>No limit on derived roles per master role</li>
+            <li>Depends on number of branches/business units</li>
+          </ul>
+        </div>
+        <div class="card card-green">
+          <div class="card-title green">Important Tables (AGR*)</div>
+          <ul class="notes-list">
+            <li><span class="tag">AGR_DEFINE</span> All role definitions & master/derived info</li>
+            <li><span class="tag">AGR_AGRS</span> Single/Composite role info</li>
+            <li><span class="tag">AGR_TCODES</span> Role and its T-codes</li>
+            <li><span class="tag">AGR_USERS</span> Users assigned to roles</li>
+            <li><span class="tag">AGR_1251</span> Role and its Auth Values</li>
+            <li><span class="tag">AGR_1252</span> Role and its Org Values</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: Role Modification -->
+    <div class="section" id="s7">
+      <div class="section-header">
+        <div>
+          <div class="section-num">07 — ROLE MODIFICATION</div>
+          <h2 class="section-title">Modifying Single, Composite & Derived Roles</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="grid-3">
+        <div class="card card-cyan">
+          <div class="card-title">Single Role</div>
+          <div class="steps">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">Modify Menu: Add/remove T-codes</div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">Directly modify Auth data</div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-purple">
+          <div class="card-title purple">Composite Role</div>
+          <ul class="notes-list">
+            <li class="info">Add/remove single roles from the composite</li>
+            <li class="info">Single roles themselves modified separately</li>
+          </ul>
+        </div>
+        <div class="card card-amber">
+          <div class="card-title amber">Derived Role</div>
+          <div class="alert warn">
+            <span class="alert-icon">⚠</span>
+            <div>Only <strong>Org Level values</strong> can be modified in a derived role. Menu and auth data come from the master.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: Role Deletion -->
+    <div class="section" id="s8">
+      <div class="section-header">
+        <div>
+          <div class="section-num">08 — ROLE DELETION</div>
+          <h2 class="section-title">Deleting Roles Across Environments</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="grid-2">
+        <div class="card card-green">
+          <div class="card-title green">When Role Exists in DEV Only</div>
+          <div class="steps">
+            <div class="step-item"><div class="step-num">1</div><div class="step-content">Go to <span class="tcode">PFCG</span></div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="step-content">Enter the role name</div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="step-content">Delete the role</div></div>
+          </div>
+        </div>
+        <div class="card card-amber">
+          <div class="card-title amber">When Role Exists in DEV + QA + PRD</div>
+          <div class="alert warn" style="margin-bottom:.75rem;">
+            <span class="alert-icon">⚠</span>
+            <div>In QA and PRD you have <strong>display access only</strong> in PFCG.</div>
+          </div>
+          <div class="steps">
+            <div class="step-item"><div class="step-num">1</div><div class="step-content">Create Transport Request (<span class="tcode">SE09</span>/<span class="tcode">SE10</span>)</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="step-content">Load role into TR via <span class="tcode">PFCG</span></div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="step-content">Delete role in DEV via <span class="tcode">PFCG</span></div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="step-content">Release the Transport Request (<span class="tcode">SE09</span>/<span class="tcode">SE10</span>)</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9: Auth Issues -->
+    <div class="section" id="s9">
+      <div class="section-header">
+        <div>
+          <div class="section-num">09 — TROUBLESHOOTING</div>
+          <h2 class="section-title">Common Authorization Issues</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="accordion" id="acc4">
+        <div class="accordion-header" onclick="toggleAccordion('acc4')" style="border-left:3px solid var(--accent5);">
+          <span>🚫 Issue 1: Cannot Login to SAP System</span>
+          <span class="accordion-arrow">▾</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <ul class="notes-list">
+              <li class="danger">Incorrect user password</li>
+              <li class="danger">User is locked</li>
+              <li class="danger">User account expired</li>
+              <li class="danger">Password expired (controlled by profile parameter)</li>
+              <li class="danger">Incorrect Client entered</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc5">
+        <div class="accordion-header" onclick="toggleAccordion('acc5')" style="border-left:3px solid var(--accent4);">
+          <span>⚠ Issue 2: Logged In but Cannot Execute a T-Code</span>
+          <span class="accordion-arrow">▾</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <ul class="notes-list">
+              <li class="warn">User does not have access to that T-Code</li>
+              <li class="warn">Role is expired</li>
+              <li class="warn">Profile not generated for the role</li>
+              <li class="warn">User Comparison not done</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc6">
+        <div class="accordion-header" onclick="toggleAccordion('acc6')" style="border-left:3px solid var(--accent3);">
+          <span>✅ Issue 3: Can Execute T-Code but Cannot Perform a Function Within It</span>
+          <span class="accordion-arrow">▾</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div style="font-size:.82rem; color:var(--text3); margin-bottom:.5rem;">Example: Can open SU01 but cannot assign roles to users</div>
+            <ul class="notes-list">
+              <li class="warn">Missing Auth Values for that specific function</li>
+              <li class="warn">Profile not regenerated after role change</li>
+              <li class="warn">User Comparison not done</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 10: SU53 / SU56 -->
+    <div class="section" id="s10">
+      <div class="section-header">
+        <div>
+          <div class="section-num">10 — TOOLS</div>
+          <h2 class="section-title">SU53 — Auth Check & SU56 — User Buffer</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="grid-2">
+        <div class="card card-cyan">
+          <div class="code-label">SU53</div>
+          <div class="card-title" style="margin-top:.5rem;">Evaluate Last Auth Check</div>
+          <ul class="notes-list">
+            <li class="success">Shows if last auth check was <strong>Success</strong> or <strong>Failure</strong></li>
+            <li class="info">On failure: shows the <strong>Auth Object, Auth Field, and required values</strong></li>
+            <li class="info">Can also run for other users: <code>SU53 → Menu → Evaluate → Other User</code></li>
+          </ul>
+        </div>
+        <div class="card card-purple">
+          <div class="code-label purple">SU56</div>
+          <div class="card-title purple" style="margin-top:.5rem;">User Buffer</div>
+          <ul class="notes-list">
+            <li class="info">Temporary memory created <strong>when user logs in</strong></li>
+            <li class="danger">Wiped out <strong>when user logs out</strong></li>
+            <li class="warn">System checks User Buffer (not DB) when executing T-codes</li>
+          </ul>
+          <div class="alert warn" style="margin-top:.75rem;">
+            <span class="alert-icon">🔧</span>
+            <div>If buffer issue: <br>1) Ask user to logout and re-login<br>2) Ask user to reset buffer via <span class="tcode">SU56</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 11: ST01 / STAUTHTRACE -->
+    <div class="section" id="s11">
+      <div class="section-header">
+        <div>
+          <div class="section-num">11 — TRACE TOOLS</div>
+          <h2 class="section-title">ST01 System Trace & STAUTHTRACE</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="card card-cyan">
+        <div class="card-title">ST01 — Return Codes</div>
+        <table class="data-table">
+          <tr><th>RC Code</th><th>Meaning</th></tr>
+          <tr>
+            <td><span class="rc-badge rc-0">RC = 0</span></td>
+            <td>Authorization check <strong class="hl-g">SUCCESSFUL</strong></td>
+          </tr>
+          <tr>
+            <td><span class="rc-badge rc-4">RC = 4</span></td>
+            <td>User has the auth object, but <strong class="hl-a">different auth field values</strong></td>
+          </tr>
+          <tr>
+            <td><span class="rc-badge rc-8">RC = 8</span></td>
+            <td>User does not have the required auth values <strong class="hl-r">in User Buffer</strong></td>
+          </tr>
+          <tr>
+            <td><span class="rc-badge rc-12">RC = 12</span></td>
+            <td>User does <strong class="hl-r">NOT have the auth object</strong> at all</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card card-amber">
+          <div class="card-title amber">ST01 — Important Note</div>
+          <div class="alert warn">
+            <span class="alert-icon">⚠</span>
+            <div>ST01 trace is applied to the <strong>local application server only</strong>. Make sure the user and you are on the <strong>same server</strong> before applying trace.</div>
+          </div>
+          <div style="margin-top:.75rem;">
+            <div style="font-size:.78rem; margin-bottom:.4rem;">Find server info:</div>
+            <div><span class="tcode">AL08</span> — Users in each server (server-wise)</div><br>
+            <div><span class="tcode">SM51</span> — List of all application servers</div>
+          </div>
+        </div>
+        <div class="card card-green">
+          <div class="code-label green">STAUTHTRACE</div>
+          <div class="card-title green" style="margin-top:.5rem;">Exclusive Authorization Trace</div>
+          <ul class="notes-list">
+            <li class="success">Exclusive auth trace — more powerful than ST01</li>
+            <li class="success">Trace applied <strong>across ALL application servers</strong></li>
+            <li class="info">No need to match application servers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert info">
+        <span class="alert-icon">💡</span>
+        <div><strong>0 Records Read Reasons:</strong> Incorrect input values, or the user is present on a different application server (use STAUTHTRACE to avoid this issue).</div>
+      </div>
+    </div>
+
+    <!-- SECTION 12: SUIM -->
+    <div class="section" id="s12">
+      <div class="section-header">
+        <div>
+          <div class="section-num">12 — SUIM</div>
+          <h2 class="section-title">User Information System</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert info">
+        <span class="alert-icon">🔍</span>
+        <div><strong class="hl">SUIM</strong> — User Information System. Used to query and find information about users, roles, profiles, and authorizations across the system.</div>
+      </div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Common SUIM Queries</div>
+        <ul class="notes-list">
+          <li>Find all users who have access to <span class="tcode">SU01</span> with Activity: 60</li>
+          <li>Find users whose ID starts with 'S' AND have access to SU01</li>
+          <li>Find all locked users</li>
+          <li>Find roles containing: SU01, SU10, PFCG, SU53, SU56</li>
+          <li>Find roles starting with 'X' that contain SU01</li>
+          <li>Find roles that give access to auth values: <code>S_TABU_DIS</code> → Activity: 03, Auth Group: SS</li>
+          <li>Find all Composite Roles in the system</li>
+          <li>Find T-codes assigned to user <code>USERGRC14</code></li>
+          <li>Find all Auth Objects which contain Activity as a field</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION 13: PFUD -->
+    <div class="section" id="s13">
+      <div class="section-header">
+        <div>
+          <div class="section-num">13 — PFUD</div>
+          <h2 class="section-title">Mass User Comparison</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="alert purple">
+        <span class="alert-icon">🔄</span>
+        <div><strong class="hl-p">PFUD</strong> performs user comparison for multiple roles at once. Program: <code>PFCG_TIME_DEPENDENCY</code></div>
+      </div>
+
+      <div class="card card-purple">
+        <div class="card-title purple">Actions Performed in PFUD</div>
+        <div class="grid-2">
+          <div>
+            <div class="code-label purple">Profile Matchup</div>
+            <ul class="notes-list" style="margin-top:.5rem;">
+              <li class="info">Ensures profiles get assigned to users</li>
+              <li class="info">Makes role status green under SU01</li>
+            </ul>
+          </div>
+          <div>
+            <div class="code-label">Composite Role Reconciliation</div>
+            <ul class="notes-list" style="margin-top:.5rem;">
+              <li class="info">Reflects composite role changes to users</li>
+              <li class="info">Syncs added/removed single roles</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div>
+            <div class="code-label green">HR Org Mgmt Reconciliation</div>
+            <ul class="notes-list" style="margin-top:.5rem;">
+              <li class="info">Ensures roles assigned to org positions reach users</li>
+            </ul>
+          </div>
+          <div>
+            <div class="code-label amber">Cleanups</div>
+            <ul class="notes-list" style="margin-top:.5rem;">
+              <li class="info">Removes expired roles from SU01 records</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 14: Implementation -->
+    <div class="section" id="s14">
+      <div class="section-header">
+        <div>
+          <div class="section-num">14 — IMPLEMENTATION</div>
+          <h2 class="section-title">Project Types & SU24/SU25 Setup</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="card card-cyan">
+        <div class="card-title">Types of Projects</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:.5rem;">
+          <span class="tag">1. Implementation</span>
+          <span class="tag">2. Support</span>
+          <span class="tag purple">3. Upgrade (Version)</span>
+          <span class="tag green">4. Roll Outs (Extending SAP)</span>
+        </div>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title amber">Implementation Project — Auth Setup</div>
+        <div class="alert warn" style="margin-bottom:1rem;">
+          <span class="alert-icon">⚠</span>
+          <div>Initially <strong>SU24 is empty</strong>. When SU24 is empty, PFCG auth data pull does not work. You must populate SU24 first using <span class="tcode">SU25</span>.</div>
+        </div>
+        <div class="flow">
+          <div class="flow-node"><span class="tcode">SU22</span><br><small>SAP Standard auth values</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node"><span class="tcode">SU25</span><br><small>First Install / Upgrade</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node highlight"><span class="tcode">SU24</span><br><small>Custom auth data</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node green-node"><span class="tcode">PFCG</span><br><small>Role creation</small></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card card-cyan">
+          <div class="card-title">SU22 Data Tables</div>
+          <ul class="notes-list">
+            <li><span class="tag">USOBT</span> SAP Standard Auth Values per T-code</li>
+            <li><span class="tag">USOBX</span> Check Indicators of Auth Objects per T-code</li>
+          </ul>
+        </div>
+        <div class="card card-purple">
+          <div class="card-title purple">SU24 Data Tables</div>
+          <ul class="notes-list">
+            <li><span class="tag purple">USOBT_C</span> Standard + Customization</li>
+            <li><span class="tag purple">USOBX_C</span> Standard + Customization</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-title green">Auth Object Creation Sequence</div>
+        <div class="flow">
+          <div class="flow-node"><span class="tcode">SU20</span><br><small>Auth Field creation</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node"><span class="tcode">SU21</span><br><small>Auth Object creation</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node"><span class="tcode">SU22</span><br><small>Standard auth data</small></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node highlight"><span class="tcode">SU24</span><br><small>Custom auth data</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 15: TCode Reference -->
+    <div class="section" id="s15">
+      <div class="section-header">
+        <div>
+          <div class="section-num">15 — QUICK REFERENCE</div>
+          <h2 class="section-title">Complete T-Code Reference</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <div id="tcodeSearch" style="margin-bottom:1rem;">
+        <input type="text" id="tcodeFilter" placeholder="Filter T-codes..." style="width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:8px 14px; color:var(--text); font-family:'Space Mono',monospace; font-size:.78rem; outline:none;" />
+      </div>
+
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="data-table" id="tcodeTable">
+          <thead>
+            <tr><th>#</th><th>T-Code</th><th>Description</th><th>Category</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><span class="tcode">SU01</span></td><td>User Maintenance</td><td><span class="tag">User Mgmt</span></td></tr>
+            <tr><td>2</td><td><span class="tcode">SU10</span></td><td>Mass User Maintenance</td><td><span class="tag">User Mgmt</span></td></tr>
+            <tr><td>3</td><td><span class="tcode">SUIM</span></td><td>User Information System</td><td><span class="tag">Reporting</span></td></tr>
+            <tr><td>4</td><td><span class="tcode">SU53</span></td><td>Evaluate Last Authorization Check</td><td><span class="tag green">Troubleshoot</span></td></tr>
+            <tr><td>5</td><td><span class="tcode">SU56</span></td><td>User Buffer</td><td><span class="tag green">Troubleshoot</span></td></tr>
+            <tr><td>6</td><td><span class="tcode">PFCG</span></td><td>Role Maintenance / Profile Generator</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+            <tr><td>7</td><td><span class="tcode">PFUD</span></td><td>Mass User Comparison (Profile Matchup)</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+            <tr><td>8</td><td><span class="tcode">SM50</span></td><td>Local Server Process List</td><td><span class="tag amber">Server</span></td></tr>
+            <tr><td>9</td><td><span class="tcode">SM51</span></td><td>List of Application Servers</td><td><span class="tag amber">Server</span></td></tr>
+            <tr><td>10</td><td><span class="tcode">SM66</span></td><td>Global Server (All servers) Process List</td><td><span class="tag amber">Server</span></td></tr>
+            <tr><td>11</td><td><span class="tcode">SM04</span></td><td>Users Logged into Local Server</td><td><span class="tag amber">Server</span></td></tr>
+            <tr><td>12</td><td><span class="tcode">AL08</span></td><td>Users Logged into Global Servers (all servers)</td><td><span class="tag amber">Server</span></td></tr>
+            <tr><td>13</td><td><span class="tcode">SE16</span></td><td>Table Display</td><td><span class="tag">Dev</span></td></tr>
+            <tr><td>14</td><td><span class="tcode">SE38</span></td><td>ABAP Editor / Program Maintenance</td><td><span class="tag">Dev</span></td></tr>
+            <tr><td>15</td><td><span class="tcode">SE93</span></td><td>T-Code Maintenance</td><td><span class="tag">Dev</span></td></tr>
+            <tr><td>16</td><td><span class="tcode">SA38</span></td><td>Program Execution</td><td><span class="tag">Dev</span></td></tr>
+            <tr><td>17</td><td><span class="tcode">RZ11</span></td><td>Profile Parameters</td><td><span class="tag amber">System</span></td></tr>
+            <tr><td>18</td><td><span class="tcode">ST01</span></td><td>System Trace (Local Server)</td><td><span class="tag green">Troubleshoot</span></td></tr>
+            <tr><td>19</td><td><span class="tcode">STAUTHTRACE</span></td><td>Exclusive Auth Trace (All Servers)</td><td><span class="tag green">Troubleshoot</span></td></tr>
+            <tr><td>20</td><td><span class="tcode">SU20</span></td><td>Authorization Field Creation</td><td><span class="tag purple">Auth Dev</span></td></tr>
+            <tr><td>21</td><td><span class="tcode">SU21</span></td><td>Authorization Object Creation</td><td><span class="tag purple">Auth Dev</span></td></tr>
+            <tr><td>22</td><td><span class="tcode">SU22</span></td><td>SAP Standard Auth Data per T-code</td><td><span class="tag purple">Auth Dev</span></td></tr>
+            <tr><td>23</td><td><span class="tcode">SU24</span></td><td>Custom Auth Data per T-code</td><td><span class="tag purple">Auth Dev</span></td></tr>
+            <tr><td>24</td><td><span class="tcode">SU25</span></td><td>First Installation & Upgrade (populate SU24)</td><td><span class="tag purple">Auth Dev</span></td></tr>
+            <tr><td>25</td><td><span class="tcode">SM01</span></td><td>Lock T-Code ⚠ Use carefully</td><td><span class="tag red">System Admin</span></td></tr>
+            <tr><td>26</td><td><span class="tcode">EWZ5</span></td><td>Mass User Locking</td><td><span class="tag">User Mgmt</span></td></tr>
+            <tr><td>27</td><td><span class="tcode">SE09</span></td><td>Transport Organizer (Workbench)</td><td><span class="tag">Transport</span></td></tr>
+            <tr><td>28</td><td><span class="tcode">SE10</span></td><td>Transport Organizer (Customizing)</td><td><span class="tag">Transport</span></td></tr>
+            <tr><td>29</td><td><span class="tcode">SM30</span></td><td>Table Maintenance</td><td><span class="tag">Dev</span></td></tr>
+            <tr><td>30</td><td><span class="tcode">SU02</span></td><td>Profile Maintenance (Pre-4.7)</td><td><span class="tag amber">Legacy</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── Accordion ──
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ── Scroll progress ──
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.round((scrolled / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '%';
+});
+
+// ── Active nav ──
+const sections = document.querySelectorAll('.section');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const id = e.target.id;
+      const active = document.querySelector(`.nav-item[href="#${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+
+// ── Search ──
+const searchBox = document.getElementById('searchBox');
+searchBox.addEventListener('input', () => {
+  const q = searchBox.value.toLowerCase().trim();
+  sections.forEach(sec => {
+    if (!q) { sec.classList.remove('hidden'); return; }
+    const text = sec.innerText.toLowerCase();
+    sec.classList.toggle('hidden', !text.includes(q));
+  });
+});
+
+// ── T-code filter ──
+document.getElementById('tcodeFilter').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('#tcodeTable tbody tr').forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
+// ── TCode click copy ──
+document.querySelectorAll('.tcode').forEach(el => {
+  el.setAttribute('data-tip', 'Click to copy');
+  el.addEventListener('click', () => {
+    navigator.clipboard.writeText(el.textContent.trim()).catch(() => {});
+    el.style.background = 'rgba(16,185,129,0.2)';
+    el.style.borderColor = 'var(--accent3)';
+    el.style.color = 'var(--accent3)';
+    setTimeout(() => {
+      el.style.background = '';
+      el.style.borderColor = '';
+      el.style.color = '';
+    }, 800);
+  });
+});
+</script>
+</body>
+</html>
