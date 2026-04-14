@@ -245,6 +245,17 @@ mark{background:rgba(217,119,6,.2);color:var(--accent4);border-radius:2px;paddin
 .ana-original .ana-title{color:var(--accent3)}
 .ana-xerox{background:rgba(31,41,55,.06);border-color:rgba(31,41,55,.15)}
 .ana-xerox .ana-title{color:var(--accent1)}
+
+/* SPECIAL THANKS */
+.special-thanks{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(5,150,105,.08));border:1px solid rgba(124,58,237,.2);
+  border-radius:10px;padding:1.5rem;margin-bottom:2.5rem;display:flex;gap:16px;align-items:center;position:relative;overflow:hidden}
+.special-thanks::before{content:'';position:absolute;top:-50%;right:-50%;width:300px;height:300px;
+  background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.thanks-icon{font-size:2rem;flex-shrink:0;position:relative;z-index:1}
+.thanks-content{position:relative;z-index:1}
+.thanks-title{font-size:.95rem;font-weight:700;color:var(--accent1);margin-bottom:.3rem}
+.thanks-text{font-size:.85rem;color:var(--text2);line-height:1.6}
+.thanks-text strong{color:var(--accent2);font-weight:700}
 </style>
 </head>
 <body>
@@ -307,6 +318,15 @@ mark{background:rgba(217,119,6,.2);color:var(--accent4);border-radius:2px;paddin
     <div class="hero-tag">🔍 <span>SU53/SU56</span></div>
     <div class="hero-tag">📊 <span>SUIM</span></div>
     <div class="hero-tag">📡 <span>ST01/STAUTHTRACE</span></div>
+  </div>
+</div>
+
+<!-- SPECIAL THANKS -->
+<div class="special-thanks">
+  <div class="thanks-icon">🙏</div>
+  <div class="thanks-content">
+    <div class="thanks-title">Special Thanks to Shreedhar</div>
+    <div class="thanks-text">For providing comprehensive SAP Security material through professional YouTube videos. This knowledge base is curated from high-quality educational content shared generously with the community.</div>
   </div>
 </div>
 
