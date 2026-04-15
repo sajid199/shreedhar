@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Security Mastery</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f9fa;
+    --surface2: #f0f1f3;
+    --border: #e5e7eb;
+    --accent: #0891b2;
+    --accent2: #7c3aed;
+    --accent3: #d97706;
+    --text: #111827;
+    --muted: #4b5563;
+    --success: #059669;
+    --danger: #dc2626;
+    --glow: 0 0 20px rgba(8,145,178,0.15);
+    --glow2: 0 0 20px rgba(124,58,237,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(8,145,178,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(8,145,178,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 0 20px;
+    background: rgba(255,255,255,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    gap: 12px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 16px;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+
+  .progress-bar-wrap {
+    flex: 1;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 60px 20px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: rgba(8,145,178,0.1);
+    border: 1px solid rgba(8,145,178,0.3);
+    color: var(--accent);
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s ease;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 6vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: clamp(15px, 2vw, 18px);
+    max-width: 500px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+    font-weight: 500;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px 80px;
+  }
+
+  /* MODULE GRID */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .module-card:hover {
+    border-color: rgba(0,229,255,0.3);
+    transform: translateY(-3px);
+    box-shadow: var(--glow);
+  }
+
+  .module-card:hover::before { opacity: 1; }
+
+  .module-card.completed {
+    border-color: rgba(16,185,129,0.3);
+  }
+
+  .module-card.completed::before {
+    background: linear-gradient(90deg, var(--success), #34d399);
+    opacity: 1;
+  }
+
+  .module-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .module-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .module-badge {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 100px;
+    border: 1px solid;
+    font-weight: 500;
+  }
+
+  .badge-easy { color: #047857; border-color: rgba(5,150,105,0.4); background: rgba(5,150,105,0.1); }
+  .badge-med { color: #b45309; border-color: rgba(217,119,6,0.4); background: rgba(217,119,6,0.1); }
+  .badge-hard { color: #991b1b; border-color: rgba(220,38,38,0.4); background: rgba(220,38,38,0.1); }
+
+  .module-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .module-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .module-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  .module-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .check-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 22px;
+    height: 22px;
+    background: var(--success);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .module-card.completed .check-icon { display: flex; }
+
+  /* LESSON PANEL */
+  .lesson-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    animation: slideIn 0.3s ease;
+  }
+
+  .lesson-panel.active { display: block; }
+
+  .lesson-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn-back {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .btn-back:hover { border-color: var(--accent); color: var(--accent); }
+
+  .lesson-title-wrap { flex: 1; min-width: 0; }
+  .lesson-title-wrap h2 { font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lesson-title-wrap p { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+
+  .lesson-body { padding: 20px; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    background: var(--bg);
+    padding: 4px;
+    border-radius: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    padding: 8px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .tab.active {
+    background: var(--surface2);
+    color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(8,145,178,0.2);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeUp 0.3s ease; }
+
+  /* CONTENT ELEMENTS */
+  .content-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .content-block h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .content-block p, .content-block li {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .content-block ul { padding-left: 18px; }
+  .content-block li { margin-bottom: 6px; }
+
+  /* KEY-VALUE TABLE */
+  .kv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .kv-table tr { border-bottom: 1px solid var(--border); }
+  .kv-table tr:last-child { border-bottom: none; }
+
+  .kv-table td {
+    padding: 10px 8px;
+    vertical-align: top;
+  }
+
+  .kv-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent);
+    font-weight: 500;
+    width: 40%;
+    white-space: nowrap;
+  }
+
+  .kv-table td:last-child { color: var(--text); font-weight: 500; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(8,145,178,0.05);
+    border: 1px solid rgba(8,145,178,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  .highlight-box.warning {
+    background: rgba(217,119,6,0.05);
+    border-color: rgba(217,119,6,0.2);
+    border-left-color: var(--accent3);
+    color: var(--text);
+  }
+
+  .highlight-box.success {
+    background: rgba(5,150,105,0.05);
+    border-color: rgba(5,150,105,0.2);
+    border-left-color: var(--success);
+    color: var(--text);
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #f5f5f5;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    margin: 12px 0;
+    line-height: 1.7;
+    color: #111827;
+    font-weight: 500;
+  }
+
+  /* QUIZ */
+  .quiz-wrap { display: flex; flex-direction: column; gap: 20px; }
+
+  .quiz-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .quiz-q {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .quiz-num {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent);
+    font-size: 12px;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: var(--surface);
+    color: var(--text);
+    text-align: left;
+    width: 100%;
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .option:hover:not(:disabled) {
+    border-color: rgba(8,145,178,0.4);
+    background: rgba(8,145,178,0.05);
+  }
+
+  .option.correct {
+    border-color: var(--success);
+    background: rgba(5,150,105,0.1);
+    color: #047857;
+  }
+
+  .option.wrong {
+    border-color: var(--danger);
+    background: rgba(220,38,38,0.1);
+    color: #991b1b;
+  }
+
+  .option:disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: none;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(5,150,105,0.1); color: #047857; border: 1px solid rgba(5,150,105,0.3); }
+  .quiz-feedback.wrong { background: rgba(220,38,38,0.1); color: #991b1b; border: 1px solid rgba(220,38,38,0.3); }
+
+  .quiz-score {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    display: none;
+  }
+
+  .quiz-score.show { display: block; }
+  .score-num { font-size: 40px; font-weight: 800; color: var(--accent); font-family: 'Space Mono', monospace; }
+  .score-label { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Syne', sans-serif;
+    margin-top: 14px;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  /* FLASHCARDS */
+  .flashcard-wrap { perspective: 1000px; }
+
+  .flashcard {
+    width: 100%;
+    min-height: 200px;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 14px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    min-height: 200px;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .card-front {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+
+  .card-back {
+    background: linear-gradient(135deg, rgba(8,145,178,0.08), rgba(124,58,237,0.08));
+    border: 1px solid rgba(8,145,178,0.2);
+    transform: rotateY(180deg);
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .card-text { font-size: 16px; font-weight: 600; line-height: 1.7; color: var(--text); }
+  .card-answer { font-size: 14px; color: var(--text); line-height: 1.7; font-weight: 500; }
+
+  .card-hint { font-size: 12px; color: var(--muted); margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+
+  .flashcard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .btn-nav {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    transition: all 0.2s;
+    flex: 1;
+    font-weight: 500;
+  }
+
+  .btn-nav:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-nav:disabled { opacity: 0.3; cursor: default; }
+
+  .card-counter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    flex: 1;
+    font-weight: 500;
+  }
+
+  /* FLOWCHART */
+  .flow-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 10px 0;
+  }
+
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    max-width: 240px;
+    width: 100%;
+    transition: all 0.2s;
+    color: var(--text);
+  }
+
+  .flow-node:hover { border-color: var(--accent); box-shadow: var(--glow); }
+
+  .flow-node.start { background: rgba(5,150,105,0.1); border-color: rgba(5,150,105,0.4); color: #047857; }
+  .flow-node.end { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.4); color: #6d28d9; }
+  .flow-node.decision { background: rgba(217,119,6,0.1); border-color: rgba(217,119,6,0.4); color: #b45309; border-radius: 0; transform: rotate(0deg); }
+
+  .flow-arrow {
+    font-size: 18px;
+    color: var(--accent);
+    padding: 4px 0;
+    animation: pulse 2s infinite;
+  }
+
+  .flow-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 2px 0;
+    font-weight: 500;
+  }
+
+  /* TCODE PILL */
+  .tcode {
+    display: inline-block;
+    background: rgba(8,145,178,0.1);
+    border: 1px solid rgba(8,145,178,0.25);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 2px;
+  }
+
+  .auth-obj {
+    display: inline-block;
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.3);
+    color: #6d28d9;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    margin: 2px;
+    font-weight: 500;
+  }
+
+  /* COMPLETE BTN */
+  .complete-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .complete-text { font-size: 12px; color: var(--muted); }
+  
+  .btn-complete {
+    background: linear-gradient(135deg, var(--success), #34d399);
+    border: none;
+    color: #000;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Syne', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .btn-complete:hover { opacity: 0.85; }
+  .btn-complete:disabled { opacity: 0.4; cursor: default; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .hero { padding: 40px 16px 30px; }
+    .stats-row { gap: 16px; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .lesson-header { gap: 8px; }
+    .lesson-title-wrap h2 { font-size: 14px; }
+    .kv-table td:first-child { width: 45%; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="showModules()">
+      <div class="logo-icon">SAP</div>
+      <span class="logo-text">Security Mastery</span>
+    </a>
+    <div class="progress-bar-wrap">
+      <div class="progress-label">Overall Progress: <span id="prog-pct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="hero-section">
+  <div class="hero-tag">📚 R/3 Security Notes — Interactive Edition</div>
+  <h1>Master <span>SAP Security</span><br>Concepts Deeply</h1>
+  <p>Interactive lessons, flashcards & quizzes based on real SAP Security notes. Learn user administration, roles, authorizations & more.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Modules</div></div>
+    <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Concepts</div></div>
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Quiz Q's</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Flashcards</div></div>
+  </div>
+</section>
+
+<div class="main">
+
+  <!-- MODULES GRID -->
+  <div class="modules-grid" id="modules-grid">
+
+    <div class="module-card" onclick="openLesson('user-admin')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(0,229,255,0.1)">👤</div>
+        <span class="module-badge badge-easy">Beginner</span>
+      </div>
+      <div class="module-title">User Administration</div>
+      <div class="module-desc">SU01 tabs, user creation process, mandatory fields, and change docs.</div>
+      <div class="module-meta">
+        <span>📖 6 topics</span>
+        <span>🃏 8 cards</span>
+        <span>❓ 5 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('user-types')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(124,58,237,0.1)">🏷️</div>
+        <span class="module-badge badge-easy">Beginner</span>
+      </div>
+      <div class="module-title">User Types & Locks</div>
+      <div class="module-desc">Dialog, System, Service, Communication, Reference user types and UFLAG values.</div>
+      <div class="module-meta">
+        <span>📖 5 topics</span>
+        <span>🃏 10 cards</span>
+        <span>❓ 5 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('auth-concepts')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(245,158,11,0.1)">🔐</div>
+        <span class="module-badge badge-med">Intermediate</span>
+      </div>
+      <div class="module-title">Authorization Concepts</div>
+      <div class="module-desc">Authentication vs authorization, auth objects, fields, T-codes and SU24.</div>
+      <div class="module-meta">
+        <span>📖 8 topics</span>
+        <span>🃏 10 cards</span>
+        <span>❓ 5 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('roles-profiles')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(16,185,129,0.1)">🎭</div>
+        <span class="module-badge badge-med">Intermediate</span>
+      </div>
+      <div class="module-title">Roles & Profiles</div>
+      <div class="module-desc">PFCG, single/composite/derived/master roles, profile concept, naming conventions.</div>
+      <div class="module-meta">
+        <span>📖 10 topics</span>
+        <span>🃏 12 cards</span>
+        <span>❓ 5 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('auth-tab')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(239,68,68,0.1)">🚦</div>
+        <span class="module-badge badge-med">Intermediate</span>
+      </div>
+      <div class="module-title">Authorization Tab Deep Dive</div>
+      <div class="module-desc">Traffic lights, org fields vs normal fields, statuses, expert mode generation.</div>
+      <div class="module-meta">
+        <span>📖 8 topics</span>
+        <span>🃏 8 cards</span>
+        <span>❓ 5 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('troubleshoot')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(0,229,255,0.1)">🔍</div>
+        <span class="module-badge badge-hard">Advanced</span>
+      </div>
+      <div class="module-title">Troubleshooting</div>
+      <div class="module-desc">SU53, SU56, SUIM, ST01, STAUTHTRACE, return codes and common issues.</div>
+      <div class="module-meta">
+        <span>📖 6 topics</span>
+        <span>🃏 8 cards</span>
+        <span>❓ 4 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('transport')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(124,58,237,0.1)">🚚</div>
+        <span class="module-badge badge-hard">Advanced</span>
+      </div>
+      <div class="module-title">Transport Management</div>
+      <div class="module-desc">TMS, TR types, Dev→QA→PRD flow, security team duties, role deletion.</div>
+      <div class="module-meta">
+        <span>📖 5 topics</span>
+        <span>🃏 6 cards</span>
+        <span>❓ 3 quiz</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="openLesson('implementation')">
+      <div class="check-icon">✓</div>
+      <div class="module-header">
+        <div class="module-icon" style="background:rgba(245,158,11,0.1)">🏗️</div>
+        <span class="module-badge badge-hard">Advanced</span>
+      </div>
+      <div class="module-title">Implementation Phase</div>
+      <div class="module-desc">SU20/21/22/24/25, USOBT, USOBX, project types, important T-codes.</div>
+      <div class="module-meta">
+        <span>📖 7 topics</span>
+        <span>🃏 8 cards</span>
+        <span>❓ 4 quiz</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LESSON PANELS -->
+
+  <!-- 1. USER ADMIN -->
+  <div class="lesson-panel" id="lesson-user-admin">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>👤 User Administration</h2>
+        <p>SU01 — User Maintenance</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'ua-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'ua-flow')">🔄 Process</button>
+        <button class="tab" onclick="switchTab(this,'ua-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'ua-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="ua-learn">
+        <div class="content-block">
+          <h3>What is User Administration?</h3>
+          <p>User Administration involves all tasks related to user maintenance in SAP. The primary transaction code is <span class="tcode">SU01</span>.</p>
+          <div class="highlight-box">SAP Security ensures users can only access functionality that is part of their job role — balancing security with usability.</div>
+        </div>
+
+        <div class="content-block">
+          <h3>SU01 Operations</h3>
+          <table class="kv-table">
+            <tr><td>Create</td><td>Add a new user to the system</td></tr>
+            <tr><td>Modify</td><td>Update existing user details</td></tr>
+            <tr><td>Display</td><td>View user information (read-only)</td></tr>
+            <tr><td>Delete</td><td>Remove a user from the system</td></tr>
+            <tr><td>Copy</td><td>Clone a user (address & password NOT copied)</td></tr>
+            <tr><td>Lock / Unlock</td><td>Restrict or restore user access</td></tr>
+            <tr><td>Change Password</td><td>Reset the user's password</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>SU01 Create — 11 Tabs</h3>
+          <ul>
+            <li><strong>Documentation</strong> — Description and document for the user</li>
+            <li><strong>Address</strong> — Personal info (Last Name is mandatory)</li>
+            <li><strong>Logon Data</strong> — User type & initial password (mandatory)</li>
+            <li><strong>SNC</strong> — Skip password if Secure Network Communication is active</li>
+            <li><strong>Defaults</strong> — Date format, time format, printer, time zone</li>
+            <li><strong>Parameters</strong> — Only entered when requested by user</li>
+            <li><strong>Roles</strong> — Assign authorizations through roles</li>
+            <li><strong>Profiles</strong> — Auto-assigned when roles are assigned (max 312)</li>
+            <li><strong>Groups</strong> — Assign user to extra groups</li>
+            <li><strong>Personalization</strong> — Do not enter details here</li>
+            <li><strong>Lic. Data</strong> — Licensing (Admin, Developers, etc.)</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Key Facts</h3>
+          <table class="kv-table">
+            <tr><td>User ID max length</td><td>12 characters</td></tr>
+            <tr><td>Max profiles per user</td><td>312</td></tr>
+            <tr><td>Mandatory fields</td><td>Last Name + Initial Password</td></tr>
+            <tr><td>User tables prefix</td><td>USR* (e.g., USR02, USR40)</td></tr>
+            <tr><td>Change docs path</td><td>SU01 → Information → Change Documents for Users</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Security Types</h3>
+          <table class="kv-table">
+            <tr><td>Internal Security</td><td>Managed by SAP authorization concept — application level</td></tr>
+            <tr><td>External Security</td><td>Managed by database system — database level</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="ua-flow">
+        <div class="content-block">
+          <h3>User Access Request Process</h3>
+          <p style="margin-bottom:16px;color:var(--muted);font-size:12px;">The typical workflow when a user needs SAP access:</p>
+          <div class="flow-wrap">
+            <div class="flow-node start">▶ START</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">📋 User fills SAP Access Form</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node decision">👔 Manager Approval<br><span style="font-size:10px;opacity:0.7">(depends on organization)</span></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">🎯 Role Owner Approval</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">🔐 Security Team (Final)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node end">✅ CLOSED — Access Granted</div>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Standard Default Users (Post Installation)</h3>
+          <table class="kv-table">
+            <tr><td>SAP* / PASS or 06071992</td><td>ALL clients</td></tr>
+            <tr><td>DDIC / 19920607</td><td>Clients 000 & 001</td></tr>
+          </table>
+          <div class="highlight-box warning">⚠️ Always secure or delete these default users in production environments!</div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="ua-flash">
+        <div id="ua-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="ua-quiz">
+        <div id="ua-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('user-admin')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. USER TYPES -->
+  <div class="lesson-panel" id="lesson-user-types">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🏷️ User Types & Locks</h2>
+        <p>Logon Data — User Types & UFLAG</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'ut-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'ut-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'ut-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="ut-learn">
+        <div class="content-block">
+          <h3>Five User Types in SAP</h3>
+          <table class="kv-table">
+            <tr><td>1. Dialog</td><td>Default type. Interactive. Password rules apply. GUI login allowed.<br><em>Example: All employees</em></td></tr>
+            <tr><td>2. System</td><td>Internal communication. No password rules. NO GUI login.<br><em>Example: Background jobs</em></td></tr>
+            <tr><td>3. Communication</td><td>External system communication. No password rules. NO GUI login.<br><em>Example: RFC connections</em></td></tr>
+            <tr><td>4. Service</td><td>Multiple dialog logons. No password rules. GUI login allowed.<br><em>Example: FFID in GRC</em></td></tr>
+            <tr><td>5. Reference</td><td>Extra access for dialog IDs at 312 profile limit. No password. NO GUI login.<br><em>Example: Extend access via reference user</em></td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Reference User Scenario</h3>
+          <div class="highlight-box">
+            Create a Reference User with 2 roles → Assign 1 role to a Service User + assign the Reference User → Service User now has access to 3 roles!
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>UFLAG Values — User Lock Status</h3>
+          <table class="kv-table">
+            <tr><td>0</td><td>Not Locked</td></tr>
+            <tr><td>32</td><td>Global Lock (CUA)</td></tr>
+            <tr><td>64</td><td>Administrator Lock</td></tr>
+            <tr><td>128</td><td>Incorrect Logon Lock (Password Lock)</td></tr>
+            <tr><td>192 (128+64)</td><td>Password Lock + Administrator Lock</td></tr>
+            <tr><td>160 (128+32)</td><td>Password Lock + CUA Lock</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Password Parameters Comparison</h3>
+          <table class="kv-table">
+            <tr><td>Dialog</td><td>✅ Password rules applied</td></tr>
+            <tr><td>System</td><td>❌ No password rules</td></tr>
+            <tr><td>Communication</td><td>❌ No password rules</td></tr>
+            <tr><td>Service</td><td>❌ No password rules</td></tr>
+            <tr><td>Reference</td><td>❌ No password required</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="ut-flash">
+        <div id="ut-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="ut-quiz">
+        <div id="ut-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('user-types')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. AUTH CONCEPTS -->
+  <div class="lesson-panel" id="lesson-auth-concepts">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🔐 Authorization Concepts</h2>
+        <p>Auth Objects, Fields & T-Codes</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'ac-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'ac-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'ac-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="ac-learn">
+        <div class="content-block">
+          <h3>Authentication vs Authorization</h3>
+          <table class="kv-table">
+            <tr><td>Authentication</td><td>Verifies your identity (User ID + Password). Exists outside SAP system. Common to every user.</td></tr>
+            <tr><td>Authorization</td><td>Controls permissions inside SAP. What you can do after logging in. Varies per user/system.</td></tr>
+          </table>
+          <div class="highlight-box">Security = Authentication + Authorization. Strong auth check: Biometric!</div>
+        </div>
+
+        <div class="content-block">
+          <h3>Authorization Structure</h3>
+          <p style="margin-bottom:12px;color:var(--muted);font-size:12px;">The hierarchy of SAP authorization:</p>
+          <div class="code-block">Authorization Object
+  └── Auth Field 1 → Value
+  └── Auth Field 2 → Value
+  └── ... (max 10 fields)
+  └── Auth Field 10 → Value
+
+Object Class (folder) → holds Authorization Objects</div>
+          <table class="kv-table" style="margin-top:12px">
+            <tr><td>SU21</td><td>T-code for Authorization Objects maintenance</td></tr>
+            <tr><td>SU24</td><td>Find auth objects related to any T-code</td></tr>
+            <tr><td>SE93</td><td>Maintain all T-codes (find program & auth object)</td></tr>
+            <tr><td>SA38</td><td>Execute ABAP programs directly</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>SU01 Auth Objects</h3>
+          <table class="kv-table">
+            <tr><td><span class="auth-obj">S_USER_GRP</span></td><td>Create users</td></tr>
+            <tr><td><span class="auth-obj">S_USER_AGR</span></td><td>Assign roles to users</td></tr>
+            <tr><td><span class="auth-obj">S_USER_PRO</span></td><td>Assign profiles to users</td></tr>
+          </table>
+          <div class="highlight-box warning">⚠️ T-codes and auth objects CANNOT be assigned directly to users — they must be placed inside a Role first!</div>
+        </div>
+
+        <div class="content-block">
+          <h3>T-Code Explained</h3>
+          <p>A T-code (Transaction Code) is a memorable shortcut to navigate to a program without remembering long program names.</p>
+          <div class="code-block">SU01   → Program: SAPMSUU0
+SCC5   → Program: SAPMSCC1
+
+Path to run program directly:
+SA38 → enter program name → Execute</div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="ac-flash">
+        <div id="ac-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="ac-quiz">
+        <div id="ac-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('auth-concepts')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ROLES & PROFILES -->
+  <div class="lesson-panel" id="lesson-roles-profiles">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🎭 Roles & Profiles</h2>
+        <p>PFCG — Profile Generator</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'rp-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'rp-types')">🔀 Role Types</button>
+        <button class="tab" onclick="switchTab(this,'rp-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'rp-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="rp-learn">
+        <div class="content-block">
+          <h3>What is a Role?</h3>
+          <p>A Role is a group of T-codes and their related authorizations bundled together. Roles are assigned to users — NOT T-codes or auth objects directly.</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Profile Types</h3>
+          <table class="kv-table">
+            <tr><td>Standard Profiles</td><td>Come with SAP installation. Can be assigned directly. SAP recommends NOT using these — they give extra access.</td></tr>
+            <tr><td>Generated Profiles</td><td>Created by PFCG when roles are built. Always start with "T". Cannot be assigned directly. Auto-assigned when role is assigned.</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>PFCG Tabs — Single Role</h3>
+          <table class="kv-table">
+            <tr><td>Description</td><td>Long text with why/when/who created the role</td></tr>
+            <tr><td>Menu</td><td>Add T-codes via the Transactions option</td></tr>
+            <tr><td>Authorizations</td><td>Change auth data & generate profile</td></tr>
+            <tr><td>User</td><td>List of users — click User Comparison to turn green</td></tr>
+            <tr><td>Personalization</td><td>Do NOT touch this tab</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Role Naming Convention</h3>
+          <div class="code-block">Format: [Type]:[Business]:[Sub-process]:[Client]
+
+Types:  X = Single  |  Y = Composite  |  Z/P = Derived/Master
+Max length: 30 characters
+
+Example: X:HR:PERSONAL_ADMIN:TATA</div>
+        </div>
+
+        <div class="content-block">
+          <h3>Role Tables (AGR*)</h3>
+          <table class="kv-table">
+            <tr><td>AGR_DEFINE</td><td>Role definitions, master/derived info</td></tr>
+            <tr><td>AGR_AGRS</td><td>Single and composite roles</td></tr>
+            <tr><td>AGR_TCODES</td><td>Roles and their T-codes</td></tr>
+            <tr><td>AGR_USERS</td><td>Users assigned to roles</td></tr>
+            <tr><td>AGR_1251</td><td>Role and authorization values</td></tr>
+            <tr><td>AGR_1252</td><td>Role and org values</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="rp-types">
+        <div class="content-block">
+          <h3>Single Role</h3>
+          <p>Basic role with T-codes and authorization objects. Created in PFCG → Single Role button.</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Composite Role</h3>
+          <p>A group of single roles bundled together for easy assignment. Reduces security admin tasks and simplifies user experience.</p>
+          <div class="highlight-box success">Example: Security team needs → Security Admin Role + ABAP Display Role → Bundle as Y:SECURITY_COMPOSITE_ROLE</div>
+          <p style="margin-top:10px;font-size:12px;color:var(--muted);">Tabs: Description, Roles, Menu (click Import Menu), User, Personalization</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Master Role (Parent)</h3>
+          <p>Has full access with org level set to <strong>*</strong> (wildcard). Modified like a single role. Changes propagate to derived roles.</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Derived Role (Child)</h3>
+          <p>Single role derived from a master role. Inherits all T-codes and auth objects. Only differs in org field values (e.g., company code, plant).</p>
+          <div class="highlight-box">
+            <strong>Classic use case:</strong> MNC like Coca-Cola needs India finance users to only process India invoices (company code=100) and USA users for USA invoices (company code=200) — using the same FBV0 T-code.
+          </div>
+          <div class="code-block">Master: Company Code = *
+  ├── India Derived: Company Code = 100
+  ├── USA Derived:   Company Code = 200
+  └── UK Derived:    Company Code = 300
+
+No limit on number of derived roles!</div>
+        </div>
+
+        <div class="content-block">
+          <h3>Expert Mode — Profile Generation</h3>
+          <table class="kv-table">
+            <tr><td>Delete & Recreate</td><td>Wipes all old data including customization. Fresh load from SU24. Use when starting fresh.</td></tr>
+            <tr><td>Edit Old Status</td><td>Keeps old data + customization. Does NOT pull new T-code auth data. Use for direct auth changes.</td></tr>
+            <tr><td>Read & Merge</td><td>Keeps old + customization AND pulls new T-code data. BEST option for role modification!</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="rp-flash">
+        <div id="rp-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="rp-quiz">
+        <div id="rp-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('roles-profiles')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. AUTH TAB -->
+  <div class="lesson-panel" id="lesson-auth-tab">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🚦 Authorization Tab Deep Dive</h2>
+        <p>Traffic Lights, Fields & Statuses</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'at-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'at-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'at-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="at-learn">
+        <div class="content-block">
+          <h3>Traffic Light System</h3>
+          <table class="kv-table">
+            <tr><td>🟢 Green</td><td>All authorization fields filled/maintained with values</td></tr>
+            <tr><td>🟡 Yellow</td><td>At least one authorization field not maintained or partially unmaintained</td></tr>
+            <tr><td>🔴 Red</td><td>Unmaintained organizational levels</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Field Types</h3>
+          <table class="kv-table">
+            <tr><td>Normal Field</td><td>Does NOT represent organization. Universal meaning.<br><em>Example: Activity 03 = Display (everywhere)</em></td></tr>
+            <tr><td>Organizational Field</td><td>Represents organization. Meaning varies by company.<br><em>Example: Plant 100 = UK plant at BMW; Plant 100 = USA branch at Walmart</em></td></tr>
+          </table>
+          <div class="highlight-box warning">⚠️ Org field values must be maintained centrally from the Organization tab. Normal field values can be maintained directly.</div>
+        </div>
+
+        <div class="content-block">
+          <h3>Auth Object Statuses</h3>
+          <table class="kv-table">
+            <tr><td>Standard</td><td>SAP default values pulled from SU24 for T-codes in menu</td></tr>
+            <tr><td>Maintained</td><td>Blank fields have been filled with values</td></tr>
+            <tr><td>Changed</td><td>SAP default values have been modified (Activity values changed)</td></tr>
+            <tr><td>Manually</td><td>Auth object inserted directly into role, NOT from SU24</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Deleting Auth Objects</h3>
+          <p style="margin-bottom:10px;color:var(--muted);font-size:13px;">Both conditions must be met:</p>
+          <ul>
+            <li>Auth object must be <strong>deactivated</strong></li>
+            <li>Status must be <strong>Manually</strong> or <strong>Changed</strong></li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Testing Methods</h3>
+          <table class="kv-table">
+            <tr><td>Positive Testing</td><td>Verify user CAN execute T-codes assigned in the role</td></tr>
+            <tr><td>Negative Testing</td><td>Verify user CANNOT execute T-codes NOT in the role</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="at-flash">
+        <div id="at-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="at-quiz">
+        <div id="at-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('auth-tab')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. TROUBLESHOOT -->
+  <div class="lesson-panel" id="lesson-troubleshoot">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🔍 Troubleshooting</h2>
+        <p>SU53, SU56, SUIM, ST01, STAUTHTRACE</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'ts-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'ts-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'ts-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="ts-learn">
+        <div class="content-block">
+          <h3>Common Issues</h3>
+          <table class="kv-table">
+            <tr><td>Cannot login</td><td>Wrong password, user locked, user expired, incorrect client, password expired</td></tr>
+            <tr><td>Can login but not execute T-code</td><td>Role expired, profile not generated, user comparison not done</td></tr>
+            <tr><td>Can execute T-code but limited functions</td><td>Missing auth values, profile not generated, user comparison not done</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>SU53 — Authorization Check</h3>
+          <p>Evaluates the <strong>last authorization check</strong> — shows if it passed or failed, and reveals missing objects/fields.</p>
+          <div class="highlight-box">Run SU53 immediately after getting an authorization error — it captures the last check!</div>
+        </div>
+
+        <div class="content-block">
+          <h3>SU56 — User Buffer</h3>
+          <p>Temporary memory created when user logs in, wiped on logout. System checks buffer — NOT database — when T-codes are executed.</p>
+          <table class="kv-table">
+            <tr><td>Buffer issue fix</td><td>Ask user to logout and login again, OR reset buffer in SU56</td></tr>
+            <tr><td>Check buffer</td><td>SU56 → Authorization Values → User Buffer</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Return Codes (ST01 / STAUTHTRACE)</h3>
+          <table class="kv-table">
+            <tr><td>RC = 0</td><td>✅ Authorization successful</td></tr>
+            <tr><td>RC = 4</td><td>Has auth object but wrong values</td></tr>
+            <tr><td>RC = 8</td><td>No required auth values in user buffer</td></tr>
+            <tr><td>RC = 12</td><td>No access to auth object at all</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>ST01 vs STAUTHTRACE</h3>
+          <table class="kv-table">
+            <tr><td>ST01</td><td>System Trace — local server only. Must be on same server as user. Check AL08 / SM51 to verify.</td></tr>
+            <tr><td>STAUTHTRACE</td><td>Exclusive auth trace — works across ALL application servers. Available in updated SAP versions.</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>SUIM — User Information System</h3>
+          <p>Powerful audit tool for security administrators.</p>
+          <ul>
+            <li>Users by Address Data / Auth Values / Role Assignment</li>
+            <li>Roles by Complex Criteria / User Assignment / Profile Assignment</li>
+            <li>Change Documents for Users, Roles, Profiles</li>
+            <li>Where-Used List for auth objects and fields</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-content" id="ts-flash">
+        <div id="ts-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="ts-quiz">
+        <div id="ts-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('troubleshoot')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. TRANSPORT -->
+  <div class="lesson-panel" id="lesson-transport">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🚚 Transport Management</h2>
+        <p>TMS — Dev → QA → PRD</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'tr-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'tr-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'tr-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="tr-learn">
+        <div class="content-block">
+          <h3>Transport Overview</h3>
+          <p>Transport = Movement of data from one SAP environment to another via Transport Requests (TR).</p>
+          <div class="code-block">DEV  ──→  QA  ──→  PRD
+(Development)  (Quality)  (Production)</div>
+          <p style="margin-top:12px;font-size:12px;color:var(--muted);">In QA and PRD: PFCG display access only. All changes made in DEV.</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Transport Request Structure</h3>
+          <div class="code-block">TR Name Format: [SID]K9[5-digit number]
+Example: W88K900035
+
+Transport Request
+  ├── Task 1 (User: VARUN) → Role 1
+  └── Task 2 (User: ANKITA) → Role 2
+
+Task = Space reserved for ONE user. Only that user can load data into the task.</div>
+        </div>
+
+        <div class="content-block">
+          <h3>TR Types</h3>
+          <table class="kv-table">
+            <tr><td>Workbench TR</td><td>Carries SAP standard data (ABAP code, T-codes, programs)</td></tr>
+            <tr><td>Customizing TR</td><td>Carries customized data (business data, users, roles, transactional data)</td></tr>
+          </table>
+          <p style="margin-top:10px;font-size:12px;color:var(--muted);">T-codes for TR: <span class="tcode">SE01</span> <span class="tcode">SE09</span> <span class="tcode">SE10</span>. Tables: E070, E071</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Security Team TR Duties</h3>
+          <ol style="padding-left:18px;font-size:13px;color:#b0bec5;line-height:2">
+            <li>Create Transport Request (<span class="tcode">SE10</span> or <span class="tcode">SE09</span>)</li>
+            <li>Load role into Transport Request (<span class="tcode">PFCG</span>)</li>
+            <li>Release the Transport Request (SE10/SE09)</li>
+            <li>Intimate Basis Team to transport TR into Quality</li>
+          </ol>
+          <div class="highlight-box warning">⚠️ Before releasing TR, ensure ALL tasks under it are released first!</div>
+        </div>
+
+        <div class="content-block">
+          <h3>Role Transport Screen — Important!</h3>
+          <p style="font-size:13px;color:#b0bec5;">When transporting a role via PFCG, NEVER tick:</p>
+          <ul style="padding-left:18px;font-size:13px;color:var(--danger);margin-top:8px;">
+            <li>Personalization Data</li>
+            <li>Direct User Assignment</li>
+          </ul>
+          <p style="margin-top:8px;font-size:13px;color:#b0bec5;">Only keep "Generated Profiles of Single Roles" checked.</p>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tr-flash">
+        <div id="tr-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="tr-quiz">
+        <div id="tr-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('transport')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. IMPLEMENTATION -->
+  <div class="lesson-panel" id="lesson-implementation">
+    <div class="lesson-header">
+      <button class="btn-back" onclick="showModules()">← Back</button>
+      <div class="lesson-title-wrap">
+        <h2>🏗️ Implementation Phase</h2>
+        <p>SU25, SU22, SU24 & First Installation</p>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'im-learn')">📖 Learn</button>
+        <button class="tab" onclick="switchTab(this,'im-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTab(this,'im-quiz')">❓ Quiz</button>
+      </div>
+
+      <div class="tab-content active" id="im-learn">
+        <div class="content-block">
+          <h3>Project Types</h3>
+          <table class="kv-table">
+            <tr><td>Implementation</td><td>No SAP at all → implementing SAP for the first time</td></tr>
+            <tr><td>Support</td><td>SAP already exists → fixing issues (long-term)</td></tr>
+            <tr><td>Upgrade</td><td>Version upgrade</td></tr>
+            <tr><td>Rollout</td><td>Extending SAP to other business branches</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>SU22 → SU24 → PFCG Flow</h3>
+          <div class="code-block">SU22 (SAP Standard) ──→ SU24 (Customer Custom) ──→ PFCG (Role Auth Data)
+    USOBT/USOBX            USOBT_C/USOBX_C
+
+When T-codes added in PFCG Menu:
+  Auth data pulled FROM SU24 automatically!</div>
+          <div class="highlight-box">If SU24 is empty → PFCG T-codes won't pull auth data! Use SU25 Step 1 to copy SU22 → SU24.</div>
+        </div>
+
+        <div class="content-block">
+          <h3>SU25 Steps</h3>
+          <table class="kv-table">
+            <tr><td>Step 1</td><td>Initial fill — copies SU22 to SU24 (overwrites, loses customization)</td></tr>
+            <tr><td>Step 2A</td><td>Automatic comparison with SU22 (standard check)</td></tr>
+            <tr><td>Step 2B</td><td>Modification comparison — choose SAP suggested or custom (SU24)</td></tr>
+            <tr><td>Step 2D</td><td>Show changed T-codes (old vs new)</td></tr>
+            <tr><td>Step 2C</td><td>Roles to be checked after T-code changes</td></tr>
+            <tr><td>Step 3</td><td>Transport customer tables (SU24 changes to other systems)</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Key Tables</h3>
+          <table class="kv-table">
+            <tr><td>USOBT</td><td>SAP standard auth values for T-codes (SU22 data)</td></tr>
+            <tr><td>USOBX</td><td>Check indicators for auth objects per T-code (OK flag)</td></tr>
+            <tr><td>USOBT_C</td><td>Customization + Standard (SU24 data)</td></tr>
+            <tr><td>USOBX_C</td><td>Standard + Customization (SU24 data)</td></tr>
+          </table>
+        </div>
+
+        <div class="content-block">
+          <h3>Important T-codes Reference</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">
+            <span class="tcode">SU20</span><span class="tcode">SU21</span><span class="tcode">SU22</span>
+            <span class="tcode">SU24</span><span class="tcode">SU25</span><span class="tcode">SE16</span>
+            <span class="tcode">SM30</span><span class="tcode">SE38</span><span class="tcode">SA38</span>
+            <span class="tcode">SM51</span><span class="tcode">AL08</span><span class="tcode">SM04</span>
+            <span class="tcode">PFUD</span><span class="tcode">SM01</span><span class="tcode">EWZ5</span>
+            <span class="tcode">SUPC</span>
+          </div>
+          <table class="kv-table" style="margin-top:14px">
+            <tr><td>SU20</td><td>Authorization field creation</td></tr>
+            <tr><td>SU21</td><td>Authorization object creation</td></tr>
+            <tr><td>SM01</td><td>Lock T-code</td></tr>
+            <tr><td>EWZ5</td><td>Mass user lock</td></tr>
+            <tr><td>PFUD</td><td>Mass user comparison (program: PFCG_TIME_DEPENDENCY)</td></tr>
+            <tr><td>SUPC</td><td>Mass generation of profiles for multiple roles</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="im-flash">
+        <div id="im-flashcard-container"></div>
+      </div>
+
+      <div class="tab-content" id="im-quiz">
+        <div id="im-quiz-container"></div>
+      </div>
+
+      <div class="complete-section">
+        <span class="complete-text">Finished reviewing this module?</span>
+        <button class="btn-complete" onclick="completeModule('implementation')">Mark Complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .main -->
+
+<script>
+// ===================== DATA =====================
+
+const FLASHCARDS = {
+  'ua': [
+    { q: 'What T-code is used for User Administration?', a: 'SU01 — User Maintenance' },
+    { q: 'What are the mandatory fields when creating a user?', a: 'Last Name (Address tab) and Initial Password (Logon Data tab)' },
+    { q: 'Maximum number of profiles assignable to one user?', a: '312 profiles maximum' },
+    { q: 'What is the maximum length of a User ID in SAP?', a: '12 characters' },
+    { q: 'What prefix do all user-related tables start with?', a: 'USR* (e.g., USR02 = User logon data, USR40 = Illegal passwords)' },
+    { q: 'When copying a user in SU01, what is NOT copied?', a: 'Address and Password are NOT copied' },
+    { q: 'What does Change Documents show in SU01?', a: 'Changes made to a user within a time interval (Path: SU01 → Information → Change Documents for Users)' },
+    { q: 'What are the two types of SAP Security?', a: 'Internal (application level, authorization concept) and External (database level)' },
+  ],
+  'ut': [
+    { q: 'Which user type is the default and used by all employees?', a: 'Dialog user type' },
+    { q: 'Which user type is used for background job scheduling?', a: 'System user type (GUI login NOT allowed)' },
+    { q: 'Which user type is used for RFC connections?', a: 'Communication user type' },
+    { q: 'Which user type is used when the 312 profile limit is reached?', a: 'Reference user type' },
+    { q: 'What UFLAG value means "Administrator Lock"?', a: 'UFLAG = 64' },
+    { q: 'What UFLAG value means "Incorrect Logon Lock"?', a: 'UFLAG = 128' },
+    { q: 'What is UFLAG 192?', a: 'Password Lock (128) + Administrator Lock (64) = 192' },
+    { q: 'Which user types allow GUI login?', a: 'Dialog and Service user types (System, Communication, Reference do NOT allow GUI login)' },
+    { q: 'Which user type supports multiple dialog logons?', a: 'Service user type' },
+    { q: 'What UFLAG value means "Not Locked"?', a: 'UFLAG = 0' },
+  ],
+  'ac': [
+    { q: 'What is Authentication in SAP context?', a: 'Verifying user identity (User ID + Password). Exists outside SAP. Common to all users.' },
+    { q: 'What is Authorization in SAP?', a: 'Controls what the user can do inside SAP after login. Varies per user/system.' },
+    { q: 'Maximum number of auth fields in one authorization object?', a: '10 auth fields maximum' },
+    { q: 'What T-code is used to view/manage authorization objects?', a: 'SU21' },
+    { q: 'What T-code finds auth objects related to any T-code?', a: 'SU24' },
+    { q: 'What auth object is needed to create users in SU01?', a: 'S_USER_GRP' },
+    { q: 'What auth object is needed to assign roles to users?', a: 'S_USER_AGR' },
+    { q: 'What T-code maintains all T-codes (find program & auth object)?', a: 'SE93' },
+    { q: 'Program name for SU01?', a: 'SAPMSUU0' },
+    { q: 'Can you assign T-codes directly to users?', a: 'NO — T-codes and auth objects must be placed inside a Role first, then the Role is assigned to users.' },
+  ],
+  'rp': [
+    { q: 'What does PFCG stand for / do?', a: 'Profile Generator — used for Role Maintenance in SAP' },
+    { q: 'What is a Role in SAP?', a: 'A group of T-codes and their related authorizations bundled together' },
+    { q: 'Can Generated Profiles be assigned directly to users?', a: 'NO — Generated profiles (starting with "T") cannot be assigned directly. They auto-assign when roles are assigned.' },
+    { q: 'What is a Composite Role?', a: 'A group of single roles bundled for easier assignment. Uses Y: naming convention.' },
+    { q: 'What is a Master Role?', a: 'Parent role with full access and org level set to * (wildcard)' },
+    { q: 'What is the only difference between Master and Derived roles?', a: 'Org field values (e.g., company code, plant). T-codes and auth objects are inherited.' },
+    { q: 'How many derived roles can one Master role have?', a: 'No limit — depends on number of branches/businesses' },
+    { q: 'What is the best Expert Mode option when adding T-codes to a role?', a: '"Read Old Status and Merge with New Data" — preserves customization AND pulls new T-code auth data' },
+    { q: 'Role naming convention example?', a: 'X:HR:PERSONAL_ADMIN:TATA (Type:Business:Sub-process:Client, max 30 chars)' },
+    { q: 'What table shows users assigned to a role?', a: 'AGR_USERS' },
+    { q: 'What is the SAP version where Role concept was introduced?', a: '4.7 — prior to 4.7, only Profile concept existed (SU02)' },
+    { q: 'What does PFUD do?', a: 'Mass User Comparison for multiple roles (program: PFCG_TIME_DEPENDENCY)' },
+  ],
+  'at': [
+    { q: 'What does a Yellow traffic light mean in Authorization tab?', a: 'At least ONE authorization field is not maintained or partially unmaintained' },
+    { q: 'What does a Red traffic light mean?', a: 'Unmaintained organizational levels' },
+    { q: 'What is an Organizational Field?', a: 'A field representing organization (e.g., Plant, Cost Center, Company Code). Meaning varies by organization.' },
+    { q: 'What is a Normal Field?', a: 'A field NOT representing organization (e.g., Activity). Has universal meaning (Activity 03 = Display worldwide).' },
+    { q: 'What status means auth object was inserted directly without SU24?', a: '"Manually" status' },
+    { q: 'What two conditions must be met to delete an auth object from a role?', a: '1) Must be deactivated AND 2) Status must be Manually or Changed' },
+    { q: 'What is "Positive Testing" in SAP security?', a: 'Verifying user CAN execute T-codes that are assigned in the role' },
+    { q: 'What is "Negative Testing" in SAP security?', a: 'Ensuring user CANNOT execute T-codes NOT assigned in the role' },
+  ],
+  'ts': [
+    { q: 'What does SU53 show?', a: 'Result of the LAST authorization check — success or failure, with missing objects/fields shown' },
+    { q: 'What is the User Buffer (SU56)?', a: 'Temporary memory created on login, wiped on logout. System checks buffer (not DB) when T-codes are executed.' },
+    { q: 'What does Return Code 4 mean in ST01?', a: 'User HAS the required auth object but has WRONG authorization values' },
+    { q: 'What does Return Code 12 mean?', a: 'User does NOT have access to the authorization object at all' },
+    { q: 'Why might ST01 show 0 records?', a: 'Either incorrect input values OR user is on a DIFFERENT application server (ST01 is local server only!)' },
+    { q: 'What is STAUTHTRACE\'s advantage over ST01?', a: 'STAUTHTRACE works across ALL application servers (not just local). Exclusive auth trace.' },
+    { q: 'What T-code shows users on all application servers?', a: 'AL08 (all servers) | SM04 (local server) | SM51 (list of application servers)' },
+    { q: 'What is SUIM used for?', a: 'User Information System — powerful audit tool for managing and auditing user access, roles, and security policies' },
+  ],
+  'tr': [
+    { q: 'What is a Transport Request (TR) format?', a: '[SID]K9[5-digit number] e.g., W88K900035' },
+    { q: 'What is the SAP transport landscape?', a: 'DEV → QA → PRD (Development → Quality → Production)' },
+    { q: 'What is a Customizing TR used for?', a: 'Carries customized data like business data, users, roles, and transactional data' },
+    { q: 'What is a Task in a Transport Request?', a: 'Space reserved for ONE specific user. Only that user can load data into that task.' },
+    { q: 'What should NEVER be ticked when transporting a role?', a: 'Personalization Data AND Direct User Assignment' },
+    { q: 'When can Basis team move a TR to Quality?', a: 'ONLY after the TR is released from the DEV system. All tasks must be released first.' },
+  ],
+  'im': [
+    { q: 'What T-code is used for First Installation and Upgrade of auth defaults?', a: 'SU25' },
+    { q: 'What is SU22?', a: 'SAP Standard Authorization Values related to T-codes (stored in USOBT and USOBX)' },
+    { q: 'What is SU24?', a: 'Customer-customized authorization data per T-code (stored in USOBT_C and USOBX_C)' },
+    { q: 'What does SU25 Step 1 do?', a: 'Copies SU22 data to SU24 — overwrites all values (loses customization). Use for fresh installation.' },
+    { q: 'What does USOBT contain?', a: 'SAP Standard authorization values related to a particular T-code (from SU22)' },
+    { q: 'What does USOBX contain?', a: 'Check indicators (OK Flag) for authorization objects per T-code' },
+    { q: 'What is PFUD used for?', a: 'Mass User Comparison — Profile matchup, composite role reconciliation, expired role cleanup' },
+    { q: 'What creates organizational fields?', a: 'Report: PFCG_ORGFIELD_CREATE' },
+  ],
+};
+
+const QUIZZES = {
+  'ua': [
+    { q: 'What is the T-code for User Administration?', opts: ['SU01', 'SU10', 'SU21', 'PFCG'], ans: 0, exp: 'SU01 is the User Maintenance transaction code.' },
+    { q: 'When copying a user in SU01, what is NOT copied?', opts: ['Roles and Profiles', 'Address and Password', 'Parameters', 'License Data'], ans: 1, exp: 'Address and Password are never copied during user copy operations.' },
+    { q: 'What is the maximum number of profiles per user?', opts: ['100', '256', '312', '500'], ans: 2, exp: 'Maximum 312 profiles can be assigned to one user.' },
+    { q: 'Which field is mandatory in the Address tab?', opts: ['First Name', 'Title', 'Last Name', 'Email'], ans: 2, exp: 'Only Last Name is mandatory in the Address tab.' },
+    { q: 'What prefix do all user-related tables start with?', opts: ['USR*', 'AGR*', 'USH*', 'UST*'], ans: 0, exp: 'All tables related to users start with USR* (e.g., USR02, USR40).' },
+  ],
+  'ut': [
+    { q: 'Which user type is the DEFAULT in SAP?', opts: ['System', 'Service', 'Dialog', 'Communication'], ans: 2, exp: 'Dialog is the default user type used by all regular employees.' },
+    { q: 'Which user type does NOT allow GUI login?', opts: ['Dialog', 'Service', 'System', 'Reference — and System'], ans: 3, exp: 'System, Communication, and Reference user types do NOT allow GUI login.' },
+    { q: 'What UFLAG value represents "Administrator Lock"?', opts: ['32', '64', '128', '192'], ans: 1, exp: 'UFLAG = 64 means Administrator Lock.' },
+    { q: 'Which user type is used for RFC connections?', opts: ['Dialog', 'Service', 'System', 'Communication'], ans: 3, exp: 'Communication user type is used for RFC (Remote Function Call) connections.' },
+    { q: 'UFLAG value 192 means?', opts: ['CUA Lock only', 'Admin Lock only', 'Password Lock + Admin Lock', 'Password Lock + CUA Lock'], ans: 2, exp: '128 (Password) + 64 (Admin) = 192' },
+  ],
+  'ac': [
+    { q: 'Maximum auth fields in one Authorization Object?', opts: ['5', '8', '10', '12'], ans: 2, exp: 'An authorization object can have a maximum of 10 authorization fields.' },
+    { q: 'Which T-code finds auth objects related to any T-code?', opts: ['SU21', 'SU22', 'SU24', 'SE93'], ans: 2, exp: 'SU24 is used to find authorization objects related to any T-code.' },
+    { q: 'Which auth object is needed to ASSIGN ROLES to users?', opts: ['S_USER_GRP', 'S_USER_AGR', 'S_USER_PRO', 'S_USER_TCD'], ans: 1, exp: 'S_USER_AGR is the auth object for assigning roles to users.' },
+    { q: 'What is the program name for SU01?', opts: ['SAPMSUU1', 'SAPMSUU0', 'SAPLSUU0', 'RSUSR001'], ans: 1, exp: 'The program name for SU01 is SAPMSUU0.' },
+    { q: 'Can T-codes be assigned directly to users?', opts: ['Yes always', 'Yes with special authorization', 'No — must be in a Role first', 'Only in development'], ans: 2, exp: 'T-codes and auth objects cannot be assigned directly to users. They must be placed in a Role.' },
+  ],
+  'rp': [
+    { q: 'What does PFCG stand for?', opts: ['Profile Generator', 'Profile Factory Control Group', 'Permission Field Creation Guide', 'Profile Function Control'], ans: 0, exp: 'PFCG is the Profile Generator / Role Maintenance transaction.' },
+    { q: 'Generated profiles always start with which letter?', opts: ['G', 'P', 'T', 'R'], ans: 2, exp: 'Generated profiles always start with "T" (e.g., T-W8750044).' },
+    { q: 'What is the BEST Expert Mode option when adding T-codes to existing role?', opts: ['Delete and Recreate', 'Edit Old Status', 'Read Old Status and Merge', 'Manual Mode'], ans: 2, exp: '"Read Old Status and Merge with New Data" preserves customization and pulls new T-code auth data.' },
+    { q: 'What is the max length of a Role name?', opts: ['20 chars', '25 chars', '30 chars', '40 chars'], ans: 2, exp: 'Role name maximum length is 30 characters.' },
+    { q: 'What table stores users assigned to roles?', opts: ['AGR_DEFINE', 'AGR_AGRS', 'AGR_USERS', 'AGR_TCODES'], ans: 2, exp: 'AGR_USERS stores user-to-role assignment information.' },
+  ],
+  'at': [
+    { q: 'What does a RED traffic light mean in the Auth tab?', opts: ['All fields filled', 'One field missing', 'Unmaintained org levels', 'Object deactivated'], ans: 2, exp: 'Red = Unmaintained organizational levels.' },
+    { q: 'Which field has UNIVERSAL meaning across all organizations?', opts: ['Plant', 'Cost Center', 'Activity (e.g., 03=Display)', 'Company Code'], ans: 2, exp: 'Normal fields like Activity have universal meaning (03 = Display everywhere).' },
+    { q: 'What status means auth object was inserted directly WITHOUT SU24?', opts: ['Standard', 'Maintained', 'Changed', 'Manually'], ans: 3, exp: '"Manually" status means the object was inserted directly into the role, not pulled from SU24.' },
+    { q: 'To DELETE an auth object from a role, what must its status be?', opts: ['Standard', 'Maintained', 'Manually or Changed', 'Any status'], ans: 2, exp: 'Object must be deactivated AND status must be Manually or Changed.' },
+    { q: 'What is Negative Testing in SAP Security?', opts: ['Testing failed scenarios', 'Ensuring user CANNOT execute T-codes outside their role', 'Testing with wrong passwords', 'Checking for locked users'], ans: 1, exp: 'Negative Testing ensures users cannot execute T-codes NOT assigned in their role.' },
+  ],
+  'ts': [
+    { q: 'What does Return Code 0 mean in ST01?', opts: ['No trace found', 'Wrong values', 'Authorization successful', 'Object missing'], ans: 2, exp: 'RC = 0 means Authorization is successful.' },
+    { q: 'SU53 evaluates...', opts: ['All authorization checks today', 'The last authorization check only', 'All failed checks in buffer', 'Weekly auth report'], ans: 1, exp: 'SU53 evaluates only the LAST authorization check.' },
+    { q: 'Why might ST01 show 0 records?', opts: ['Trace was never activated', 'User is on a different application server', 'No auth errors today', 'Buffer was cleared'], ans: 1, exp: 'ST01 is local-server only. If user is on a different server, no records show. Use STAUTHTRACE instead.' },
+    { q: 'What is STAUTHTRACE\'s key advantage over ST01?', opts: ['More detail', 'Works across ALL application servers', 'Faster execution', 'No setup needed'], ans: 1, exp: 'STAUTHTRACE works across all application servers, unlike ST01 which is local only.' },
+  ],
+  'tr': [
+    { q: 'Transport Request name format?', opts: ['TRID-000001', '[SID]K9[5digits]', 'TR[SID][date]', '[client]K[number]'], ans: 1, exp: 'TR name: [SID]K9[5-digit number] e.g., W88K900035' },
+    { q: 'What should NEVER be ticked when transporting a role?', opts: ['Generated Profiles', 'Menu Transactions', 'Personalization Data', 'Auth Data'], ans: 2, exp: 'Never tick "Personalization Data" or "Direct User Assignments" when transporting roles.' },
+    { q: 'When can Basis transport a TR to Quality?', opts: ['Anytime', 'Only after all tasks are released in DEV', 'Only on weekdays', 'After manager approval'], ans: 1, exp: 'TR must be released from DEV (all tasks released first) before Basis can transport to Quality.' },
+  ],
+  'im': [
+    { q: 'What T-code is used for First Installation and Upgrade?', opts: ['SU22', 'SU24', 'SU25', 'SU21'], ans: 2, exp: 'SU25 is used for First Installation and Upgrade of authorization defaults.' },
+    { q: 'USOBT table contains?', opts: ['User logon data', 'SAP standard auth values per T-code', 'Role definitions', 'Transport requests'], ans: 1, exp: 'USOBT stores SAP Standard authorization values related to each T-code.' },
+    { q: 'If SU24 is empty, what happens in PFCG?', opts: ['Auth data is created fresh', 'T-codes cannot be added', 'No auth data is pulled when T-codes are added to menu', 'System uses SU22 directly'], ans: 2, exp: 'If SU24 is empty, PFCG cannot pull auth data for T-codes added to the menu.' },
+    { q: 'What is PFUD used for?', opts: ['Profile generation', 'Mass user lock', 'Mass user comparison', 'User creation'], ans: 2, exp: 'PFUD performs Mass User Comparison for multiple roles at once.' },
+  ],
+};
+
+// ===================== STATE =====================
+const completed = new Set();
+let currentLesson = null;
+
+// ===================== FLASHCARD RENDERER =====================
+function renderFlashcards(containerId, cards) {
+  const container = document.getElementById(containerId);
+  if (!container || container.dataset.rendered) return;
+  container.dataset.rendered = 'true';
+  
+  let idx = 0;
+  
+  function render() {
+    const c = cards[idx];
+    container.innerHTML = `
+      <div class="flashcard" id="fc-${containerId}" onclick="this.classList.toggle('flipped')">
+        <div class="card-face card-front">
+          <div class="card-label">❓ Question</div>
+          <div class="card-text">${c.q}</div>
+          <div class="card-hint">Tap to reveal answer</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-label">💡 Answer</div>
+          <div class="card-answer">${c.a}</div>
+        </div>
+      </div>
+      <div class="flashcard-nav">
+        <button class="btn-nav" ${idx===0?'disabled':''} onclick="fcNav('${containerId}', ${idx-1}, ${cards.length})">← Prev</button>
+        <div class="card-counter">${idx+1} / ${cards.length}</div>
+        <button class="btn-nav" ${idx===cards.length-1?'disabled':''} onclick="fcNav('${containerId}', ${idx+1}, ${cards.length})">Next →</button>
+      </div>`;
+  }
+  
+  window['fcNav'] = function(cid, newIdx, total) {
+    if (cid !== containerId) return;
+    idx = newIdx;
+    render();
+  };
+  
+  render();
+}
+
+// Override fcNav to handle multiple containers
+const fcNavHandlers = {};
+
+function renderFlashcardsV2(containerId, cards) {
+  const container = document.getElementById(containerId);
+  if (!container || container.dataset.rendered) return;
+  container.dataset.rendered = 'true';
+  
+  let idx = 0;
+  
+  function render() {
+    const c = cards[idx];
+    container.innerHTML = `
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="card-face card-front">
+          <div class="card-label">❓ QUESTION ${idx+1} of ${cards.length}</div>
+          <div class="card-text">${c.q}</div>
+          <div class="card-hint">Tap card to reveal answer</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-label">💡 ANSWER</div>
+          <div class="card-answer">${c.a}</div>
+        </div>
+      </div>
+      <div class="flashcard-nav">
+        <button class="btn-nav" ${idx===0?'disabled':''} id="fc-prev-${containerId}">← Prev</button>
+        <div class="card-counter">${idx+1} / ${cards.length}</div>
+        <button class="btn-nav" ${idx===cards.length-1?'disabled':''} id="fc-next-${containerId}">Next →</button>
+      </div>`;
+    
+    const prev = container.querySelector(`#fc-prev-${containerId}`);
+    const next = container.querySelector(`#fc-next-${containerId}`);
+    if (prev) prev.addEventListener('click', () => { idx--; render(); });
+    if (next) next.addEventListener('click', () => { idx++; render(); });
+  }
+  
+  render();
+}
+
+// ===================== QUIZ RENDERER =====================
+function renderQuiz(containerId, questions) {
+  const container = document.getElementById(containerId);
+  if (!container || container.dataset.rendered) return;
+  container.dataset.rendered = 'true';
+  
+  let score = 0;
+  let answered = 0;
+  const total = questions.length;
+  
+  let html = '<div class="quiz-wrap">';
+  questions.forEach((q, qi) => {
+    html += `
+      <div class="quiz-card" id="qcard-${containerId}-${qi}">
+        <div class="quiz-num">Q${qi+1} of ${total}</div>
+        <div class="quiz-q">${q.q}</div>
+        <div class="options" id="opts-${containerId}-${qi}">
+          ${q.opts.map((opt, oi) => `
+            <button class="option" onclick="answerQ('${containerId}', ${qi}, ${oi}, ${q.ans}, '${q.exp.replace(/'/g,"\\'")}')">
+              ${String.fromCharCode(65+oi)}. ${opt}
+            </button>`).join('')}
+        </div>
+        <div class="quiz-feedback" id="qfb-${containerId}-${qi}"></div>
+      </div>`;
+  });
+  html += `<div class="quiz-score" id="qscore-${containerId}">
+    <div class="score-num" id="score-num-${containerId}">0/${total}</div>
+    <div class="score-label">Quiz Complete!</div>
+    <button class="btn-primary" onclick="resetQuiz('${containerId}')">Retry Quiz</button>
+  </div></div>`;
+  
+  container.innerHTML = html;
+  container._score = 0;
+  container._answered = 0;
+  container._total = total;
+  
+  window.answerQ = function(cid, qi, chosen, correct, explanation) {
+    const opts = document.querySelectorAll(`#opts-${cid}-${qi} .option`);
+    const fb = document.getElementById(`qfb-${cid}-${qi}`);
+    opts.forEach(o => o.disabled = true);
+    
+    if (chosen === correct) {
+      opts[chosen].classList.add('correct');
+      fb.textContent = '✅ ' + explanation;
+      fb.className = 'quiz-feedback correct show';
+      document.getElementById(cid)._score = (document.getElementById(cid)._score||0)+1;
+    } else {
+      opts[chosen].classList.add('wrong');
+      opts[correct].classList.add('correct');
+      fb.textContent = '❌ Incorrect. ' + explanation;
+      fb.className = 'quiz-feedback wrong show';
+    }
+    
+    const cont = document.getElementById(cid);
+    cont._answered = (cont._answered||0)+1;
+    if (cont._answered >= cont._total) {
+      setTimeout(() => {
+        const scoreEl = document.getElementById(`qscore-${cid}`);
+        document.getElementById(`score-num-${cid}`).textContent = `${cont._score}/${cont._total}`;
+        scoreEl.classList.add('show');
+      }, 600);
+    }
+  };
+  
+  window.resetQuiz = function(cid) {
+    const cont = document.getElementById(cid);
+    cont.dataset.rendered = '';
+    cont._score = 0;
+    cont._answered = 0;
+    renderQuiz(cid, questions);
+  };
+}
+
+// ===================== NAVIGATION =====================
+function openLesson(id) {
+  document.getElementById('modules-grid').style.display = 'none';
+  document.getElementById('hero-section').style.display = 'none';
+  document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
+  
+  const panel = document.getElementById('lesson-' + id);
+  if (panel) panel.classList.add('active');
+  currentLesson = id;
+  
+  // Render flashcards & quiz for this lesson
+  const keyMap = {
+    'user-admin': 'ua',
+    'user-types': 'ut',
+    'auth-concepts': 'ac',
+    'roles-profiles': 'rp',
+    'auth-tab': 'at',
+    'troubleshoot': 'ts',
+    'transport': 'tr',
+    'implementation': 'im'
+  };
+  const key = keyMap[id];
+  if (key) {
+    setTimeout(() => {
+      renderFlashcardsV2(key + '-flashcard-container', FLASHCARDS[key]);
+      renderQuiz(key + '-quiz-container', QUIZZES[key]);
+    }, 100);
+  }
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showModules() {
+  document.getElementById('modules-grid').style.display = '';
+  document.getElementById('hero-section').style.display = '';
+  document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
+  currentLesson = null;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchTab(btn, contentId) {
+  const panel = btn.closest('.lesson-body');
+  panel.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  panel.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+  
+  // Ensure flashcards/quiz are rendered when tab is opened
+  if (contentId.includes('flash') || contentId.includes('quiz')) {
+    const keyMap = {
+      'user-admin': 'ua', 'user-types': 'ut', 'auth-concepts': 'ac',
+      'roles-profiles': 'rp', 'auth-tab': 'at', 'troubleshoot': 'ts',
+      'transport': 'tr', 'implementation': 'im'
+    };
+    if (currentLesson) {
+      const key = keyMap[currentLesson];
+      if (key) {
+        renderFlashcardsV2(key + '-flashcard-container', FLASHCARDS[key]);
+        renderQuiz(key + '-quiz-container', QUIZZES[key]);
+      }
+    }
+  }
+}
+
+function completeModule(id) {
+  completed.add(id);
+  const card = document.querySelector(`[onclick="openLesson('${id}')"]`);
+  if (card) card.classList.add('completed');
+  updateProgress();
+  showModules();
+}
+
+function updateProgress() {
+  const total = 8;
+  const done = completed.size;
+  const pct = Math.round((done/total)*100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+</script>
+</body>
+</html>
