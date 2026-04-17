@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Security — Practice Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --bg3: #1a2234;
+  --card: #151d2e;
+  --border: #1e2d45;
+  --accent: #3b82f6;
+  --accent2: #06b6d4;
+  --accent3: #8b5cf6;
+  --green: #10b981;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --glow: rgba(59,130,246,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+/* ─── HEADER ─── */
+.site-header {
+  background: linear-gradient(135deg, #0a0e1a 0%, #111827 50%, #0a0e1a 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+.logo span { color: var(--text2); }
+.progress-bar-wrap {
+  flex: 1;
+  max-width: 200px;
+  margin: 0 16px;
+  background: var(--border);
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.score-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent2);
+  background: rgba(6,182,212,0.1);
+  border: 1px solid rgba(6,182,212,0.3);
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+/* ─── HERO ─── */
+.hero {
+  background: linear-gradient(180deg, #111827 0%, var(--bg) 100%);
+  padding: 40px 20px 30px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: var(--accent2);
+  background: rgba(6,182,212,0.1);
+  border: 1px solid rgba(6,182,212,0.2);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.hero h1 span { color: var(--accent); }
+.hero p {
+  color: var(--text2);
+  font-size: 0.9rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+/* ─── TABS ─── */
+.tab-nav {
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text2); }
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: rgba(59,130,246,0.05);
+}
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+/* ─── SECTION TITLES ─── */
+.section-wrap { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+.section-header .icon { font-size: 1.4rem; }
+.section-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+.section-header p { font-size: 0.8rem; color: var(--text2); margin: 2px 0 0; }
+/* ─── MCQ CARD ─── */
+.q-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.q-card:hover { border-color: rgba(59,130,246,0.3); }
+.q-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.q-text {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+}
+.q-category {
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  padding: 0 16px 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.options { padding: 0 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  color: var(--text2);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.82rem;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.opt-btn:hover:not(:disabled) {
+  border-color: rgba(59,130,246,0.4);
+  color: var(--text);
+  background: rgba(59,130,246,0.06);
+}
+.opt-btn .opt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--border);
+  color: var(--text3);
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.opt-btn.correct {
+  background: rgba(16,185,129,0.1);
+  border-color: var(--green);
+  color: var(--green);
+}
+.opt-btn.correct .opt-letter { background: var(--green); color: #fff; }
+.opt-btn.wrong {
+  background: rgba(239,68,68,0.1);
+  border-color: var(--red);
+  color: var(--red);
+}
+.opt-btn.wrong .opt-letter { background: var(--red); color: #fff; }
+.opt-btn:disabled { cursor: default; }
+.explanation {
+  margin: 0 12px 14px;
+  padding: 10px 12px;
+  background: rgba(6,182,212,0.06);
+  border: 1px solid rgba(6,182,212,0.2);
+  border-radius: 7px;
+  font-size: 0.8rem;
+  color: var(--accent2);
+  display: none;
+  line-height: 1.5;
+}
+.explanation.show { display: block; }
+.explanation strong { color: var(--text); }
+/* ─── INTERVIEW CARD ─── */
+.iq-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.iq-header {
+  padding: 14px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.iq-header:hover { background: rgba(255,255,255,0.02); }
+.iq-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--accent3);
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.2);
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.iq-q { font-size: 0.87rem; font-weight: 500; color: var(--text); flex: 1; line-height: 1.5; }
+.iq-toggle {
+  font-size: 1rem;
+  color: var(--text3);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.iq-card.open .iq-toggle { transform: rotate(180deg); color: var(--accent3); }
+.iq-answer {
+  display: none;
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.iq-card.open .iq-answer { display: block; }
+.iq-answer-inner {
+  background: var(--bg3);
+  border-left: 2px solid var(--accent3);
+  padding: 12px 14px;
+  border-radius: 0 7px 7px 0;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.iq-answer-inner strong { color: var(--accent2); }
+.iq-answer-inner code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+.iq-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.iq-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(59,130,246,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(59,130,246,0.2);
+  text-transform: uppercase;
+}
+/* ─── CONTROLS ─── */
+.controls-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  align-items: center;
+}
+.ctrl-btn {
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+.ctrl-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.ctrl-btn.danger { border-color: var(--red); color: var(--red); }
+.filter-select {
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.filter-select:focus { outline: none; border-color: var(--accent); }
+.stats-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.stat-box {
+  flex: 1;
+  min-width: 70px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.stat-box .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  display: block;
+}
+.stat-box .lbl { font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; }
+.stat-box.green .val { color: var(--green); }
+.stat-box.red .val { color: var(--red); }
+.stat-box.blue .val { color: var(--accent); }
+.stat-box.yellow .val { color: var(--yellow); }
+/* ─── SEARCH ─── */
+.search-box {
+  flex: 1;
+  min-width: 180px;
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.82rem;
+}
+.search-box:focus { outline: none; border-color: var(--accent); }
+.search-box::placeholder { color: var(--text3); }
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 20px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text3);
+}
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+/* ─── MOBILE ─── */
+@media (max-width: 600px) {
+  .hero { padding: 24px 14px 20px; }
+  .section-wrap { padding: 16px 12px 50px; }
+  .q-header { padding: 12px 12px 8px; }
+  .options { padding: 0 10px 12px; }
+  .iq-header { padding: 12px 12px; }
+}
+/* Category badges */
+.cat-foundation { color: #38bdf8; }
+.cat-roles { color: #a78bfa; }
+.cat-auth { color: #34d399; }
+.cat-troubleshoot { color: #fbbf24; }
+.cat-advanced { color: #f87171; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#">SAP<span>/</span>SEC</a>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="globalProgress"></div>
+    </div>
+    <div class="score-badge" id="globalScore">0 / 0 answered</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Practice Mode</div>
+  <h1>SAP Security <span>Practice Hub</span></h1>
+  <p>200 MCQs + 100 Interview Questions · Basic to Advanced · Mobile Friendly</p>
+</div>
+
+<!-- TABS -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('mcq', this)">📝 200 MCQs</button>
+  <button class="tab-btn" onclick="switchTab('interview', this)">🎙 100 Interview Q&A</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ MCQ SECTION ═════════════════════════════════════ -->
+<div id="tab-mcq" class="tab-pane active">
+<div class="section-wrap">
+
+  <div class="section-header">
+    <span class="icon">📝</span>
+    <div>
+      <h2>200 Multiple Choice Questions</h2>
+      <p>Click an option — green = correct, red = wrong. Explanation shown after.</p>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box blue"><span class="val" id="totalQ">200</span><span class="lbl">Total</span></div>
+    <div class="stat-box green"><span class="val" id="correctC">0</span><span class="lbl">Correct</span></div>
+    <div class="stat-box red"><span class="val" id="wrongC">0</span><span class="lbl">Wrong</span></div>
+    <div class="stat-box yellow"><span class="val" id="pctC">0%</span><span class="lbl">Score</span></div>
+  </div>
+
+  <div class="controls-bar">
+    <input type="text" class="search-box" id="mcqSearch" placeholder="🔍 Search questions..." oninput="filterMCQ()">
+    <select class="filter-select" id="catFilter" onchange="filterMCQ()">
+      <option value="all">All Categories</option>
+      <option value="Foundation">Foundation</option>
+      <option value="Roles">Roles & PFCG</option>
+      <option value="Authorization">Authorization</option>
+      <option value="Troubleshoot">Troubleshooting</option>
+      <option value="Advanced">Advanced</option>
+    </select>
+    <button class="ctrl-btn danger" onclick="resetMCQ()">↺ Reset All</button>
+  </div>
+
+  <div id="mcqContainer"></div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ INTERVIEW SECTION ═════════════════════════════════════ -->
+<div id="tab-interview" class="tab-pane">
+<div class="section-wrap">
+
+  <div class="section-header">
+    <span class="icon">🎙</span>
+    <div>
+      <h2>100 Interview Questions & Answers</h2>
+      <p>Tap a question to reveal the answer. Basic → Advanced.</p>
+    </div>
+  </div>
+
+  <div class="controls-bar">
+    <input type="text" class="search-box" id="iqSearch" placeholder="🔍 Search interview questions..." oninput="filterIQ()">
+    <button class="ctrl-btn" onclick="expandAllIQ()">Expand All</button>
+    <button class="ctrl-btn" onclick="collapseAllIQ()">Collapse All</button>
+  </div>
+
+  <div id="iqContainer"></div>
+</div>
+</div>
+
+<footer>
+  SAP Security Practice Hub · Based on Shreedhar's SAP Security material · For educational use
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  MCQ DATA — 200 Questions
+// ════════════════════════════════════════════════════════════
+const mcqData = [
+// ──── FOUNDATION ────────────────────────────────────────────
+{q:"What does SAP stand for?",o:["Systems Applications Products","Software Application Platform","Secure Access Protocol","Server Application Process"],a:0,cat:"Foundation",exp:"SAP stands for <strong>Systems, Applications, and Products</strong> in Data Processing. It was founded in 1972 in Waldorf, Germany."},
+{q:"In which year was SAP founded?",o:["1972","1982","1992","2000"],a:0,cat:"Foundation",exp:"SAP was founded in <strong>1972</strong> in Waldorf, Germany by 5 former IBM employees."},
+{q:"How many tiers does the SAP R3 architecture have?",o:["1","2","3","4"],a:2,cat:"Foundation",exp:"SAP R3 (1992) introduced a <strong>3-tier architecture</strong>: Presentation Layer, Application Layer, and Database Layer."},
+{q:"What is the maximum response time for a Dialog process?",o:["300ms","600ms","1000ms","5000ms"],a:1,cat:"Foundation",exp:"Dialog processes handle all user-system interactions and have a maximum response time of <strong>600 ms</strong>."},
+{q:"Which SAP process handles print-related activities?",o:["Dialog","Background","Spool","Enqueue"],a:2,cat:"Foundation",exp:"The <strong>Spool</strong> process is responsible for printer-related activities in SAP."},
+{q:"What does the Message service do in SAP?",o:["Sends emails","Load balancing among application servers","Encrypts messages","Handles background jobs"],a:1,cat:"Foundation",exp:"The <strong>Message service</strong> performs load balancing among application servers."},
+{q:"What is a SAP Landscape?",o:["A single server","Total systems and apps used in a project","The SAP GUI interface","The database layer"],a:1,cat:"Foundation",exp:"<strong>SAP Landscape</strong> = Total systems and applications used in a project, including all environments (Dev, QA, Prod)."},
+{q:"In SAP, what is a 'Client' represented by?",o:["A 2-digit number","A 3-digit number","A 4-digit number","A username"],a:1,cat:"Foundation",exp:"A SAP Client is an independent space within a system, represented by a <strong>3-digit number (000–999)</strong>."},
+{q:"Which T-code is used for Client Creation?",o:["SCC5","SCC9","SCC4","SCCL"],a:2,cat:"Foundation",exp:"<strong>SCC4</strong> is the T-code used for Client Creation in SAP."},
+{q:"Which T-code deletes a client?",o:["SCC4","SCC5","SCC9","SCCL"],a:1,cat:"Foundation",exp:"<strong>SCC5</strong> is the T-code used for deleting a client in SAP."},
+{q:"What does IDES stand for in SAP?",o:["Internal Data Exchange System","International Demonstration and Education System","Integrated Development Environment Suite","Intelligent Data Entry System"],a:1,cat:"Foundation",exp:"IDES = <strong>International Demonstration and Education System</strong>. It's a training system with sample company data."},
+{q:"Which of the following is a default IDES client?",o:["000","001","800","006"],a:2,cat:"Foundation",exp:"Default IDES clients include 000, 001, 066, <strong>800</strong>, 810, 811, 812."},
+{q:"Which data is 'Client Independent' in SAP?",o:["Users","Business Data","T-codes","Transactional Data"],a:2,cat:"Foundation",exp:"<strong>T-codes, ABAP code, and Repository objects</strong> are client-independent — they are the same across all clients."},
+{q:"What is the maximum length of a SAP User ID?",o:["8 characters","10 characters","12 characters","16 characters"],a:2,cat:"Foundation",exp:"The maximum User ID length in SAP is <strong>12 characters</strong>."},
+{q:"What is the default password for the SAP* user?",o:["admin","06071992","pass","phss/06071992"],a:3,cat:"Foundation",exp:"The default password for <strong>SAP*</strong> is <strong>phss/06071992</strong>. Always change this immediately in production!"},
+{q:"Which tab in SU01 is used to assign roles to a user?",o:["Address","Logon Data","Roles","Defaults"],a:2,cat:"Foundation",exp:"The <strong>Roles</strong> tab in SU01 is where authorizations are assigned through roles."},
+{q:"What is the maximum number of profiles a user can have in SAP?",o:["128","256","312","512"],a:2,cat:"Foundation",exp:"A SAP user can have a maximum of <strong>312 profiles</strong> assigned."},
+{q:"Which user tables start with USR* in SAP?",o:["Authority tables","User database tables","Role tables","Profile tables"],a:1,cat:"Foundation",exp:"User-related tables in SAP start with <strong>USR*</strong> (e.g., USR02 for logon data, USRA40 for illegal passwords)."},
+{q:"Which T-code handles mass user maintenance?",o:["SU01","SU02","SU10","SUIM"],a:2,cat:"Foundation",exp:"<strong>SU10</strong> is used for Mass User Maintenance — performing operations on multiple users at once."},
+{q:"Which T-code is used for Local Client Copy?",o:["SCC4","SCC9","SCCL","SCC5"],a:2,cat:"Foundation",exp:"<strong>SCCL</strong> is used for Local Client Copy (copying within the same system)."},
+
+// ──── USER ADMIN ────────────────────────────────────────────
+{q:"How many user types are there in SAP?",o:["3","4","5","6"],a:2,cat:"Foundation",exp:"SAP has <strong>5 user types</strong>: Dialog, Service, System, Communication, and Reference."},
+{q:"Which user type is used for background jobs and internal RFC?",o:["Dialog","Service","System","Communication"],a:2,cat:"Foundation",exp:"<strong>System</strong> user type is used for background jobs and internal RFC. GUI login is NOT allowed."},
+{q:"Which user type is the default for employees logging in daily?",o:["Service","Dialog","Reference","System"],a:1,cat:"Foundation",exp:"<strong>Dialog</strong> is the default user type for interactive users (employees) who log in daily via GUI."},
+{q:"Which user type is used when a Dialog user hits the 312-profile limit?",o:["System","Service","Communication","Reference"],a:3,cat:"Foundation",exp:"<strong>Reference</strong> user type provides extra access to Dialog IDs when they hit the 312-profile limit."},
+{q:"What does lock code 64 mean in SAP?",o:["Not Locked","Global Lock (CUA)","Administrator Lock","Incorrect Logon Lock"],a:2,cat:"Foundation",exp:"Lock code <strong>64</strong> = Administrator Lock — manually locked by admin via SU01."},
+{q:"What does lock code 128 mean in SAP?",o:["Not Locked","Global Lock","Admin Lock","Incorrect Logon Lock"],a:3,cat:"Foundation",exp:"Lock code <strong>128</strong> = Incorrect Logon Lock — too many failed login attempts."},
+{q:"Which tab in SU01 stores date format and decimal notation?",o:["Address","Logon Data","Parameters","Defaults"],a:3,cat:"Foundation",exp:"The <strong>Defaults</strong> tab in SU01 stores date format, decimal notation, time format, and printer details."},
+{q:"Which user type allows multiple simultaneous dialog logons?",o:["Dialog","System","Service","Communication"],a:2,cat:"Foundation",exp:"<strong>Service</strong> user type allows multiple dialog logons simultaneously. Password parameters are NOT applied."},
+{q:"The user table USR02 contains which data?",o:["Role assignments","User logon data","Illegal passwords","Authorization values"],a:1,cat:"Foundation",exp:"<strong>USR02</strong> stores User Logon Data including password hash, lock status, and last logon date."},
+{q:"Which default user exists in client 066 only?",o:["SAP*","DDIC","SAPCPIC","EARLYWATCH"],a:3,cat:"Foundation",exp:"<strong>EARLYWATCH</strong> exists only in client 066 with default password 'support'."},
+
+// ──── ROLES & PFCG ────────────────────────────────────────────
+{q:"What does PFCG stand for?",o:["Profile Function Configuration Generator","Profile Generator","Process Flow Control Group","Permission Function and Control Generator"],a:1,cat:"Roles",exp:"<strong>PFCG</strong> = Profile Generator. It is the main T-code for role creation and management (Version 4.7+)."},
+{q:"From which SAP version was the Role concept introduced?",o:["3.0","4.6C","4.7","ECC 6.0"],a:2,cat:"Roles",exp:"The <strong>Role concept</strong> was introduced from SAP version <strong>4.7</strong> onwards. Prior versions used Profile concept via SU02."},
+{q:"Which role type prefix is used for Single Roles?",o:["Y","Z","X","S"],a:2,cat:"Roles",exp:"Single Roles use the prefix <strong>X</strong> (e.g., X:HR:PERSONNEL_ADMIN:BMW)."},
+{q:"Which role type prefix is used for Composite Roles?",o:["X","Y","Z","C"],a:1,cat:"Roles",exp:"Composite Roles use the prefix <strong>Y</strong> — they bundle multiple single roles together."},
+{q:"Which role type prefix is used for Derived Roles?",o:["X","Y","Z","D"],a:2,cat:"Roles",exp:"Derived Roles use the prefix <strong>Z</strong> — they inherit from a master single role."},
+{q:"What is the maximum character length for a Role Name?",o:["20","25","30","40"],a:2,cat:"Roles",exp:"Role names have a maximum length of <strong>30 characters</strong> in SAP."},
+{q:"In PFCG, where do you add T-codes to a role?",o:["Description tab","Menu tab","Authorizations tab","User tab"],a:1,cat:"Roles",exp:"T-codes are added in the <strong>Menu tab</strong> of PFCG."},
+{q:"What does 'User Comparison' in PFCG do?",o:["Compares two users","Assigns profiles to users based on role assignments","Checks duplicate users","Validates user passwords"],a:1,cat:"Roles",exp:"<strong>User Comparison</strong> in PFCG assigns the generated profiles to users — it syncs role assignments with user buffers."},
+{q:"Which PFCG tab should you NEVER touch?",o:["Description","Menu","Personalization","User"],a:2,cat:"Roles",exp:"The <strong>Personalization</strong> tab in PFCG should <strong>never</strong> be modified."},
+{q:"What is Positive Testing in SAP Security?",o:["Testing system performance","Verifying user CAN execute assigned T-codes","Verifying user CANNOT execute unassigned T-codes","Testing SAP installation"],a:1,cat:"Roles",exp:"<strong>Positive Testing</strong> verifies that the user CAN execute the T-codes assigned under their role."},
+{q:"What is Negative Testing?",o:["Testing system failures","Verifying user CANNOT execute T-codes not in the role","Verifying password failures","Testing lock mechanisms"],a:1,cat:"Roles",exp:"<strong>Negative Testing</strong> verifies that the user CANNOT execute T-codes that are NOT assigned to them."},
+{q:"What is a Composite Role?",o:["A role with complex authorizations","A group of Single Roles bundled together","A role for composite users","A role with multiple org levels"],a:1,cat:"Roles",exp:"A <strong>Composite Role (Y)</strong> is a group of Single Roles bundled together for easy assignment."},
+{q:"Which PFCG tab shows T-codes after adding them in a Composite Role?",o:["Description","Roles","Menu — Import Menu","User"],a:2,cat:"Roles",exp:"In a Composite Role, click <strong>Import Menu</strong> in the Menu tab to see single roles and their T-codes."},
+{q:"A Derived Role differs from its Master Role in which way?",o:["It has different T-codes","It has different authorization objects","It has different org level values","It has different users"],a:2,cat:"Roles",exp:"A Derived Role inherits 100% menu and auth structure from the Master Role — only <strong>Org Level values</strong> differ."},
+{q:"Which table stores all role definitions?",o:["AGR_AGRS","AGR_TCODES","AGR_DEFINE","AGR_USERS"],a:2,cat:"Roles",exp:"<strong>AGR_DEFINE</strong> stores all role definitions including master/derived role relationships."},
+{q:"Which table stores users assigned to roles?",o:["AGR_DEFINE","AGR_USERS","AGR_1251","USR02"],a:1,cat:"Roles",exp:"<strong>AGR_USERS</strong> stores the mapping of users assigned to roles."},
+{q:"Which table stores role authorization values?",o:["AGR_TCODES","AGR_AGRS","AGR_1251","AGR_DEFINE"],a:2,cat:"Roles",exp:"<strong>AGR_1251</strong> stores role authorization values (auth objects and their field values)."},
+{q:"Which table stores org values of a role?",o:["AGR_1251","AGR_1252","AGR_TCODES","AGR_AGRS"],a:1,cat:"Roles",exp:"<strong>AGR_1252</strong> stores the organizational level values of roles."},
+{q:"What is AGR* short for?",o:["Authorization Group","Activity Group","Admin Role Group","Auth Register"],a:1,cat:"Roles",exp:"<strong>AGR</strong> = Activity Group = Role. All role-related tables start with AGR*."},
+{q:"Which T-code is used for Mass User Comparison?",o:["PFCG","SU01","PFUD","SUIM"],a:2,cat:"Roles",exp:"<strong>PFUD</strong> performs mass user comparison for multiple roles at once."},
+
+// ──── AUTHORIZATION ────────────────────────────────────────────
+{q:"What does a GREEN traffic light mean in PFCG Auth tab?",o:["Role is not active","Auth fields are partially filled","All auth fields are filled/maintained","Org level is missing"],a:2,cat:"Authorization",exp:"<strong>GREEN</strong> (CO) = All authorization fields are maintained/filled. Role is ready for use."},
+{q:"What does a YELLOW traffic light mean in PFCG Auth tab?",o:["All auth fields filled","At least one auth field is NOT maintained","Org levels are empty","Role is locked"],a:1,cat:"Authorization",exp:"<strong>YELLOW</strong> (C&O) = At least one auth field is NOT maintained/still empty."},
+{q:"What does a RED traffic light mean in PFCG Auth tab?",o:["Incorrect password","Unmaintained Org Level","All fields empty","Role is deleted"],a:1,cat:"Authorization",exp:"<strong>RED</strong> (%CO) = Unmaintained Org Level — org fields have not been filled."},
+{q:"Which traffic light symbol represents 'fully maintained' auth?",o:["C&O","CO","%CO","ACO"],a:1,cat:"Authorization",exp:"<strong>CO</strong> = Maintained (fully green). All authorization fields have values."},
+{q:"What does 'Org Field' represent in SAP authorization?",o:["A technical field","A field representing organization like Plant, Company Code","A user group field","A T-code restriction field"],a:1,cat:"Authorization",exp:"<strong>Org Fields</strong> represent organizational units like Plant, Cost Center, Company Code — their meaning differs per organization."},
+{q:"Where are Org Level values maintained centrally in PFCG?",o:["Menu tab","Authorization tab → Org Levels","User tab","Description tab"],a:1,cat:"Authorization",exp:"Org level values are maintained centrally in the <strong>Org Levels tab</strong> within Authorization data in PFCG."},
+{q:"What must be done before deleting an Auth Object from a role?",o:["Save the role","Deactivate the auth object first","Run user comparison","Release to transport"],a:1,cat:"Authorization",exp:"Auth Object must be <strong>Deactivated</strong> first, and its status must be either MANUALLY or CHANGED before deletion."},
+{q:"Which Expert Mode option is recommended when the Menu has changed?",o:["Option 1","Option 2","Option 3","None of the above"],a:2,cat:"Authorization",exp:"<strong>Expert Mode Option 3</strong>: 'Read Old Status and Merge with New Data' is recommended when the role menu has changed."},
+{q:"What does Expert Mode Option 1 do?",o:["Keeps old customization","Reads old status","Deletes and recreates profile and authorizations","Merges old and new data"],a:2,cat:"Authorization",exp:"<strong>Option 1</strong>: Delete and Recreate — deletes entire old data including customization and freshly loads from SU24."},
+{q:"When is Manual Profile Generation mode used?",o:["During role modification","During role creation","After user comparison","During transport"],a:1,cat:"Authorization",exp:"<strong>Manual Mode</strong> is used during <strong>role creation</strong> — go to Change Authorization Data and click Generate Profile."},
+{q:"What does SU22 contain?",o:["Custom auth values","SAP Standard auth values (read-only)","User logon data","Role definitions"],a:1,cat:"Authorization",exp:"<strong>SU22</strong> contains SAP Standard authorization values per T-code. It is read-only — the 'original copy'."},
+{q:"What does SU24 contain?",o:["SAP standard read-only data","Custom auth data based on SU22 (editable)","User profiles","System parameters"],a:1,cat:"Authorization",exp:"<strong>SU24</strong> is the editable 'Xerox copy' of SU22 — it contains standard + your customizations. PFCG reads from SU24."},
+{q:"Which T-code populates SU24 from SU22 during first installation?",o:["SU20","SU21","SU22","SU25"],a:3,cat:"Authorization",exp:"<strong>SU25</strong> is used during First Installation and Upgrades to populate SU24 from SU22."},
+{q:"What is the correct sequence for creating an Auth Object?",o:["SU21 → SU20 → SU22","SU20 → SU21 → SU22","SU22 → SU24 → PFCG","SU24 → SU22 → SU21"],a:1,cat:"Authorization",exp:"Correct sequence: <strong>SU20</strong> (Auth Field creation) → <strong>SU21</strong> (Auth Object creation) → SU22 (standard data)."},
+{q:"Which table in SU22 stores standard auth values per T-code?",o:["USOBX","USOBT","USOBT_C","USOBX_C"],a:1,cat:"Authorization",exp:"<strong>USOBT</strong> stores SAP Standard Auth Values per T-code in SU22."},
+{q:"Which table stores customized auth data per T-code in SU24?",o:["USOBT","USOBX","USOBT_C","USR02"],a:2,cat:"Authorization",exp:"<strong>USOBT_C</strong> stores Standard + Customization data per T-code in SU24."},
+{q:"What status label means auth values were inserted manually?",o:["Standard","Changed","Maintained","Manually"],a:3,cat:"Authorization",exp:"<strong>Manually</strong> = Auth Object was inserted directly into the role (not pulled from SU24)."},
+{q:"What are Generated Profiles?",o:["Created via SU02","Created through Roles in PFCG","Standard profiles from SAP installation","Profiles starting with S_"],a:1,cat:"Authorization",exp:"<strong>Generated Profiles</strong> are created through Roles (PFCG). They cannot be assigned to users directly — start with 'T' alphabet."},
+{q:"Standard Profiles come with SAP installation — what does SAP recommend?",o:["Always assign them","Never assign them — they give extra access","Assign them to admins only","Delete them immediately"],a:1,cat:"Authorization",exp:"SAP recommends <strong>NEVER assign</strong> Standard Profiles directly — they may give excessive/unintended access."},
+{q:"What is the purpose of SU21?",o:["Auth field creation","Auth object creation","Profile maintenance","Role deletion"],a:1,cat:"Authorization",exp:"<strong>SU21</strong> is used for Authorization Object creation in SAP."},
+
+// ──── TROUBLESHOOTING ────────────────────────────────────────────
+{q:"What does SU53 do?",o:["Creates users","Evaluates last authorization check","Shows all roles","Locks users"],a:1,cat:"Troubleshoot",exp:"<strong>SU53</strong> evaluates the last authorization check — shows if it was success or failure, and which auth object failed."},
+{q:"What is SU56 used for?",o:["Mass user locking","Viewing the user buffer","Creating authorization objects","Running system traces"],a:1,cat:"Troubleshoot",exp:"<strong>SU56</strong> shows the User Buffer — temporary memory created when a user logs in and wiped on logout."},
+{q:"In ST01, what does Return Code RC=0 mean?",o:["Authorization check failed","User not found","Authorization check SUCCESSFUL","Auth object missing"],a:2,cat:"Troubleshoot",exp:"<strong>RC=0</strong> means Authorization check was <strong>SUCCESSFUL</strong>."},
+{q:"In ST01, what does RC=12 mean?",o:["Correct auth values","Different auth field values","Auth object not in buffer","User does NOT have the auth object at all"],a:3,cat:"Troubleshoot",exp:"<strong>RC=12</strong> = User does NOT have the required auth object at all."},
+{q:"In ST01, what does RC=4 mean?",o:["Successful","User has auth object but different field values","Auth object missing","User not found"],a:1,cat:"Troubleshoot",exp:"<strong>RC=4</strong> = User has the auth object but has different auth field values (not the required ones)."},
+{q:"What is a critical limitation of ST01?",o:["Only runs on weekends","Applied to local application server only","Cannot trace auth checks","Only works for Dialog users"],a:1,cat:"Troubleshoot",exp:"<strong>ST01</strong> trace is applied to the <strong>local application server only</strong>. User and tracer must be on the same server."},
+{q:"Which T-code shows users logged into ALL servers globally?",o:["SM04","SM51","SM66","AL08"],a:3,cat:"Troubleshoot",exp:"<strong>AL08</strong> shows users logged into all application servers globally (cross-server view)."},
+{q:"What is the advantage of STAUTHTRACE over ST01?",o:["It's faster","Trace applied across ALL application servers","It requires less memory","It shows more T-codes"],a:1,cat:"Troubleshoot",exp:"<strong>STAUTHTRACE</strong> is applied across <strong>ALL application servers</strong> — no need to match application servers."},
+{q:"If SU53 shows a failure, what information does it provide?",o:["User's last login time","Auth Object, Auth Field, and required values","List of all roles","Profile generation status"],a:1,cat:"Troubleshoot",exp:"On failure, SU53 shows the <strong>Auth Object, Auth Field, and required values</strong> that the user is missing."},
+{q:"Why might a user be unable to execute a T-code even after roles are assigned?",o:["Role name is too long","Profile not generated, User comparison not done","T-code doesn't exist","Client is wrong"],a:1,cat:"Troubleshoot",exp:"If <strong>profile is not generated</strong> or <strong>User Comparison was not done</strong>, the user won't have access even with roles assigned."},
+{q:"Which T-code shows the list of all application servers?",o:["SM04","SM50","SM51","AL08"],a:2,cat:"Troubleshoot",exp:"<strong>SM51</strong> shows the list of all application servers."},
+{q:"What is SUIM used for?",o:["User creation","User Information System — reporting on users, roles, profiles, auth","Mass user locking","Profile generation"],a:1,cat:"Troubleshoot",exp:"<strong>SUIM</strong> = User Information System. Used to query information about users, roles, profiles, and authorizations."},
+{q:"Which T-code is used to lock T-codes with extreme caution?",o:["SU01","SM04","SM01","PFCG"],a:2,cat:"Troubleshoot",exp:"<strong>SM01</strong> is used to lock T-codes. Use with <strong>extreme caution</strong> as it affects system-wide access."},
+{q:"Which T-code is used for Global Server Process List?",o:["SM04","SM50","SM51","SM66"],a:3,cat:"Troubleshoot",exp:"<strong>SM66</strong> shows the Global Server Process List — processes across all application servers."},
+{q:"If a user has a buffer issue, what is the recommended fix?",o:["Delete the user","Ask user to logout and re-login or reset buffer via SU56","Regenerate all profiles","Delete the role"],a:1,cat:"Troubleshoot",exp:"Buffer issues are fixed by asking the user to <strong>logout and re-login</strong>, or manually reset the buffer via <strong>SU56</strong>."},
+
+// ──── TRANSPORT ────────────────────────────────────────────
+{q:"What does TMS stand for in SAP?",o:["Table Management System","Transport Management System","Technical Monitoring Service","Transaction Management System"],a:1,cat:"Advanced",exp:"<strong>TMS</strong> = Transport Management System — SAP's built-in mechanism for moving objects between environments."},
+{q:"What is the correct transport flow?",o:["PRD → QA → DEV","QA → DEV → PRD","DEV → QA → PRD","DEV → PRD → QA"],a:2,cat:"Advanced",exp:"Correct flow: <strong>DEV → QA → PRD</strong> (Development → Quality Assurance → Production)."},
+{q:"What is the format of a Transport Request name?",o:["SID + TR + Number","SID + K9 + Number","CLIENT + K + Number","SID + T + 5digits"],a:1,cat:"Advanced",exp:"Transport Request Name = <strong>SID + K9 + Request Number</strong>. Example: ECCK900035."},
+{q:"Which T-code is used to view/edit Transport Requests?",o:["SE10","SE09","SE38","SM01"],a:1,cat:"Advanced",exp:"<strong>SE09</strong> is the Transport Organizer for viewing and editing Workbench Transport Requests."},
+{q:"What type of Transport Request carries role definitions?",o:["Customizing TR","Workbench TR","System TR","Client TR"],a:1,cat:"Advanced",exp:"<strong>Workbench TR</strong> carries technical data like role definitions, T-codes, auth objects, and ABAP code."},
+{q:"What does a Customizing TR carry?",o:["ABAP code","Role structure","User-to-role assignments and org-specific values","T-code definitions"],a:2,cat:"Advanced",exp:"<strong>Customizing TR</strong> carries business-specific data: user assignments, org-specific values, business configurations."},
+{q:"In which environments do Security teams have display access only in PFCG?",o:["DEV only","QA and PRD","PRD only","All environments"],a:1,cat:"Advanced",exp:"In <strong>QA and PRD</strong>, security teams have display access only in PFCG. Changes must go through Transport."},
+{q:"When deleting a role that exists in DEV+QA+PRD, what must be done?",o:["Delete directly in all environments","Create TR, delete in DEV, release TR","Ask BASIS team","Lock the role first"],a:1,cat:"Advanced",exp:"Create a Transport Request, load role into TR, <strong>delete in DEV</strong>, then release the TR to transport deletion to QA/PRD."},
+
+// ──── ADVANCED MIXED ────────────────────────────────────────────
+{q:"Which project type involves extending SAP to new company branches?",o:["Implementation","Support","Upgrade","Roll Outs"],a:3,cat:"Advanced",exp:"<strong>Roll Outs</strong> = Extending SAP implementation to other branches/business units of the same company."},
+{q:"What does PFUD's background program name start with?",o:["PFCG_AUTH","PFCG_TIME_DEPENDENCY","PFUD_SYNC","SUIM_MASS"],a:1,cat:"Advanced",exp:"PFUD's background program is <strong>PFCG_TIME_DEPENDENCY</strong>."},
+{q:"What does PFUD action 'Profile Matchup' do?",o:["Creates new profiles","Ensures profiles get assigned to users, makes role status green in SU01","Deletes expired profiles","Generates profile reports"],a:1,cat:"Advanced",exp:"<strong>Profile Matchup</strong> ensures profiles are assigned to users and makes the role status green under SU01."},
+{q:"In an Implementation project, why is SU24 initially empty?",o:["It's a security measure","Fresh SAP installation doesn't populate SU24 automatically","SU24 is always empty","BASIS team deletes it"],a:1,cat:"Advanced",exp:"In a fresh implementation, <strong>SU24 is initially empty</strong>. SU25 must be run to copy data from SU22 to SU24."},
+{q:"Master Role org values are set to which value?",o:["0","1","* (all)","None"],a:2,cat:"Advanced",exp:"Master Role org values are set to <strong>* (universal/wildcard)</strong> to allow flexibility for derived roles."},
+{q:"What happens to Derived Roles when a Master Role is modified?",o:["Nothing changes","All derived roles automatically inherit the changes","Derived roles must be manually updated","Derived roles are deleted"],a:1,cat:"Advanced",exp:"When a Master Role is modified, <strong>ALL derived roles automatically inherit</strong> those changes (except org values)."},
+{q:"Which T-code creates/maintains T-codes themselves?",o:["SE38","SA38","SE93","SE16"],a:2,cat:"Advanced",exp:"<strong>SE93</strong> is the T-code for T-code Maintenance — creating and managing transaction codes."},
+{q:"Which T-code displays table contents?",o:["SM30","SM31","SE16","SE38"],a:2,cat:"Advanced",exp:"<strong>SE16</strong> is used for Table Display (viewing table contents without modification)."},
+{q:"Which T-code maintains system profile parameters?",o:["ST01","SM01","RZ11","SCC4"],a:2,cat:"Advanced",exp:"<strong>RZ11</strong> is used for viewing and modifying Profile Parameters."},
+{q:"What does EWZ5 do?",o:["Mass role assignment","Mass user locking","Creating composite roles","Running auth traces"],a:1,cat:"Advanced",exp:"<strong>EWZ5</strong> is used for Mass User Locking."},
+{q:"To find what server a user is logged into, which T-code would you use?",o:["SM04","SM66","AL08","SM51"],a:2,cat:"Advanced",exp:"<strong>AL08</strong> shows users logged into all servers — you can identify which server a specific user is on."},
+{q:"What does the Gateway service do?",o:["Load balancing","Database connection","Communication channel between SAP systems or SAP and non-SAP systems","Password management"],a:2,cat:"Advanced",exp:"The <strong>Gateway</strong> service handles communication between two SAP systems OR one SAP and one Non-SAP system."},
+{q:"Which user type is used for RFC (Remote Function Call)?",o:["Dialog","Service","System","Communication"],a:3,cat:"Advanced",exp:"<strong>Communication</strong> user type is used for External RFC. GUI Login is NOT allowed."},
+{q:"What is the purpose of the Enqueue process in SAP?",o:["Printer activities","Queuing/locking while updating DB","Load balancing","User authentication"],a:1,cat:"Advanced",exp:"The <strong>Enqueue</strong> process handles queuing and locking while the database is being updated."},
+{q:"How many SU01 tabs are there roughly?",o:["5","8","10","12"],a:2,cat:"Foundation",exp:"SU01 has <strong>10+ tabs</strong> including Address, Logon Data, SNC, Defaults, Parameters, Roles, Profiles, Groups, Personalization, License Data, Change Docs."},
+{q:"What does SNC tab in SU01 do?",o:["Stores user addresses","Secure Network Communication — no password needed when activated","Sets user defaults","Assigns roles"],a:1,cat:"Foundation",exp:"<strong>SNC</strong> (Secure Network Communication) — when activated, no password is needed to login."},
+{q:"Change Documents for a user can be viewed via which path?",o:["SU01 → Roles → History","SU01 → Information → Change Documents for User","SU10 → Audit Log","SUIM → Change History"],a:1,cat:"Foundation",exp:"Path: <strong>SU01 → Menu → Information → Change Documents for User</strong> — shows all changes in a time interval."},
+{q:"What type of project is a version upgrade?",o:["Implementation","Support","Upgrade","Roll Out"],a:2,cat:"Advanced",exp:"<strong>Upgrade</strong> project type involves upgrading SAP from one version to another (e.g., ECC 5 to ECC 6.0)."},
+{q:"Which T-code allows you to execute ABAP programs?",o:["SE38","SA38","SE93","SM30"],a:1,cat:"Advanced",exp:"<strong>SA38</strong> is used to execute ABAP programs (not edit them — that's SE38)."},
+{q:"In SAP R2, how many tiers were there?",o:["1","2","3","4"],a:1,cat:"Foundation",exp:"SAP R2 (1972) had a <strong>2-tier architecture</strong>: Presentation Layer (SAP GUI) and Database Layer."},
+{q:"A Support project differs from Implementation in that:",o:["It builds a new SAP system","It maintains and enhances an already live SAP system","It tests SAP features","It trains users only"],a:1,cat:"Advanced",exp:"A <strong>Support</strong> project maintains and enhances an already live SAP system — resolving incidents and making improvements."},
+{q:"What is a 'Change Request (CR)' in SAP Security context?",o:["A request to change passwords","A form filled by functional teams to request new/modified roles","A system update request","A client change request"],a:1,cat:"Roles",exp:"A <strong>Change Request (CR)</strong> is a form filled by respective technical teams to request role creation/modification, approved by CAB."},
+{q:"What does CAB stand for in SAP project context?",o:["Central Authorization Body","Change Advisory Board","Client Admin Branch","Control and Authorization Bureau"],a:1,cat:"Roles",exp:"<strong>CAB</strong> = Change Advisory Board — approves change requests before Security team implements them."},
+{q:"Which T-code shows the local server process list?",o:["SM66","SM51","SM50","AL08"],a:2,cat:"Troubleshoot",exp:"<strong>SM50</strong> shows the Local Server Process List (processes on the current application server)."},
+{q:"ECC stands for what?",o:["Enterprise Commerce Component","ERP Central Component","Enhanced Computing Core","Enterprise Core Configuration"],a:1,cat:"Foundation",exp:"<strong>ECC</strong> = ERP Central Component. SAP ECC 6.0 is the most widely used SAP ERP version."},
+{q:"EHP in SAP stands for?",o:["Enterprise Help Package","Enhancement Package","ERP Helper Protocol","Enterprise Hub Processor"],a:1,cat:"Foundation",exp:"<strong>EHP</strong> = Enhancement Package. SAP ECC 6.0 had EHP1 through EHP8."},
+{q:"Which of these is NOT a default user after SAP installation?",o:["SAP*","DDIC","SAPCPIC","ADMIN001"],a:3,cat:"Foundation",exp:"The 4 default users are <strong>SAP*, DDIC, SAPCPIC, EARLYWATCH</strong>. ADMIN001 is not a default user."},
+{q:"What does DDIC stand for in SAP?",o:["Data Definition and Integration Component","SAP Data Dictionary user","Dynamic Data Integration Controller","Database Dictionary Interface Controller"],a:1,cat:"Foundation",exp:"<strong>DDIC</strong> is the SAP Data Dictionary user, used for ABAP development activities. Default password: 19920607."},
+{q:"The Background process in SAP is used for?",o:["User login","Long-duration and recurring batch activities","Printing","Database locking"],a:1,cat:"Foundation",exp:"The <strong>Background</strong> process handles long-duration and recurring activities (batch jobs) that don't need user interaction."},
+{q:"Which T-code is used for Remote Client Copy?",o:["SCCL","SCC4","SCC9","SCC5"],a:2,cat:"Foundation",exp:"<strong>SCC9</strong> is used for Remote Client Copy (copying from a different SAP system)."},
+{q:"Which of the following is a 'client-dependent' data type?",o:["T-codes","ABAP Programs","Users","Repository objects"],a:2,cat:"Foundation",exp:"<strong>Users</strong> are client-dependent data — each client has its own set of users. T-codes and ABAP code are client-independent."},
+{q:"In a newly created derived role, which values must be entered?",o:["T-codes","Auth objects","Org Level values","All of the above"],a:2,cat:"Roles",exp:"When creating a derived role, only the <strong>Org Level values</strong> need to be entered — everything else is inherited from the Master."},
+{q:"What does the Update process do in SAP?",o:["Updates SAP software","Creating/Modifying/Deleting data in the database","Updates user passwords","Updates transport routes"],a:1,cat:"Foundation",exp:"The <strong>Update</strong> process handles updating the database — Create, Modify, and Delete data operations."},
+{q:"SUIM can help you find which of the following?",o:["All locked users","Roles containing specific T-codes","Users with specific auth values","All of the above"],a:3,cat:"Troubleshoot",exp:"<strong>SUIM</strong> can find all locked users, roles containing specific T-codes, users with specific auth values, and much more."},
+{q:"Which is the correct order of SAP version evolution?",o:["R1 → R3 → R2","R2 → R1 → R3","R1 → R2 → R3","R3 → R2 → R1"],a:2,cat:"Foundation",exp:"SAP evolved from <strong>R1 → R2 → R3</strong>. R1 was single-tier, R2 was two-tier, R3 (1992) introduced the current 3-tier architecture."},
+{q:"Which T-code is used for Table Maintenance?",o:["SE16","SM30","SE38","SA38"],a:1,cat:"Advanced",exp:"<strong>SM30</strong> is used for Table Maintenance (viewing and editing table data)."},
+{q:"A role with status 'all GREEN' in PFCG auth tab means:",o:["Role needs more T-codes","Role is ready to be assigned to users","Role has org level issues","Role is locked"],a:1,cat:"Authorization",exp:"All GREEN in PFCG auth tab means all auth fields are maintained and the role is <strong>ready to be assigned to users</strong>."},
+{q:"To find which server a user is logged into, you'd combine which two T-codes?",o:["ST01 + STAUTHTRACE","SM04 + SM50","AL08 + SM51","SUIM + SU53"],a:2,cat:"Troubleshoot",exp:"<strong>AL08</strong> shows users per server globally, <strong>SM51</strong> shows the list of all application servers — together they pinpoint the user's server."},
+{q:"What does Expert Mode Option 2 ('Edit Old Status') preserve?",o:["Nothing","All old data including customization, but does NOT pull data for new T-codes","Only org values","Only menu structure"],a:1,cat:"Authorization",exp:"<strong>Option 2</strong> keeps all old data as-is including customization but does NOT pull auth data for newly added T-codes."},
+{q:"Which PFCG tab allows you to run User Comparison?",o:["Menu","Authorizations","User","Description"],a:2,cat:"Roles",exp:"User Comparison is run from the <strong>User tab</strong> in PFCG."},
+{q:"What does 'Change Docs' tab in SU01 allow?",o:["Changes user's name","View all changes to a user in a time interval","Changes roles","Modifies password policy"],a:1,cat:"Foundation",exp:"The <strong>Change Docs</strong> tab (or via Information menu) shows all changes made to a user within a specified time interval."},
+{q:"In PFCG, what does 'Change Auth Data' do?",o:["Changes the role description","Opens the authorization editor to modify auth values and generate profile","Changes T-codes","Modifies org levels"],a:1,cat:"Authorization",exp:"<strong>Change Auth Data</strong> in PFCG opens the authorization editor where you modify auth values and generate the profile."},
+{q:"Which user type does NOT allow GUI login?",o:["Dialog","Service","System","Communication"],a:2,cat:"Foundation",exp:"<strong>System</strong> user type does NOT allow GUI login. It's used internally for background jobs and RFC."},
+{q:"What is the SID in a Transport Request name?",o:["Security ID","System ID","Server ID","Session ID"],a:1,cat:"Advanced",exp:"<strong>SID</strong> = System ID — a 3-letter identifier for the SAP system (e.g., ECC, DEV, PRD)."},
+{q:"In SAP Security, what is a 'Role Matrix'?",o:["A security audit report","Information listing roles needed per team and access types","A matrix of auth objects","A user access comparison tool"],a:1,cat:"Roles",exp:"A <strong>Role Matrix</strong> lists the roles needed per team in a project, defining access levels required per role."},
+{q:"How many default users exist after a fresh SAP non-IDES installation?",o:["2","3","4","5"],a:1,cat:"Foundation",exp:"There are <strong>3</strong> default clients (000, 001, 006) with users SAP*, DDIC (in 000/001) and EARLYWATCH in 066. Key users: SAP*, DDIC, SAPCPIC, EARLYWATCH."},
+{q:"Which auth object status means 'SAP default values have been modified'?",o:["Standard","Maintained","Changed","Manually"],a:2,cat:"Authorization",exp:"<strong>Changed</strong> = SAP default values have been modified from their original SU24 defaults."},
+{q:"Derived roles are typically used when the client is a/an:",o:["Small company","Startup","MNC (Multinational Company)","Government organization"],a:2,cat:"Roles",exp:"Derived roles are used when the client is an <strong>MNC (Multinational Company)</strong> with multiple business units needing same T-codes but different org values."},
+{q:"T-code SM04 shows which information?",o:["All application servers","Users logged into the local server","Process list","Transport requests"],a:1,cat:"Troubleshoot",exp:"<strong>SM04</strong> shows users logged into the <strong>local</strong> application server (not all servers — use AL08 for that)."},
+{q:"What does the 'Parameters' tab in SU01 do?",o:["Sets password parameters","Pre-fills field defaults for the user","Assigns system parameters","Configures printing"],a:1,cat:"Foundation",exp:"The <strong>Parameters</strong> tab in SU01 pre-fills field defaults for a user — only entered when explicitly requested."},
+{q:"AGR_TCODES table stores?",o:["Users assigned to roles","Role authorization values","T-codes assigned to roles","Org values"],a:2,cat:"Roles",exp:"<strong>AGR_TCODES</strong> stores the mapping of T-codes assigned to each role."},
+{q:"What is the purpose of the 'Description' tab in PFCG?",o:["Add T-codes","Document why, when and who created the role (Long Text)","Assign users","Generate profile"],a:1,cat:"Roles",exp:"The <strong>Description</strong> tab in PFCG is for documenting the role — why it was created, when, and by whom (Long Text)."},
+{q:"Which phase comes after QA in the transport route?",o:["DEV","Sandbox","PRD","UAT"],a:2,cat:"Advanced",exp:"The standard transport route is DEV → QA → <strong>PRD</strong> (Production)."},
+{q:"What SAP version introduced the 3-tier architecture?",o:["R1","R2","R3 (1992)","ECC 6.0"],a:2,cat:"Foundation",exp:"<strong>R3 (1992)</strong> introduced the 3-tier architecture that is still the foundation of SAP today."},
+{q:"Which T-code is for ABAP Editor?",o:["SA38","SE93","SE38","SM30"],a:2,cat:"Advanced",exp:"<strong>SE38</strong> is the ABAP Editor — used to create and edit ABAP programs."},
+{q:"After releasing a Transport Request, what happens?",o:["Nothing until manually moved","TMS moves the content from current system to the next environment","The request is deleted","Users are notified"],a:1,cat:"Advanced",exp:"After <strong>releasing</strong> a TR, TMS moves the content to the next environment (e.g., DEV to QA)."},
+{q:"AGR_AGRS table is used for?",o:["Role definition info","Single and Composite role info","User assignments","Auth values"],a:1,cat:"Roles",exp:"<strong>AGR_AGRS</strong> stores Single and Composite role relationships/info."},
+];
+
+// ════════════════════════════════════════════════════════════
+//  INTERVIEW DATA — 100 Questions
+// ════════════════════════════════════════════════════════════
+const iqData = [
+{q:"Tell me about yourself and your experience in SAP Security.",a:"I have experience in SAP Security administration focusing on role management, user administration, and authorization concepts. I'm familiar with PFCG role creation, user management via SU01, troubleshooting authorization issues using SU53/ST01, and working in DEV/QA/PRD landscapes.",tags:["General","HR Round"],level:"Basic"},
+{q:"What is SAP and what does it stand for?",a:"<strong>SAP</strong> stands for <strong>Systems, Applications, and Products</strong> in Data Processing. It's an enterprise software company founded in 1972 in Waldorf, Germany. SAP provides ERP (Enterprise Resource Planning) software used by businesses to manage operations including finance, HR, sales, and more.",tags:["Foundation"],level:"Basic"},
+{q:"Explain SAP R3 Architecture.",a:"SAP R3 (introduced in 1992) is a <strong>3-tier architecture</strong>:\n• <strong>Presentation Layer</strong> — SAP GUI where users interact\n• <strong>Application Layer</strong> — Business logic, processes (Dialog, Background, Spool, Update, Enqueue) and services (Message, Gateway)\n• <strong>Database Layer</strong> — Where all SAP data is stored",tags:["Architecture","Foundation"],level:"Basic"},
+{q:"What is a SAP Landscape?",a:"A <strong>SAP Landscape</strong> is the total collection of systems and applications used in a project. It typically includes:\n• <strong>Sandbox</strong> — for free experimentation\n• <strong>Development (D)</strong> — where changes are made\n• <strong>Quality/Test (Q)</strong> — where changes are validated\n• <strong>Production (P)</strong> — the live system with real business data",tags:["Landscape","Foundation"],level:"Basic"},
+{q:"What is a SAP Client?",a:"A <strong>Client</strong> is an independent unit within a SAP system, identified by a <strong>3-digit number (000–999)</strong>. Each client has its own users, business data, and configuration (client-dependent data), while sharing programs and T-codes (client-independent data) with other clients on the same system.",tags:["Client Admin","Foundation"],level:"Basic"},
+{q:"What is SU01 and what can you do with it?",a:"<strong>SU01</strong> is the User Maintenance T-code in SAP. You can:\n• Create, modify, delete users\n• Lock/unlock users\n• Reset passwords\n• Assign roles and profiles\n• Set user type, validity period, group\n• View change documents",tags:["User Admin","SU01"],level:"Basic"},
+{q:"What are the 5 user types in SAP?",a:"<strong>1. Dialog</strong> — Default type for daily interactive users. Password params applied.\n<strong>2. Service</strong> — Multiple simultaneous logons. Password params NOT applied.\n<strong>3. System</strong> — Internal use (batch jobs, RFC). No GUI login.\n<strong>4. Communication</strong> — External RFC. No GUI login.\n<strong>5. Reference</strong> — Extra access for Dialog users hitting 312-profile limit. No login.",tags:["User Types","SU01"],level:"Basic"},
+{q:"What is PFCG?",a:"<strong>PFCG</strong> = Profile Generator. It's the main T-code used for role creation and management in SAP (introduced from version 4.7). Using PFCG, security admins can:\n• Create Single, Composite, and Derived roles\n• Add T-codes to roles\n• Maintain authorization data\n• Generate profiles\n• Assign users to roles",tags:["PFCG","Roles"],level:"Basic"},
+{q:"What is the difference between a Role and a Profile?",a:"• <strong>Role</strong> — A logical container of T-codes and authorizations created via PFCG. Assigned to users.\n• <strong>Profile</strong> — Technical object auto-generated when a role is saved in PFCG. Contains the actual authorization checks. Users get the profile when roles are assigned to them.\n\nKey point: <strong>Assign the Role to users, not the profile directly</strong>.",tags:["Roles","Profiles"],level:"Basic"},
+{q:"What is the difference between Single, Composite, and Derived roles?",a:"• <strong>Single Role (X)</strong> — Basic unit. Contains T-codes and authorizations directly.\n• <strong>Composite Role (Y)</strong> — Groups multiple Single Roles together for easier assignment.\n• <strong>Derived Role (Z)</strong> — Inherits 100% structure from a Master Role; only org values differ. Used in multinational companies.",tags:["Role Types","PFCG"],level:"Basic"},
+{q:"How do you create a role in PFCG?",a:"<strong>Steps to create a role in PFCG:</strong>\n1. Go to T-code <code>PFCG</code>\n2. Enter role name (max 30 chars, e.g., X:HR:PERSONNEL_ADMIN)\n3. Click <strong>Single Role</strong>\n4. Fill <strong>Description tab</strong> (Long Text — why, when, who)\n5. Add T-codes in <strong>Menu tab</strong>\n6. Go to <strong>Authorizations tab</strong> → <strong>Change Auth Data</strong> → fill values\n7. Click <strong>Generate Profile</strong>\n8. Go to <strong>User tab</strong> → assign users → run <strong>User Comparison</strong>",tags:["PFCG","Roles"],level:"Basic"},
+{q:"What are Traffic Lights in PFCG?",a:"Traffic lights are color-coded indicators in PFCG's Authorization tab:\n• <strong>GREEN (CO)</strong> — All authorization fields are filled/maintained ✅\n• <strong>YELLOW (C&O)</strong> — At least one auth field is empty ⚠\n• <strong>RED (%CO)</strong> — Org levels are not maintained ❌\n\nA role should show all GREEN before being assigned to users.",tags:["Traffic Lights","Authorization"],level:"Basic"},
+{q:"What is SU53 and when do you use it?",a:"<strong>SU53</strong> evaluates the last authorization check for a user. It shows:\n• Whether the last auth check was Success or Failure\n• The failed Auth Object, Auth Field, and required values\n\n<strong>Use it when:</strong> A user reports they cannot execute a T-code or perform an action. Check SU53 to identify the missing authorization. You can also run it for other users via Menu → Evaluate → Other User.",tags:["SU53","Troubleshooting"],level:"Basic"},
+{q:"What is the difference between SU53 and SU56?",a:"• <strong>SU53</strong> — Evaluates the <strong>last authorization check</strong>. Shows what auth object/field failed. Used for troubleshooting.\n• <strong>SU56</strong> — Shows the <strong>User Buffer</strong> — temporary memory created when a user logs in. Contains all auth data currently loaded for the user.\n\nIf user has a buffer issue, ask them to logout/login or refresh via SU56.",tags:["SU53","SU56","Troubleshooting"],level:"Basic"},
+{q:"What is SUIM and what can you do with it?",a:"<strong>SUIM</strong> = User Information System. It's used to query and report on SAP security data:\n• Find all users with access to a specific T-code\n• Find all locked users\n• Find roles containing specific T-codes\n• Find users with specific auth values\n• Find composite roles\n• Find T-codes assigned to a user\n\nVery useful for audits and access reviews.",tags:["SUIM","Reporting"],level:"Basic"},
+{q:"What is the difference between ST01 and STAUTHTRACE?",a:"• <strong>ST01</strong> — System Trace. Applied to the <strong>local application server only</strong>. User and tracer must be on the same server.\n• <strong>STAUTHTRACE</strong> — Exclusive Authorization Trace. Applied across <strong>ALL application servers</strong>. More powerful and doesn't require server matching.\n\nReturn codes: RC=0 (success), RC=4 (wrong values), RC=8 (not in buffer), RC=12 (no auth object).",tags:["ST01","STAUTHTRACE","Troubleshooting"],level:"Intermediate"},
+{q:"What is Transport Management System (TMS)?",a:"<strong>TMS</strong> = Transport Management System. SAP's built-in mechanism for moving configurations and objects between environments (DEV → QA → PRD).\n\nKey concepts:\n• Transport Request = container of changes\n• Tasks = individual work within a TR\n• T-codes: SE09, SE10 to manage TRs\n• Two types: Workbench TR (technical objects) and Customizing TR (business data)",tags:["TMS","Transport"],level:"Intermediate"},
+{q:"Explain Derived Roles. When would you use them?",a:"A <strong>Derived Role</strong> inherits 100% of menu, T-codes, and authorization structure from a <strong>Master Role</strong>. Only <strong>Org Level values</strong> differ.\n\n<strong>Use case:</strong> Multinational companies (BMW, Nestle, Coke) where finance teams in India and USA do the same job (same T-codes) but different Company Codes.\n\n<strong>Benefit:</strong> Change the Master Role once → all derived roles automatically inherit the change. No manual sync needed.",tags:["Derived Roles","PFCG"],level:"Intermediate"},
+{q:"What is SU22 vs SU24? What is the difference?",a:"• <strong>SU22</strong> — SAP Standard authorization data. <strong>Read-only</strong>. The 'original copy'. Tables: USOBT, USOBX.\n• <strong>SU24</strong> — <strong>Editable copy</strong> of SU22 + your customizations. PFCG reads from here when T-codes are added to a role. Tables: USOBT_C, USOBX_C.\n\nAnalogy: SU22 = Original document, SU24 = Xerox (editable) copy.\n\nIn a fresh implementation, run <code>SU25</code> to populate SU24 from SU22.",tags:["SU22","SU24","Implementation"],level:"Intermediate"},
+{q:"What are the Expert Mode options in PFCG during role modification?",a:"Expert Mode has 3 options (used during role modification only):\n\n<strong>Option 1: Delete and Recreate</strong> — Deletes all old data including customization. Fresh load from SU24. Use when customization needs to be removed.\n\n<strong>Option 2: Edit Old Status</strong> — Keeps old data. Does NOT pull data for new T-codes. Use for direct auth modification.\n\n<strong>Option 3: Read Old + Merge New (RECOMMENDED)</strong> — Keeps customization AND pulls data for new T-codes. Best option when menu was changed.",tags:["PFCG","Expert Mode"],level:"Intermediate"},
+{q:"What steps do you take when a user says they cannot execute a T-code?",a:"<strong>Troubleshooting steps:</strong>\n1. Ask the user to try the T-code and get the error message\n2. Check <code>SU53</code> — identifies the failing auth object/field\n3. Check if the role is assigned and not expired (SU01 → Roles tab)\n4. Check if profile was generated (PFCG → Auth tab — should be green)\n5. Check if User Comparison was done\n6. If needed, run <code>STAUTHTRACE</code> for a detailed trace\n7. Add the required auth values in the role → regenerate profile → user comparison",tags:["Troubleshooting","SU53"],level:"Intermediate"},
+{q:"What is the difference between Workbench and Customizing Transport Requests?",a:"• <strong>Workbench TR</strong> — Carries <strong>technical/standard data</strong>: role definitions, T-codes, auth objects, ABAP code, programs.\n• <strong>Customizing TR</strong> — Carries <strong>business-specific data</strong>: user assignments, org-specific values, Company Codes, Plants.\n\nWhen transporting roles, you need both:\n1. Workbench TR for the role structure\n2. Customizing TR for org values and user assignments",tags:["TMS","Transport"],level:"Intermediate"},
+{q:"What is PFUD and when do you use it?",a:"<strong>PFUD</strong> performs <strong>Mass User Comparison</strong> for multiple roles at once. Background program: <code>PFCG_TIME_DEPENDENCY</code>.\n\nUse PFUD instead of running user comparison role-by-role in PFCG when:\n• 100+ roles need comparison\n• After mass role assignments\n• For scheduled overnight runs\n\nActions: Profile Matchup, Composite Role Reconciliation, HR Org Mgmt Reconciliation, Cleanups.",tags:["PFUD","Mass Operations"],level:"Intermediate"},
+{q:"How do you handle a user who cannot login to SAP?",a:"<strong>Possible reasons and fixes:</strong>\n1. <strong>Wrong password</strong> → Reset password via SU01\n2. <strong>User locked (code 64)</strong> → Unlock in SU01\n3. <strong>Incorrect logon lock (code 128)</strong> → Unlock in SU01\n4. <strong>User expired</strong> → Extend validity period in SU01 → Logon Data tab\n5. <strong>Password expired</strong> → Reset password\n6. <strong>Wrong client</strong> → Verify client number with user\n7. <strong>Global lock (code 32)</strong> → Requires CUA admin unlock",tags:["Troubleshooting","User Admin"],level:"Basic"},
+{q:"What is a Master Role?",a:"A <strong>Master Role</strong> is a Single Role that serves as a blueprint/template for Derived Roles. Key characteristics:\n• Contains all required T-codes and auth objects\n• Org Level values set to <strong>* (universal/wildcard)</strong>\n• Naming convention: <code>X_*</code> (e.g., X_FINANCE)\n• Changes propagate to ALL derived roles automatically\n• Can also be assigned to users directly\n\nDerived roles inherit everything from the master but have specific org values.",tags:["Master Role","PFCG"],level:"Intermediate"},
+{q:"What tables would you check for role-related information?",a:"All role tables start with <strong>AGR*</strong> (Activity Group = Role):\n• <code>AGR_DEFINE</code> — All role definitions, master/derived info\n• <code>AGR_AGRS</code> — Single & Composite role info\n• <code>AGR_TCODES</code> — T-codes assigned to roles\n• <code>AGR_USERS</code> — Users assigned to roles\n• <code>AGR_1251</code> — Role authorization values\n• <code>AGR_1252</code> — Role org level values",tags:["Tables","Roles"],level:"Intermediate"},
+{q:"What is an Implementation project in SAP Security context?",a:"An <strong>Implementation project</strong> is a fresh SAP installation/deployment. Security responsibilities include:\n• SU24 is initially empty — must run SU25 to populate it from SU22\n• Create the Role Matrix with functional teams\n• Create auth objects if custom (SU20 → SU21 → SU22 → SU24)\n• Create all roles from scratch using PFCG\n• Create and manage users\n• Transport roles through DEV → QA → PRD",tags:["Implementation","Projects"],level:"Intermediate"},
+{q:"How do you delete a role that exists in DEV, QA, and PRD?",a:"Since QA and PRD have <strong>display-only access</strong> in PFCG, you cannot delete directly:\n\n1. Go to <code>SE09/SE10</code> → Create a Transport Request\n2. Load the role into the TR via PFCG\n3. Delete the role in <strong>DEV</strong> using PFCG\n4. Release the Transport Request in SE09\n5. TMS transports the deletion to QA, then PRD",tags:["Role Deletion","TMS"],level:"Intermediate"},
+{q:"What is the difference between Positive and Negative Testing?",a:"• <strong>Positive Testing</strong> — Verify the user <strong>CAN execute</strong> the T-codes assigned to their role. Confirms the role works as intended.\n• <strong>Negative Testing</strong> — Verify the user <strong>CANNOT execute</strong> T-codes that are NOT in their role. Confirms access is properly restricted.\n\nBoth types of testing are essential in SAP Security to ensure roles are correctly configured.",tags:["Testing","Roles"],level:"Basic"},
+{q:"What is the user lock code 32?",a:"Lock code <strong>32</strong> = <strong>Global Lock (CUA)</strong> — the user has been locked from Central User Administration (CUA). This lock can only be removed by the CUA admin, not by a regular SU01 admin in a child system.",tags:["User Admin","Lock Codes"],level:"Intermediate"},
+{q:"What is HR Org Management Reconciliation in PFUD?",a:"When roles are assigned to <strong>organizational positions or org units</strong> in HR (instead of directly to users), HR Org Mgmt Reconciliation in PFUD ensures that these role assignments flow down to the actual users sitting in those org positions. It syncs HR-based role assignments to user masters.",tags:["PFUD","HR"],level:"Advanced"},
+{q:"What is CUA in SAP?",a:"<strong>CUA</strong> = Central User Administration. It allows one central SAP system to manage users across multiple SAP systems from a single point. When a user is globally locked (lock code 32), only the CUA admin can unlock them.",tags:["CUA","Advanced"],level:"Advanced"},
+{q:"How would you find all users who have access to SU01?",a:"Using <code>SUIM</code>:\n1. Go to SUIM → Users → By Complex Selection Criteria\n2. Or: SUIM → Roles → By Complex Selection Criteria → enter T-code SU01\n3. Alternatively: SUIM → Users → By Authorization Values → enter the relevant auth object\n\nThis is a common audit requirement to identify who has user administration access.",tags:["SUIM","Audit"],level:"Intermediate"},
+{q:"What is the purpose of the Sandbox environment?",a:"The <strong>Sandbox</strong> environment is used for free experimentation. Developers and consultants can:\n• Test new configurations without risk\n• Experiment with system behavior\n• No connection to the transport route (changes don't move forward automatically)\n• No real business data — purely for learning and testing\n\nThink of it like a developer's playground.",tags:["Landscape","Foundation"],level:"Basic"},
+{q:"What mandatory fields are required to create a user in SU01?",a:"The mandatory fields in SU01 are:\n• <strong>Last Name</strong> (in Address tab)\n• <strong>Password</strong> (in Logon Data tab)\n\nEverything else (first name, email, user group, etc.) is optional but recommended for good practice.",tags:["SU01","User Admin"],level:"Basic"},
+{q:"What is the naming convention for users?",a:"SAP recommends using <strong>First Name + Last Name combination</strong>:\nExample: Balatharan Murali → <strong>BALAMU</strong>\n\n• Maximum 12 characters\n• Usually first 4-5 chars of first name + first 4-5 of last name\n• Organizations may have their own conventions (e.g., employee ID based)",tags:["User Admin","Naming Convention"],level:"Basic"},
+{q:"Explain the flow when a user reports an authorization issue.",a:"<strong>Standard troubleshooting flow:</strong>\n1. User reports: 'Cannot do X in SAP'\n2. Ask user to reproduce the error\n3. Run <code>SU53</code> for the user — check failed auth object\n4. Check the role assigned to user in <code>SU01</code>\n5. Check role in <code>PFCG</code> — verify T-code exists and auth values are correct\n6. If needed, add required auth values in PFCG\n7. Regenerate profile (Change Auth Data → Generate)\n8. Run User Comparison in PFCG User tab\n9. Ask user to logout/login and test again",tags:["Troubleshooting","Process"],level:"Intermediate"},
+{q:"What is the difference between SM04 and AL08?",a:"• <strong>SM04</strong> — Shows users logged into the <strong>local application server only</strong>\n• <strong>AL08</strong> — Shows users logged into <strong>ALL application servers</strong> globally\n\nUseful for troubleshooting: Before running ST01, use AL08 and SM51 to confirm which server the user is on, then trace on the correct server.",tags:["Server T-codes","Troubleshooting"],level:"Intermediate"},
+{q:"What does ERP stand for and what is SAP's ERP product?",a:"<strong>ERP</strong> = Enterprise Resource Planning. SAP's main ERP product is <strong>SAP ECC</strong> (ERP Central Component), with ECC 6.0 being the most widely deployed version, supported by Enhancement Packages (EHP1–EHP8).",tags:["Foundation","ERP"],level:"Basic"},
+{q:"What is the role of BASIS team in SAP projects?",o:["Handles functional config","Manages technical infrastructure — system administration, transport, upgrades, performance"],a:1,tags:["Landscape","Teams"],level:"Basic",fullA:"The <strong>BASIS team</strong> handles SAP technical administration:\n• System installation and upgrades\n• Transport management\n• Performance monitoring\n• Client administration\n• System security settings (profile parameters)\n• Application server management\n\nBASIS, Security, and ABAP teams support all functional modules."},
+{q:"What is a Change Request (CR) in SAP Security?",a:"A <strong>Change Request (CR)</strong> is a formal document/ticket raised by a functional/technical team requesting a change to roles or authorizations. Process:\n1. Team fills out CR form (what T-codes, what access, which users)\n2. Sent to <strong>CAB (Change Advisory Board)</strong> for approval\n3. After approval, Security team creates/modifies roles in PFCG\n4. After testing, transports to QA and PRD\n\nThis ensures proper governance and no unauthorized changes.",tags:["Governance","Process"],level:"Intermediate"},
+{q:"What are the common project types in SAP?",a:"Four main project types:\n1. <strong>Implementation</strong> — Fresh SAP deployment for a new client\n2. <strong>Support</strong> — Ongoing maintenance of a live SAP system\n3. <strong>Upgrade</strong> — Moving to a new SAP version (e.g., ECC 5 → ECC 6.0)\n4. <strong>Roll Outs</strong> — Extending existing SAP to new branches/countries",tags:["Projects"],level:"Basic"},
+{q:"What is the significance of Version 4.7 in SAP Security?",a:"SAP version <strong>4.7</strong> was a major milestone for Security:\n• Introduced the <strong>Role concept</strong> (PFCG)\n• Before 4.7: SU02 was used to create Profiles directly\n• From 4.7 onwards: Roles are created in PFCG which auto-generates profiles\n• Much more organized and maintainable approach\n• Composite roles, derived roles — all introduced with this paradigm",tags:["History","Foundation"],level:"Basic"},
+{q:"How do you run a trace for a user who is on a different application server?",a:"Since <strong>ST01 only traces the local application server</strong>, if the user is on a different server:\n\n<strong>Option 1:</strong> Use <code>STAUTHTRACE</code> — it traces across ALL application servers, so server location doesn't matter.\n\n<strong>Option 2:</strong> Use AL08 to identify which server the user is on → log into that server → run ST01 there.\n\n<strong>Best practice:</strong> Use STAUTHTRACE as it's simpler and more comprehensive.",tags:["ST01","STAUTHTRACE","Troubleshooting"],level:"Intermediate"},
+{q:"What is an Org Level field vs a Normal field in authorization?",a:"• <strong>Normal Field</strong> — Does NOT represent an organization. Value meaning is universal (e.g., Activity 03 = Display everywhere).\n• <strong>Org Level Field</strong> — Represents organizational units (Plant, Cost Center, Company Code). Value meaning differs per organization (BMW: Plant 100 = UK; Walmart: Plant 100 = USA).\n\nOrg fields are maintained centrally in the Org Levels tab; Normal fields are maintained locally in auth data.",tags:["Authorization","Org Levels"],level:"Intermediate"},
+{q:"What would you check if SU53 shows 0 records or no failure?",a:"If SU53 shows no failure but user still has issues:\n• The issue may not be authorization-related (could be config, master data, workflow)\n• The last action recorded in SU53 may not be the failing action (user did something else last)\n• Ask user to reproduce the exact error immediately before you check SU53\n• Use STAUTHTRACE for a comprehensive trace during the exact failing action",tags:["SU53","Troubleshooting"],level:"Intermediate"},
+{q:"What is the EWZ5 T-code used for?",a:"<strong>EWZ5</strong> is used for <strong>Mass User Locking</strong>. It allows security admins to lock multiple users at once — useful during:\n• Year-end activities\n• Compliance audits\n• Emergency lockdowns\n• Deactivating temporary/consultant IDs in bulk",tags:["Mass Operations","T-codes"],level:"Intermediate"},
+{q:"How does SAPCPIC differ from SAP* and DDIC?",a:"• <strong>SAP*</strong> — Master super user, exists in all clients, default password: phss/06071992\n• <strong>DDIC</strong> — Data Dictionary user for ABAP development, exists in clients 000 and 001\n• <strong>SAPCPIC</strong> — Used for communication between SAP and external systems, exists in clients 000 and 001, default password: admin\n\nAll three should be secured immediately in production.",tags:["Default Users","Security"],level:"Intermediate"},
+{q:"What happens when you click 'Generate Profile' in PFCG?",a:"Clicking <strong>Generate Profile</strong> in PFCG:\n1. SAP compiles all authorization data (auth objects, fields, values) from the role\n2. Creates a technical <strong>Profile</strong> object (starts with 'T')\n3. Links the profile to the role\n4. The profile is now ready to be distributed to users via User Comparison\n\nWithout generating the profile, users won't receive the authorizations even if assigned to the role.",tags:["PFCG","Profile Generation"],level:"Basic"},
+{q:"What are the four types of auth object statuses in PFCG?",a:"<strong>1. Standard</strong> — SAP default values pulled from SU24 (unchanged)\n<strong>2. Maintained</strong> — Blank fields have been filled with values\n<strong>3. Changed</strong> — SAP default values have been modified\n<strong>4. Manually</strong> — Auth object inserted directly (not from SU24)\n\nTo delete an auth object, status must be either MANUALLY or CHANGED, and it must be Deactivated first.",tags:["Authorization","PFCG"],level:"Intermediate"},
+{q:"What is SE93 used for?",a:"<strong>SE93</strong> is the T-code for <strong>T-code Maintenance</strong>. It's used to:\n• View T-code properties\n• Create new custom T-codes\n• Modify existing T-codes\n• Link T-codes to programs or function codes\n\nFor security, it helps verify what a T-code does and what its underlying program/function module is.",tags:["T-codes","Development"],level:"Intermediate"},
+{q:"Why is it important to secure default SAP users like SAP* and DDIC?",a:"Default users have <strong>super-user level access</strong> and their passwords are publicly known:\n• <strong>SAP*</strong> has special behavior — even if deleted, it can re-appear with full access\n• <strong>DDIC</strong> has full access to ABAP development\n• Default passwords are published in SAP documentation\n\n<strong>Best practice:</strong> Change passwords immediately, lock in production, monitor for any logon activity.",tags:["Security","Default Users"],level:"Basic"},
+{q:"What is the difference between an Implementation and a Roll Out project?",a:"• <strong>Implementation</strong> — SAP is being deployed <strong>for the first time</strong> for a company. Everything is built from scratch.\n• <strong>Roll Out</strong> — SAP is <strong>already live</strong> for the parent company, and it's being extended to a new country, branch, or subsidiary.\n\nIn a Roll Out, many roles and configs already exist — you typically copy/adapt them for the new org values (perfect for derived roles).",tags:["Projects"],level:"Intermediate"},
+{q:"What is RZ11 used for in SAP Security?",a:"<strong>RZ11</strong> is used to view and modify <strong>System Profile Parameters</strong>. Security-relevant parameters include:\n• <code>login/max_password_length</code>\n• <code>login/min_password_length</code>\n• <code>login/fails_to_session_end</code> (controls Incorrect Logon Lock)\n• <code>login/password_expiration_time</code>\n\nThese parameters control password policies and lock behaviors system-wide.",tags:["Profile Parameters","RZ11"],level:"Advanced"},
+{q:"How do you find out to which master role a derived role belongs?",a:"To find the master of a derived role:\n1. Go to T-code <code>SE16</code>\n2. Enter table <strong>AGR_DEFINE</strong>\n3. Search for the derived role name\n4. The <strong>PARENT_AGR</strong> field shows the master role name\n\nAlternatively, open the derived role in PFCG and check the 'Derive From' field in the Description tab.",tags:["Derived Roles","Tables"],level:"Intermediate"},
+{q:"What does USOBT_C vs USOBT contain?",a:"• <strong>USOBT</strong> — Stores SAP Standard auth values per T-code (in <strong>SU22</strong>). Read-only.\n• <strong>USOBT_C</strong> — Stores Standard + Customer customizations per T-code (in <strong>SU24</strong>). Editable.\n\nPFCG reads from <strong>USOBT_C / USOBX_C</strong> (SU24 tables) when building authorization data for roles.",tags:["Tables","SU22","SU24"],level:"Advanced"},
+{q:"What is the ECC timeline in SAP?",a:"SAP version evolution:\n<strong>3.0 → 4.6a → 4.6b → 4.6C → 4.7</strong> (Role concept introduced)\n<strong>→ ECC 5 → ECC 6.0 + EHP1 through EHP8</strong>\n\nECC = ERP Central Component\nERP = Enterprise Resource Planning\nEHP = Enhancement Package",tags:["History","Foundation"],level:"Basic"},
+{q:"How do you check if a user comparison was done successfully?",a:"After running User Comparison in PFCG:\n• Go to <code>SU01</code> → open the user\n• Go to <strong>Profiles tab</strong> — the generated profile (e.g., T:HR:PERSONNEL_ADMIN) should appear\n• Role in the <strong>Roles tab</strong> should show green status (no red indicator)\n• User can now access the T-codes assigned to the role",tags:["User Comparison","PFCG"],level:"Intermediate"},
+{q:"What is the AGR_USERS table used for?",a:"<strong>AGR_USERS</strong> stores the mapping between roles and users — i.e., which users are assigned to which roles. Useful for:\n• Auditing who has which role\n• SUIM queries often read from this table\n• Can be used in SE16 to cross-check user assignments\n• Identifying orphaned role assignments",tags:["Tables","Roles"],level:"Intermediate"},
+{q:"Explain what happens during 'Composite Role Reconciliation' in PFUD.",a:"When a <strong>Composite Role is modified</strong> (a single role is added or removed from it), users assigned to the composite role need to be updated. PFUD's Composite Role Reconciliation:\n• Identifies all users assigned to the modified composite role\n• Updates their user master records to reflect the changed composite\n• Ensures they gain/lose access as per the composite role change\n\nWithout this, the change might not propagate to users.",tags:["PFUD","Composite Roles"],level:"Advanced"},
+{q:"What is the maximum number of tasks a Transport Request can have?",a:"There is <strong>no hard limit</strong> on the number of tasks in a Transport Request. A TR can have multiple tasks, each representing work done by one user. However, best practice is to:\n• Keep related changes in the same TR\n• Release all tasks before releasing the TR\n• Not mix security changes with functional/ABAP changes in the same TR",tags:["TMS","Transport"],level:"Advanced"},
+{q:"Why should you never assign Standard Profiles directly to users?",a:"Standard Profiles come with SAP installation and are very broad:\n• They may give access to <strong>entire modules or sensitive functions</strong>\n• Examples: SAP_ALL (full access), SAP_NEW (new functions access)\n• Violates <strong>Least Privilege</strong> principle\n• Creates audit findings in security reviews\n• Hard to control and report on\n\nAlways create custom roles via PFCG with only the needed authorizations.",tags:["Standard Profiles","Security"],level:"Basic"},
+{q:"What is the Gateway service in SAP?",a:"The <strong>Gateway service</strong> is a communication channel that enables:\n• Communication between <strong>two SAP systems</strong> (System-to-System)\n• Communication between <strong>one SAP system and one Non-SAP system</strong>\n\nUsed for RFC connections, IDocs, and various integration scenarios.",tags:["Architecture","Gateway"],level:"Intermediate"},
+{q:"What does the 'Long Text' in PFCG Description tab contain?",a:"The Long Text in PFCG Description tab should document:\n• <strong>Why</strong> the role was created (business justification)\n• <strong>When</strong> it was created (date)\n• <strong>Who</strong> created it (security admin name)\n• <strong>What CR</strong> it is related to (Change Request number)\n• <strong>What T-codes</strong> are included and for what purpose\n\nGood documentation is essential for audits and maintenance.",tags:["PFCG","Best Practices"],level:"Basic"},
+{q:"What is the difference between SM50 and SM66?",a:"• <strong>SM50</strong> — Process List for the <strong>local application server only</strong>. Shows processes (Dialog, Background, Spool, etc.) running on the current server.\n• <strong>SM66</strong> — <strong>Global</strong> Process List across all application servers. Shows processes on ALL servers simultaneously.\n\nSM66 is more useful for overall system monitoring.",tags:["Server T-codes"],level:"Intermediate"},
+{q:"In a fresh implementation, what is the correct sequence to set up auth objects?",a:"<strong>Correct sequence for custom auth objects:</strong>\n1. <code>SU20</code> — Create Authorization Fields\n2. <code>SU21</code> — Create Authorization Objects (using the fields)\n3. <code>SU22</code> — SAP Standard data (automatic)\n4. <code>SU24</code> — Maintain custom auth data for T-codes\n5. <code>PFCG</code> — Create roles (reads from SU24)\n\nFor standard objects, start at step 4 after running SU25 to copy SU22→SU24.",tags:["Implementation","Authorization"],level:"Advanced"},
+{q:"What are the 5 common questions asked about a new SAP project?",a:"Before starting a new project, key non-technical questions to know:\n1. <strong>Total number of users</strong> in the project\n2. <strong>Security team size</strong>\n3. <strong>Total number of teams</strong> (modules)\n4. <strong>Project TL (Team Lead) name</strong>\n5. <strong>Client HQ location</strong>, CEO name, and IT Company CEO name\n\nThese help scope the project and understand the org structure.",tags:["Projects","General"],level:"Basic"},
+{q:"What are USOBX and USOBX_C tables?",a:"• <strong>USOBX</strong> — In SU22. Stores <strong>Check Indicators</strong> of Authorization Objects per T-code (whether SAP checks that auth object for that T-code).\n• <strong>USOBX_C</strong> — In SU24. Stores Standard + Customer check indicators.\n\nThese tables determine <strong>which auth objects are checked</strong> when a T-code is executed.",tags:["Tables","SU22","SU24"],level:"Advanced"},
+{q:"What happens if User Comparison is not done after role modification?",a:"If User Comparison is NOT done after modifying a role:\n• The <strong>profile in the user's buffer is outdated</strong>\n• New auth values are in the role/profile but NOT in the user's active session\n• User will NOT have the new access even though the role was changed\n• <strong>Fix:</strong> Run User Comparison in PFCG (User tab) or via PFUD for bulk operations\n• User may also need to logout/login to refresh their buffer",tags:["User Comparison","PFCG"],level:"Intermediate"},
+{q:"Can you assign the same role to a user multiple times with different validity dates?",a:"<strong>Yes!</strong> You can assign the same role to a user multiple times with different validity periods (Valid From/Valid Thru dates). This is useful for:\n• Temporary access (e.g., project duration)\n• Seasonal access\n• Backdating access when needed\n\nHowever, this should be managed carefully to avoid accidental overlap or gaps.",tags:["User Admin","Roles"],level:"Advanced"},
+{q:"What is a 'Reference User' and when is it used?",a:"A <strong>Reference User</strong> is a special user type that:\n• Has no password and cannot login via GUI\n• Provides <strong>extra authorization</strong> to Dialog users\n• Used when a Dialog user has hit the <strong>312-profile limit</strong>\n\nYou link a Reference User to a Dialog User in SU01 → Roles tab. The Dialog user then inherits all authorizations of the Reference User without counting toward their 312 limit.",tags:["User Types","Reference User"],level:"Advanced"},
+{q:"What are the non-technical SAP project roles in a security context?",a:"In SAP Security projects:\n• <strong>Security Admin</strong> — Creates/modifies roles, manages users\n• <strong>Security Lead/TL</strong> — Oversees security team, approves critical changes\n• <strong>CAB (Change Advisory Board)</strong> — Approves change requests\n• <strong>BASIS Team</strong> — Handles transports, system administration\n• <strong>Functional Team</strong> — Raises CRs, tests access\n• <strong>Audit Team</strong> — Reviews access for compliance",tags:["Teams","Projects"],level:"Basic"},
+{q:"What do you check in PFCG before assigning a role to users?",a:"Before assigning, verify:\n1. <strong>Description tab</strong> — Long text is filled with documentation\n2. <strong>Menu tab</strong> — All required T-codes are added\n3. <strong>Auth tab</strong> — All traffic lights are GREEN (fully maintained)\n4. <strong>Profile is generated</strong> (Profile tab shows a profile name)\n5. <strong>Role is not expired</strong> (check validity in Description)\n6. Positive and Negative testing has been completed",tags:["PFCG","Best Practices"],level:"Intermediate"},
+{q:"How does SAP handle password policy?",a:"SAP password policy is controlled via <strong>Profile Parameters</strong> (RZ11):\n• Minimum/maximum password length\n• Password complexity requirements\n• Password expiration interval\n• Failed logon attempts (login/fails_to_session_end)\n• Illegal passwords list stored in <strong>USRA40</strong> table\n\nThese apply to Dialog and Service users. System and Communication users are exempt.",tags:["Password Policy","Security"],level:"Intermediate"},
+{q:"What is the 'User Group' field in SU01 Logon Data?",a:"The <strong>User Group</strong> in SU01 is used to:\n• Group users for administrative purposes\n• Control which admins can manage which users (via S_USR_GRP auth object)\n• Used in mass operations (SU10) to filter users by group\n• Common groups: BASIS, SECURITY, ENDUSER, CONSULTANT\n\nImportant for segregation of duties in large organizations.",tags:["User Admin","User Groups"],level:"Intermediate"},
+{q:"What would you do if ST01 shows 0 Records Read?",a:"'0 Records Read' in ST01 indicates:\n1. <strong>Wrong server</strong> — User is on a different application server. Check AL08 + SM51 to find the correct server.\n2. <strong>Wrong input values</strong> — Incorrect user ID or trace criteria\n3. <strong>Trace not active during the action</strong> — Activate trace BEFORE user performs the action\n\n<strong>Solution:</strong> Use <code>STAUTHTRACE</code> instead — it works across all servers.",tags:["ST01","Troubleshooting"],level:"Intermediate"},
+{q:"Explain the concept of Least Privilege in SAP Security.",a:"<strong>Least Privilege</strong> means giving users only the minimum access they need to perform their job functions:\n• No extra T-codes beyond job requirements\n• Correct authorization values (not * unless necessary)\n• Time-limited access where appropriate\n• Regular access reviews to remove stale access\n\nIn SAP, this is implemented through well-designed single roles in PFCG with specific auth values instead of broad standard profiles.",tags:["Security Principles","Advanced"],level:"Advanced"},
+{q:"What is Segregation of Duties (SoD) in SAP context?",a:"<strong>SoD (Segregation of Duties)</strong> means no single user should have the ability to complete a sensitive end-to-end process alone. Example:\n• One user creates a vendor (XK01)\n• A different user pays that vendor (F110)\n• Having BOTH in one role creates a SoD conflict\n\nSAP GRC Access Control tool is commonly used to detect and manage SoD conflicts.",tags:["SoD","Advanced","Audit"],level:"Advanced"},
+{q:"What is the process for a SAP Security audit?",a:"SAP Security audit process typically includes:\n1. <strong>User Access Review</strong> — Review all user assignments, check for excessive access\n2. <strong>SoD Conflict Analysis</strong> — Check for segregation of duties violations\n3. <strong>Privileged Access Review</strong> — Check who has SAP_ALL or admin roles\n4. <strong>Default User Check</strong> — Verify SAP*, DDIC are secured\n5. <strong>Profile Parameter Review</strong> — Check password policies (RZ11)\n6. <strong>Transport Log Review</strong> — Check unauthorized transport activities\n\nTools: SUIM, GRC Access Control",tags:["Audit","Advanced"],level:"Advanced"},
+{q:"What does the Dialog process's 600ms limit mean practically?",a:"The 600ms limit for Dialog processes means:\n• Any user-interactive request should respond within 600ms\n• If it takes longer, SAP may route to different resources or generate alerts\n• Long-running tasks should use <strong>Background processes</strong> instead\n• From a security perspective, long dialog sessions that exceed this need to be evaluated for optimization or moved to batch\n\nMonitored via SM50/SM66.",tags:["Architecture","Performance"],level:"Advanced"},
+{q:"What is the difference between a user being locked and expired?",a:"• <strong>Locked</strong> — The user exists but cannot login. Lock codes: 64 (Admin), 128 (Wrong password), 32 (CUA). <strong>Fix:</strong> Unlock in SU01.\n• <strong>Expired</strong> — The user account's validity period has passed (Valid Thru date in Logon Data). <strong>Fix:</strong> Extend the validity date in SU01 → Logon Data tab.\n\nBoth prevent login but require different fixes.",tags:["User Admin","Lock vs Expire"],level:"Intermediate"},
+{q:"Can Derived Roles be modified to add new T-codes?",a:"<strong>No!</strong> In a Derived Role, you <strong>cannot modify the Menu or Authorization data</strong>. The only thing you can change in a Derived Role is the <strong>Org Level values</strong>.\n\nIf new T-codes are needed, they must be added to the <strong>Master Role</strong>. The derived roles will automatically inherit them.\n\nThis is why Master Role design is critical — it must be comprehensive from the start.",tags:["Derived Roles","PFCG"],level:"Intermediate"},
+{q:"What are the SAP standard profiles and why are they dangerous?",a:"Examples of dangerous standard profiles:\n• <strong>SAP_ALL</strong> — Provides ALL authorizations in the system. Super-admin access.\n• <strong>SAP_NEW</strong> — Provides access to newly released functionality\n• Module-specific standard profiles\n\n<strong>Dangerous because:</strong> They give far more access than any user needs, violate Least Privilege, create audit failures, and are hard to control.\n\n<strong>Rule:</strong> Only use custom roles created via PFCG.",tags:["Standard Profiles","Security"],level:"Basic"},
+{q:"What is the role of the Background process in SAP?",a:"The <strong>Background process</strong> handles long-duration and recurring activities:\n• Batch jobs (payroll processing, month-end closing)\n• Scheduled reports\n• Data migrations\n• Mass operations\n\nFrom a security perspective:\n• Users running batch jobs typically use <strong>System user type</strong>\n• Background jobs should be monitored via SM37\n• Security team controls which users/jobs can run in background",tags:["Architecture","Background"],level:"Intermediate"},
+{q:"How do you assign the same set of roles to multiple users efficiently?",a:"Several approaches:\n1. <strong>Composite Role</strong> — Bundle the roles into a composite, assign one composite to all users\n2. <strong>SU10</strong> — Mass User Maintenance — select multiple users, assign roles in bulk\n3. <strong>PFCG User tab</strong> — Add multiple users to a role at once\n4. <strong>CUA</strong> — Central User Administration for cross-system mass assignments\n\nUsing Composite Roles is the cleanest long-term solution.",tags:["Mass Operations","Roles"],level:"Intermediate"},
+{q:"What information does the 'Logon Data' tab in SU01 contain?",a:"The <strong>Logon Data</strong> tab in SU01 contains:\n• <strong>User Type</strong> (Dialog, System, Service, etc.)\n• <strong>User Group</strong>\n• <strong>Validity Period</strong> (Valid From / Valid Thru)\n• <strong>Password</strong> fields\n• <strong>Account ID / Cost Center</strong> (optional)\n\nThis is the most security-critical tab as it controls whether and how a user can log in.",tags:["SU01","Logon Data"],level:"Basic"},
+{q:"What does 'User Comparison' do in the PFCG User tab?",a:"<strong>User Comparison</strong> in PFCG:\n1. Reads all users assigned to the role\n2. Checks that the generated profile is in their user master record\n3. Adds the profile if missing (profile got assigned)\n4. Removes expired role assignments from user masters\n5. Makes role status 'green' in SU01\n\n<strong>Must be run</strong> after every role creation, modification, or user assignment change.",tags:["User Comparison","PFCG"],level:"Basic"},
+{q:"What is a 'Task' within a Transport Request?",a:"A <strong>Task</strong> is a work unit within a Transport Request:\n• Each person who works on a TR gets their own Task\n• Multiple tasks can exist in one TR\n• Example: Security admin's task has role changes; another task has config changes\n• All tasks must be <strong>released</strong> before the TR itself can be released\n• Tasks are auto-created when you save a role to a TR in PFCG",tags:["TMS","Transport"],level:"Intermediate"},
+{q:"What do you know about SAP GRC?",a:"<strong>SAP GRC</strong> (Governance, Risk, and Compliance) is a suite of tools that extends SAP Security:\n• <strong>Access Control</strong> — Manages SoD conflicts, role mining, firefighter IDs\n• <strong>Risk Management</strong> — Business risk monitoring\n• <strong>Process Control</strong> — Internal control automation\n\nFor SAP Security, GRC Access Control is most relevant:\n• Real-time SoD analysis\n• User Provisioning workflows\n• Emergency Access Management (Firefighter/FFID)\n• Role certification and periodic review",tags:["GRC","Advanced"],level:"Advanced"},
+{q:"Why would a user be able to run a T-code but get an error within it?",a:"This happens when the user has access to <strong>execute the T-code</strong> (it's in their role) but doesn't have the <strong>authorization for a specific function within that T-code</strong>.\n\nExample: User can open SU01 (has T-code access) but cannot assign roles (missing S_USER_AGR auth object with Activity 22).\n\n<strong>Troubleshoot via:</strong> SU53 (shows the failing auth object for that specific action), then add the auth value in PFCG.",tags:["Troubleshooting","Authorization"],level:"Intermediate"},
+{q:"What is the USRA40 table?",a:"<strong>USRA40</strong> stores the <strong>Illegal Passwords list</strong> — a list of passwords that users are NOT allowed to use in the system.\n\nAdmins can add common/weak passwords to this list to prevent users from setting them. This table can be maintained via SM30/SM31.\n\nWorks for Dialog users where password parameters are applied.",tags:["Tables","Password"],level:"Advanced"},
+{q:"What is the difference between SE09 and SE10?",a:"Both are Transport Organizer T-codes:\n• <strong>SE09</strong> — Used for <strong>Workbench Requests</strong> (ABAP, roles, technical objects)\n• <strong>SE10</strong> — Used for <strong>Customizing Requests</strong> (business config, user assignments, org values)\n\nIn practice, SE09 is more commonly used as it handles both types. You can view all TR types in SE09.",tags:["TMS","Transport"],level:"Intermediate"},
+{q:"What are the key difference between a single role and a composite role in terms of PFCG tabs?",a:"<strong>Single Role PFCG tabs:</strong> Description, Menu, Authorizations, User, Personalization\n\n<strong>Composite Role PFCG tabs:</strong> Description, Roles (add single roles here), Menu (use Import Menu), User, Personalization\n\nKey difference: Composite roles don't have an Authorizations tab — they inherit auth from their constituent single roles. You add single roles in the 'Roles' tab.",tags:["Single vs Composite","PFCG"],level:"Intermediate"},
+{q:"What happens to the 'Profiles' tab in SU01 when a role is assigned?",a:"When a role is assigned to a user and User Comparison is done:\n• The <strong>Profiles tab in SU01</strong> automatically gets populated with the generated profile linked to that role\n• Profile names start with 'T' (e.g., T:HR:PERSONNEL_ADMIN)\n• These profiles cannot be directly deleted — you must remove the role and run user comparison\n• Maximum 312 profiles per user",tags:["SU01","Profiles"],level:"Intermediate"},
+{q:"What is the importance of the Valid From/Valid Thru dates in role assignment?",a:"<strong>Validity dates</strong> on role assignments control access duration:\n• <strong>Valid From</strong> — Date access starts\n• <strong>Valid Thru</strong> — Date access expires\n\nImportance:\n• Temporary access for projects or contractors\n• Compliance — access auto-expires without manual intervention\n• PFUD cleanup removes expired role assignments\n• Best practice: always set dates even for permanent access (e.g., 10 years)",tags:["User Admin","Validity Dates"],level:"Basic"},
+{q:"What would you do if you accidentally deleted a role in Production?",a:"This is a critical incident. Steps:\n1. <strong>Don't panic</strong> — do not make further changes\n2. Check if role exists in <strong>DEV and QA</strong>\n3. If yes, create a transport request in DEV → add the role → release TR\n4. Fast-track the transport through QA → PRD\n5. If role is nowhere, check if a <strong>backup/transport history</strong> exists (BASIS team)\n6. As a last resort, recreate the role based on documentation/Change Request records\n7. Document the incident and implement controls to prevent recurrence",tags:["Incident Management","Advanced"],level:"Advanced"},
+];
+
+// ════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════
+let correct = 0, wrong = 0, answered = 0;
+
+// ════════════════════════════════════════════════════════════
+//  RENDER MCQ
+// ════════════════════════════════════════════════════════════
+function renderMCQ(data, container) {
+  container = container || document.getElementById('mcqContainer');
+  container.innerHTML = '';
+  data.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.dataset.idx = q._origIdx !== undefined ? q._origIdx : idx;
+    card.dataset.cat = q.cat;
+    card.dataset.answered = 'false';
+    const opts = q.o.map((o,i) => `
+      <button class="opt-btn" data-opt="${i}" onclick="selectOpt(this, ${q._origIdx !== undefined ? q._origIdx : idx}, ${q.a})">
+        <span class="opt-letter">${String.fromCharCode(65+i)}</span>
+        <span>${o}</span>
+      </button>`).join('');
+    card.innerHTML = `
+      <div class="q-header">
+        <span class="q-num">Q${(q._origIdx !== undefined ? q._origIdx : idx)+1}</span>
+        <span class="q-text">${q.q}</span>
+      </div>
+      <div class="q-category cat-${q.cat.toLowerCase().replace(/[^a-z]/g,'')}">${q.cat}</div>
+      <div class="options">${opts}</div>
+      <div class="explanation" id="exp-${q._origIdx !== undefined ? q._origIdx : idx}">${q.exp}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function selectOpt(btn, idx, correct_idx) {
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered === 'true') return;
+  card.dataset.answered = 'true';
+  const chosen = parseInt(btn.dataset.opt);
+  const allBtns = card.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.disabled = true);
+  if (chosen === correct_idx) {
+    btn.classList.add('correct');
+    correct++;
+  } else {
+    btn.classList.add('wrong');
+    allBtns[correct_idx].classList.add('correct');
+    wrong++;
+  }
+  answered++;
+  const exp = document.getElementById('exp-' + idx);
+  if (exp) exp.classList.add('show');
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('correctC').textContent = correct;
+  document.getElementById('wrongC').textContent = wrong;
+  document.getElementById('pctC').textContent = answered > 0 ? Math.round((correct/answered)*100)+'%' : '0%';
+  document.getElementById('globalScore').textContent = answered + ' / ' + mcqData.length + ' answered';
+  document.getElementById('globalProgress').style.width = (answered/mcqData.length*100)+'%';
+}
+
+function resetMCQ() {
+  correct = 0; wrong = 0; answered = 0;
+  mcqData.forEach((q,i) => q._origIdx = i);
+  renderMCQ(mcqData);
+  updateStats();
+  document.getElementById('mcqSearch').value = '';
+  document.getElementById('catFilter').value = 'all';
+}
+
+function filterMCQ() {
+  const q = document.getElementById('mcqSearch').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  const filtered = mcqData.filter((item,i) => {
+    item._origIdx = i;
+    const matchCat = cat === 'all' || item.cat === cat;
+    const matchQ = !q || item.q.toLowerCase().includes(q) || item.o.some(o=>o.toLowerCase().includes(q));
+    return matchCat && matchQ;
+  });
+  document.getElementById('totalQ').textContent = filtered.length;
+  renderMCQ(filtered);
+}
+
+// ════════════════════════════════════════════════════════════
+//  RENDER IQ
+// ════════════════════════════════════════════════════════════
+function renderIQ(data) {
+  const cont = document.getElementById('iqContainer');
+  cont.innerHTML = '';
+  data.forEach((q, idx) => {
+    const ansText = q.fullA || q.a;
+    const tags = (q.tags||[]).map(t=>`<span class="iq-tag">${t}</span>`).join('');
+    const levelColor = q.level==='Basic'?'#34d399':q.level==='Advanced'?'#f87171':'#fbbf24';
+    const card = document.createElement('div');
+    card.className = 'iq-card';
+    card.dataset.origIdx = idx;
+    card.innerHTML = `
+      <div class="iq-header" onclick="toggleIQ(this.parentElement)">
+        <span class="iq-num">Q${idx+1}</span>
+        <span class="iq-q">${q.q}</span>
+        <span class="iq-toggle">▾</span>
+      </div>
+      <div class="iq-answer">
+        <div class="iq-answer-inner">${ansText.replace(/\n/g,'<br>')}</div>
+        <div class="iq-tags" style="margin-top:8px;padding:0 0 4px">
+          <span class="iq-tag" style="background:rgba(${q.level==='Basic'?'52,211,153':q.level==='Advanced'?'248,113,113':'251,191,36'},0.1);color:${levelColor};border-color:${levelColor}55">${q.level||'Intermediate'}</span>
+          ${tags}
+        </div>
+      </div>`;
+    cont.appendChild(card);
+  });
+}
+
+function toggleIQ(card) {
+  card.classList.toggle('open');
+}
+function expandAllIQ() { document.querySelectorAll('.iq-card').forEach(c=>c.classList.add('open')); }
+function collapseAllIQ() { document.querySelectorAll('.iq-card').forEach(c=>c.classList.remove('open')); }
+
+function filterIQ() {
+  const q = document.getElementById('iqSearch').value.toLowerCase();
+  const filtered = iqData.filter((item,i)=>{
+    item._origIdx = i;
+    return !q || item.q.toLowerCase().includes(q) || (item.a||'').toLowerCase().includes(q) || (item.fullA||'').toLowerCase().includes(q);
+  });
+  renderIQ(filtered);
+}
+
+// ════════════════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════════════════
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════
+mcqData.forEach((q,i)=>q._origIdx=i);
+renderMCQ(mcqData);
+renderIQ(iqData);
+updateStats();
+</script>
+</body>
+</html>
