@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAP Security — Complete Notes</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#ffffff;--bg2:#f8f9fa;--bg3:#e9ecef;--card:#ffffff;--card2:#f8f9fa;
@@ -14,10 +14,12 @@
 --accent2:#7c3aed;
   --accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#212529;
   --text2:#6c757d;--text3:#495057;--header-h:56px;--mob-bar-h:60px;
+  --font-sans:'Atkinson Hyperlegible Next',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h)+12px)}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:16.5px;line-height:1.68;letter-spacing:.01em;text-rendering:optimizeLegibility;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;z-index:0;
   background-image:linear-gradient(rgba(0,0,0,.02)1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.02)1px,transparent 1px);
   background-size:32px 32px;pointer-events:none}
@@ -27,17 +29,17 @@ header{position:sticky;top:0;z-index:200;height:var(--header-h);
   background:rgba(255,255,255,.92);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;padding:0 1.5rem;gap:1rem}
-.logo{font-family:'IBM Plex Mono',monospace;font-size:.9rem;font-weight:700;color:var(--accent1);
-  letter-spacing:2px;white-space:nowrap;text-shadow:0 0 20px rgba(0,212,255,.4)}
+.logo{font-family:var(--font-mono);font-size:.9rem;font-weight:700;color:var(--accent1);
+  letter-spacing:2px;white-space:nowrap;text-shadow:0 0 20px rgba(37,99,235,.18)}
 .logo span{color:var(--text3)}
 .header-search{flex:1;max-width:360px;position:relative;margin-left:auto}
 .header-search input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;
-  padding:7px 14px 7px 36px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.75rem;outline:none;
+  padding:8px 14px 8px 36px;color:var(--text);font-family:var(--font-sans);font-size:.9rem;outline:none;
   transition:border-color .2s,box-shadow .2s}
-.header-search input:focus{border-color:var(--accent1);box-shadow:0 0 0 2px rgba(0,212,255,.1)}
+.header-search input:focus{border-color:var(--accent1);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
 .header-search input::placeholder{color:var(--text3)}
 .header-search .si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.8rem}
-.progress-wrap{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--text3)}
+.progress-wrap{display:flex;align-items:center;gap:8px;font-family:var(--font-sans);font-size:.72rem;color:var(--text3)}
 .progress-track{width:80px;height:3px;background:var(--border2);border-radius:2px}
 .progress-fill{height:100%;background:var(--accent1);border-radius:2px;width:0%;transition:width .3s;box-shadow:0 0 8px var(--accent1)}
 
@@ -48,7 +50,7 @@ header{position:sticky;top:0;z-index:200;height:var(--header-h);
   border-radius:8px;cursor:pointer;flex-shrink:0;padding:0;
   transition:border-color .25s,background .25s;
 }
-#mobHamburger:hover{border-color:var(--accent1);background:rgba(0,212,255,.08)}
+#mobHamburger:hover{border-color:var(--accent1);background:rgba(37,99,235,.08)}
 #mobHamburger.is-open{border-color:var(--accent2);background:rgba(124,58,237,.12)}
 .ham-line{display:block;width:18px;height:2px;background:var(--text2);border-radius:2px;
   transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s,background .2s;}
@@ -64,7 +66,7 @@ nav.sidebar{position:sticky;top:var(--header-h);height:calc(100vh - var(--header
   background:var(--bg2);border-right:1px solid var(--border);padding:1.25rem 0;
   scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .nav-group{margin-bottom:.25rem}
-.nav-group-title{font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;
+.nav-group-title{font-family:var(--font-sans);font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;
   color:var(--text3);padding:.9rem 1.25rem .35rem;font-weight:600;
   display:flex;justify-content:space-between;align-items:center;cursor:pointer;
   transition:color .2s;user-select:none}
@@ -75,9 +77,9 @@ nav.sidebar{position:sticky;top:var(--header-h);height:calc(100vh - var(--header
 .nav-group.collapsed .nav-group-content{max-height:0;opacity:0}
 .nav-item{display:flex;align-items:center;gap:10px;padding:7px 1.25rem;cursor:pointer;
   font-size:.76rem;color:var(--text2);border-left:2px solid transparent;
-  transition:all .18s;font-weight:500;text-decoration:none;font-family:'IBM Plex Sans',sans-serif}
-.nav-item:hover{color:var(--accent1);border-left-color:rgba(0,212,255,.4);background:rgba(0,212,255,.04)}
-.nav-item.active{color:var(--accent1);border-left-color:var(--accent1);background:rgba(0,212,255,.06)}
+  transition:all .18s;font-weight:500;text-decoration:none;font-family:var(--font-sans)}
+.nav-item:hover{color:var(--accent1);border-left-color:rgba(37,99,235,.4);background:rgba(37,99,235,.04)}
+.nav-item.active{color:var(--accent1);border-left-color:var(--accent1);background:rgba(37,99,235,.06)}
 .nav-item .nd{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:all .2s}
 .nav-item.active .nd,.nav-item:hover .nd{background:var(--accent1);box-shadow:0 0 8px var(--accent1)}
 .nav-item.special{color:var(--accent2)}
@@ -98,16 +100,16 @@ main{padding:2.5rem 3rem;max-width:960px}
 .section:nth-child(9){animation-delay:.36s}.section:nth-child(10){animation-delay:.40s}
 .section:nth-child(11){animation-delay:.44s}.section:nth-child(12){animation-delay:.48s}
 .section:nth-child(13){animation-delay:.52s}.section:nth-child(14){animation-delay:.56s}
-.section:nth-child(15){animation-delay:.60s}
-.section-num{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--accent1);letter-spacing:2.5px;font-weight:600;margin-bottom:.3rem;opacity:.7}
-h2.section-title{font-size:1.3rem;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.section:nth-child(15){animation-delay:.60s}.section:nth-child(16){animation-delay:.64s}
+.section-num{font-family:var(--font-sans);font-size:.68rem;color:var(--accent1);letter-spacing:1.2px;font-weight:700;margin-bottom:.3rem;opacity:.8}
+h2.section-title{font-size:1.38rem;font-weight:700;color:var(--text);letter-spacing:-.2px;line-height:1.3}
 .section-divider{height:1px;background:linear-gradient(90deg,var(--accent1),transparent);margin:.75rem 0 1.25rem;opacity:.25}
 
 /* ═══════════ CARDS ═══════════ */
 .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.4rem;
   margin-bottom:.9rem;transition:border-color .2s,box-shadow .2s,transform .15s;position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
-.card:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.3);transform:translateY(-1px)}
+.card:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.12);transform:translateY(-1px)}
 .card:hover::before{opacity:1}
 .card-cyan::before{background:linear-gradient(90deg,var(--accent1),transparent)}
 .card-purple::before{background:linear-gradient(90deg,var(--accent2),transparent)}
@@ -115,22 +117,22 @@ h2.section-title{font-size:1.3rem;font-weight:700;color:var(--text);letter-spaci
 .card-amber::before{background:linear-gradient(90deg,var(--accent4),transparent)}
 .card-red::before{background:linear-gradient(90deg,var(--accent5),transparent)}
 .card-red{border-color:rgba(239,68,68,.2)}
-.card-title{font-size:.78rem;font-weight:700;color:var(--accent1);margin-bottom:.6rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px}
+.card-title{font-size:.96rem;font-weight:700;color:var(--accent1);margin-bottom:.6rem;font-family:var(--font-sans);letter-spacing:0}
 .card-title.purple{color:var(--accent2)}.card-title.green{color:var(--accent3)}.card-title.amber{color:var(--accent4)}.card-title.red{color:var(--accent5)}
 
 /* ═══════════ CODE ═══════════ */
-code,.mono{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--accent1)}
+code,.mono{font-family:var(--font-mono);font-size:.78rem;color:var(--accent1)}
 .code-block{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem;
-  margin:.65rem 0;font-family:'IBM Plex Mono',monospace;font-size:.76rem;line-height:1.75;overflow-x:auto;color:var(--text)}
-.code-label{display:inline-block;background:var(--accent1);color:#000;font-family:'IBM Plex Mono',monospace;
+  margin:.65rem 0;font-family:var(--font-mono);font-size:.76rem;line-height:1.75;overflow-x:auto;color:var(--text)}
+.code-label{display:inline-block;background:var(--accent1);color:#fff;font-family:var(--font-sans);
   font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.45rem}
 .code-label.purple{background:var(--accent2);color:#fff}.code-label.green{background:var(--accent3);color:#000}
 .code-label.amber{background:var(--accent4);color:#000}.code-label.red{background:var(--accent5);color:#fff}
 
 /* ═══════════ TAGS ═══════════ */
 .tag{display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);
-  border-radius:4px;padding:3px 9px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent1);margin:2px;transition:all .2s;cursor:default}
-.tag:hover{background:rgba(0,212,255,.08);border-color:var(--accent1)}
+  border-radius:4px;padding:4px 10px;font-family:var(--font-sans);font-size:.76rem;color:var(--accent1);margin:2px;transition:all .2s;cursor:default}
+.tag:hover{background:rgba(37,99,235,.08);border-color:var(--accent1)}
 .tag.purple{color:var(--accent2)}.tag.purple:hover{background:rgba(124,58,237,.08);border-color:var(--accent2)}
 .tag.green{color:var(--accent3)}.tag.green:hover{background:rgba(16,185,129,.08);border-color:var(--accent3)}
 .tag.amber{color:var(--accent4)}.tag.amber:hover{background:rgba(245,158,11,.08);border-color:var(--accent4)}
@@ -138,7 +140,7 @@ code,.mono{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--ac
 
 /* ═══════════ LISTS ═══════════ */
 ul.notes-list{list-style:none}
-ul.notes-list li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:.85rem;color:var(--text);line-height:1.6;border-bottom:1px solid rgba(0,0,0,.04)}
+ul.notes-list li{display:flex;align-items:flex-start;gap:9px;padding:6px 0;font-size:.96rem;color:var(--text);line-height:1.72;border-bottom:1px solid rgba(0,0,0,.04)}
 ul.notes-list li:last-child{border-bottom:none}
 ul.notes-list li::before{content:'▸';color:var(--accent1);flex-shrink:0;margin-top:2px;font-size:.65rem}
 ul.notes-list li.warn::before{color:var(--accent4);content:'⚠'}
@@ -148,8 +150,9 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
 
 /* ═══════════ ALERTS ═══════════ */
 .alert{border-radius:8px;padding:.9rem 1.1rem;margin:.6rem 0;display:flex;gap:11px;align-items:flex-start;font-size:.84rem;line-height:1.6}
+.alert{font-size:.96rem;line-height:1.72}
 .alert-icon{font-size:.95rem;flex-shrink:0;margin-top:1px}
-.alert.info{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.15)}
+.alert.info{background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15)}
 .alert.warn{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2)}
 .alert.danger{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2)}
 .alert.success{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2)}
@@ -157,19 +160,19 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
 
 /* ═══════════ TABLE ═══════════ */
 .data-table{width:100%;border-collapse:collapse;margin:.6rem 0}
-.data-table th{background:var(--bg3);font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--accent1);padding:9px 12px;text-align:left;border-bottom:2px solid rgba(0,212,255,.3);font-weight:600}
-.data-table td{padding:8px 12px;font-size:.8rem;color:var(--text);border-bottom:1px solid var(--border);
-  font-family:'IBM Plex Mono',monospace;vertical-align:top;line-height:1.5}
-.data-table tr:hover td{background:rgba(0,212,255,.03)}
+.data-table th{background:var(--bg3);font-family:var(--font-sans);font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--accent1);padding:9px 12px;text-align:left;border-bottom:2px solid rgba(37,99,235,.3);font-weight:600}
+.data-table td{padding:10px 12px;font-size:.92rem;color:var(--text);border-bottom:1px solid var(--border);
+  font-family:var(--font-sans);vertical-align:top;line-height:1.62}
+.data-table tr:hover td{background:rgba(37,99,235,.03)}
 
 /* ═══════════ FLOW ═══════════ */
 .flow{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:.9rem;
   background:var(--bg3);border-radius:8px;margin:.6rem 0;border:1px solid var(--border)}
 .flow-node{background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:6px 12px;
-  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--text);white-space:nowrap;transition:all .2s;cursor:default}
-.flow-node:hover{border-color:var(--accent1);color:var(--accent1);box-shadow:0 0 12px rgba(0,212,255,.15)}
-.flow-node.highlight{background:rgba(0,212,255,.08);border-color:var(--accent1);color:var(--accent1)}
+  font-family:var(--font-sans);font-size:.84rem;color:var(--text);white-space:nowrap;transition:all .2s;cursor:default}
+.flow-node:hover{border-color:var(--accent1);color:var(--accent1);box-shadow:0 0 12px rgba(37,99,235,.15)}
+.flow-node.highlight{background:rgba(37,99,235,.08);border-color:var(--accent1);color:var(--accent1)}
 .flow-node.purple-node{background:rgba(124,58,237,.08);border-color:var(--accent2);color:var(--accent2)}
 .flow-node.green-node{background:rgba(16,185,129,.08);border-color:var(--accent3);color:var(--accent3)}
 .flow-node.amber-node{background:rgba(245,158,11,.08);border-color:var(--accent4);color:var(--accent4)}
@@ -182,14 +185,14 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
 /* ═══════════ HERO ═══════════ */
 .hero{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);
   border-radius:14px;padding:2rem;margin-bottom:3rem;position:relative;overflow:hidden}
-.hero::before{content:'SAP';position:absolute;right:-15px;top:-25px;font-family:'IBM Plex Mono',monospace;
-  font-size:9rem;font-weight:700;color:rgba(0,212,255,.04);line-height:1;pointer-events:none}
+.hero::before{content:'SAP';position:absolute;right:-15px;top:-25px;font-family:var(--font-mono);
+  font-size:9rem;font-weight:700;color:rgba(37,99,235,.04);line-height:1;pointer-events:none}
 .hero-title{font-size:1.9rem;font-weight:700;background:linear-gradient(90deg,var(--accent1),var(--accent2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem;line-height:1.2}
-.hero-sub{color:var(--text2);font-size:.85rem;margin-bottom:1.2rem;line-height:1.6}
+.hero-sub{color:var(--text2);font-size:1rem;margin-bottom:1.2rem;line-height:1.75;max-width:60ch}
 .hero-tags{display:flex;flex-wrap:wrap;gap:7px}
 .hero-tag{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border2);
-  border-radius:5px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--text2)}
+  border-radius:5px;padding:5px 10px;font-family:var(--font-sans);font-size:.76rem;color:var(--text2)}
 .hero-tag span{color:var(--accent1)}
 .special-thanks{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(16,185,129,.08));border:1px solid rgba(124,58,237,.2);
   border-radius:10px;padding:1.25rem;margin-bottom:2.5rem;display:flex;gap:14px;align-items:center}
@@ -197,9 +200,9 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
 .thanks-text{font-size:.82rem;color:var(--text2);line-height:1.6}
 .thanks-text strong{color:var(--accent2)}
 .compare-col{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.compare-header{padding:9px 13px;font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.compare-header{padding:9px 13px;font-family:var(--font-sans);font-size:.74rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase}
 .compare-body{padding:.9rem}
-.rc-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:4px;margin-right:6px}
+.rc-badge{display:inline-block;font-family:var(--font-sans);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:4px;margin-right:6px}
 .rc-0{background:rgba(16,185,129,.15);color:var(--accent3);border:1px solid var(--accent3)}
 .rc-4{background:rgba(245,158,11,.15);color:var(--accent4);border:1px solid var(--accent4)}
 .rc-8{background:rgba(239,68,68,.15);color:var(--accent5);border:1px solid var(--accent5)}
@@ -210,7 +213,7 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
 .step-item{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);counter-increment:step}
 .step-item:last-child{border-bottom:none}
 .step-num{width:24px;height:24px;border-radius:50%;background:var(--bg3);border:1px solid var(--accent1);
-  display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--accent1);flex-shrink:0;font-weight:700}
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:.7rem;color:var(--accent1);flex-shrink:0;font-weight:700}
 .step-content{font-size:.84rem;line-height:1.6;color:var(--text)}
 .accordion{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.6rem}
 .accordion-header{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;
@@ -244,7 +247,7 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
 .analogy-card .ana-desc{font-size:.8rem;color:var(--text2);line-height:1.5}
 .ana-original{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2)}
 .ana-original .ana-title{color:var(--accent3)}
-.ana-xerox{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.15)}
+.ana-xerox{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.15)}
 .ana-xerox .ana-title{color:var(--accent1)}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
@@ -252,7 +255,7 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
 /* ═══════════════════════════════════════════
    MOBILE OVERLAY + SLIDE-UP SHEET
 ════════════════════════════════════════════ */
-.mob-bar{display:none}/* hide old bottom bar everywhere */
+.mob-bar{display:none}
 .mob-overlay{
   position:fixed;inset:0;z-index:9998;
   background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
@@ -272,20 +275,21 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
 .mob-menu-sheet.open{transform:translateY(0)}
 .sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:12px auto 0;flex-shrink:0}
 .sheet-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem .5rem;flex-shrink:0;border-bottom:1px solid var(--border)}
-.sheet-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:700;color:var(--accent1);letter-spacing:2px;text-transform:uppercase}
-.sheet-close{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:.75rem;padding:4px 10px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s}
+.sheet-title{font-family:var(--font-sans);font-size:.78rem;font-weight:700;color:var(--accent1);letter-spacing:1px;text-transform:uppercase}
+.sheet-close{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:.82rem;padding:4px 10px;cursor:pointer;font-family:var(--font-sans);transition:all .2s}
 .sheet-close:hover{color:var(--accent5);border-color:var(--accent5)}
 .sheet-search-wrap{padding:.6rem 1.25rem;flex-shrink:0;border-bottom:1px solid var(--border)}
 .sheet-search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;
-  padding:8px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.75rem;outline:none;transition:border-color .2s}
+  padding:9px 12px;color:var(--text);font-family:var(--font-sans);font-size:.9rem;outline:none;transition:border-color .2s}
 .sheet-search-wrap input:focus{border-color:var(--accent1)}
 .sheet-search-wrap input::placeholder{color:var(--text3)}
 .sheet-body{overflow-y:auto;flex:1;padding:.5rem 0 .75rem}
+.sheet-body{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .sheet-body::-webkit-scrollbar{width:3px}
 .sheet-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 .sheet-group{margin-bottom:.25rem}
-.sheet-group-title{font-family:'IBM Plex Mono',monospace;font-size:.55rem;font-weight:700;
-  letter-spacing:3px;text-transform:uppercase;color:var(--text3);
+.sheet-group-title{font-family:var(--font-sans);font-size:.68rem;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;color:var(--text3);
   padding:.75rem 1.25rem .3rem;display:flex;justify-content:space-between;align-items:center;
   cursor:pointer;user-select:none;transition:color .2s}
 .sheet-group-title:hover{color:var(--accent1)}
@@ -297,16 +301,16 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   display:flex;align-items:center;gap:10px;
   padding:11px 1.25rem;cursor:pointer;
   font-size:.82rem;color:var(--text2);font-weight:500;
-  font-family:'IBM Plex Sans',sans-serif;
+  font-family:var(--font-sans);
   text-decoration:none;border-left:3px solid transparent;transition:all .15s;
 }
-.sheet-nav-item:hover{color:var(--text);background:rgba(0,212,255,.05);border-left-color:rgba(0,212,255,.3)}
-.sheet-nav-item.active{color:var(--accent1);background:rgba(0,212,255,.07);border-left-color:var(--accent1)}
+.sheet-nav-item:hover{color:var(--text);background:rgba(37,99,235,.05);border-left-color:rgba(37,99,235,.3)}
+.sheet-nav-item.active{color:var(--accent1);background:rgba(37,99,235,.07);border-left-color:var(--accent1)}
 .sheet-nav-item.special{color:var(--accent2)}
 .sheet-nav-item.special.active,.sheet-nav-item.special:hover{background:rgba(124,58,237,.07);border-left-color:var(--accent2)}
 .sheet-nav-item .snd{width:24px;height:24px;border-radius:6px;background:var(--bg3);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;transition:all .2s}
-.sheet-nav-item.active .snd{background:rgba(0,212,255,.15);border-color:var(--accent1);color:var(--accent1)}
+.sheet-nav-item.active .snd{background:rgba(37,99,235,.15);border-color:var(--accent1);color:var(--accent1)}
 .sheet-nav-item.special .snd{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);color:var(--accent2)}
 
 /* ═══════════ MOBILE OVERRIDES ═══════════ */
@@ -336,9 +340,7 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
 </head>
 <body>
 
-<!-- ═══════════ HEADER ═══════════ -->
 <header>
-  <!-- Hamburger: always top-left on mobile, hidden on desktop -->
   <button id="mobHamburger" aria-label="Open navigation menu">
     <span class="ham-line"></span>
     <span class="ham-line"></span>
@@ -348,7 +350,7 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   <div class="logo">SAP<span>//</span>SEC</div>
   <div class="header-search">
     <span class="si">🔍</span>
-    <input type="text" id="searchBox" placeholder="Search topics, tcodes…" />
+    <input type="text" id="searchBox" placeholder="Search topics, tcodes, tables…" />
   </div>
   <div class="progress-wrap">
     <span id="progressLabel">0%</span>
@@ -356,10 +358,8 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   </div>
 </header>
 
-<!-- ═══════════ LAYOUT ═══════════ -->
 <div class="layout">
 
-<!-- ──────────── DESKTOP SIDEBAR ──────────── -->
 <nav class="sidebar">
   <div class="nav-group">
     <div class="nav-group-title" onclick="toggleNavGroup(this)">Foundations <span class="tog">▼</span></div>
@@ -410,6 +410,7 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
     <div class="nav-group-content">
       <a class="nav-item" href="#s14"><span class="nd"></span>Projects &amp; SU22/SU24/SU25</a>
       <a class="nav-item" href="#s15"><span class="nd"></span>TCode Reference</a>
+      <a class="nav-item" href="#s16"><span class="nd"></span>Frequently Used Tables</a>
     </div>
   </div>
   <div class="nav-group">
@@ -420,10 +421,8 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   </div>
 </nav>
 
-<!-- ──────────── MAIN CONTENT ──────────── -->
 <main id="mainContent">
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-title">SAP Security — Complete Notes</div>
   <div class="hero-sub">Architecture · Landscape · Client &amp; User Admin · Profile Concept · Role Administration · Authorizations · Traffic Lights · Troubleshooting</div>
@@ -441,7 +440,6 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   </div>
 </div>
 
-<!-- SPECIAL THANKS -->
 <div class="special-thanks">
   <div style="font-size:1.8rem;flex-shrink:0">🙏</div>
   <div>
@@ -450,7 +448,6 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   </div>
 </div>
 
-<!-- N1 -->
 <div class="section" id="n1">
   <div class="section-num">00A — FOUNDATIONS</div>
   <h2 class="section-title">SAP Architecture</h2>
@@ -507,7 +504,6 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
   </div>
 </div>
 
-<!-- N2 -->
 <div class="section" id="n2">
   <div class="section-num">00B — FOUNDATIONS</div>
   <h2 class="section-title">SAP Landscape</h2>
@@ -550,7 +546,6 @@ CRM  :  CD1 → CQ1 → CP1</div>
   </div>
 </div>
 
-<!-- N3 -->
 <div class="section" id="n3">
   <div class="section-num">00C — FOUNDATIONS</div>
   <h2 class="section-title">Client Administration</h2>
@@ -571,7 +566,7 @@ CRM  :  CD1 → CQ1 → CP1</div>
     <div class="card-title green">Client Data Types</div>
     <div class="grid-2">
       <div class="compare-col">
-        <div class="compare-header" style="background:rgba(0,212,255,.08);color:var(--accent1)">Client Independent Data</div>
+        <div class="compare-header" style="background:rgba(37,99,235,.08);color:var(--accent1)">Client Independent Data</div>
         <div class="compare-body"><div style="font-size:.75rem;color:var(--text3);margin-bottom:.4rem">Standard Data — same across all clients</div><ul class="notes-list"><li>T-codes</li><li>ABAP Code / Programs</li><li>Repository objects</li></ul></div>
       </div>
       <div class="compare-col">
@@ -592,7 +587,6 @@ CRM  :  CD1 → CQ1 → CP1</div>
   </div>
 </div>
 
-<!-- N4 -->
 <div class="section" id="n4">
   <div class="section-num">00D — FOUNDATIONS</div>
   <h2 class="section-title">User Administration — SU01</h2>
@@ -667,12 +661,11 @@ CRM  :  CD1 → CQ1 → CP1</div>
     <div class="card-title">Key Facts to Remember</div>
     <div class="grid-2">
       <ul class="notes-list"><li><strong class="hl">Max User ID length:</strong> 12 characters</li><li><strong class="hl">Naming:</strong> First Name + Last Name<br><small>e.g., BALATHARAN MURALI → BALAMU</small></li><li><strong class="hl">Max profiles per user:</strong> 312</li></ul>
-      <ul class="notes-list"><li><strong class="hl">Mandatory fields:</strong> Last Name + Password</li><li><strong class="hl">User tables start with:</strong> <code>USR*</code></li><li><span class="tag">USR02</span> — User Logon Data</li><li><span class="tag">USRA40</span> — Illegal Passwords list</li></ul>
+      <ul class="notes-list"><li><strong class="hl">Mandatory fields:</strong> Last Name + Password</li><li><strong class="hl">User tables start with:</strong> <code>USR*</code></li><li><span class="tag">USR02</span> — User Logon Data</li><li><span class="tag">USR40</span> — Illegal Passwords list</li></ul>
     </div>
   </div>
 </div>
 
-<!-- S1 -->
 <div class="section" id="s1">
   <div class="section-num">01 — PROFILE CONCEPT</div>
   <h2 class="section-title">SAP Versions &amp; Profile History</h2>
@@ -696,13 +689,12 @@ EHP = Enhancement Package</div></div>
   <div class="card card-green">
     <div class="card-title green">Types of Profiles</div>
     <div class="grid-2">
-      <div class="compare-col"><div class="compare-header" style="background:rgba(0,212,255,.08);color:var(--accent1)">Standard Profiles</div><div class="compare-body"><ul class="notes-list"><li>Come with SAP installation</li><li>Can be assigned to users directly</li><li class="danger">SAP recommends <strong>NEVER assign</strong> — gives extra access</li></ul></div></div>
+      <div class="compare-col"><div class="compare-header" style="background:rgba(37,99,235,.08);color:var(--accent1)">Standard Profiles</div><div class="compare-body"><ul class="notes-list"><li>Come with SAP installation</li><li>Can be assigned to users directly</li><li class="danger">SAP recommends <strong>NEVER assign</strong> — gives extra access</li></ul></div></div>
       <div class="compare-col"><div class="compare-header" style="background:rgba(124,58,237,.08);color:var(--accent2)">Generated Profiles</div><div class="compare-body"><ul class="notes-list"><li>Created through Roles (PFCG)</li><li class="danger">Cannot be assigned to users directly</li><li class="info">Start with <span class="hl-p">T</span> alphabet</li><li class="success">Assign the <strong>Role</strong> to users instead</li></ul></div></div>
     </div>
   </div>
 </div>
 
-<!-- S2 -->
 <div class="section" id="s2">
   <div class="section-num">02 — ROLE ADMINISTRATION</div>
   <h2 class="section-title">Role Basics &amp; Role Matrix</h2>
@@ -716,7 +708,6 @@ EHP = Enhancement Package</div></div>
   <div class="card card-green"><div class="card-title green">Role Creation / Modification Process</div><div class="steps"><div class="step-item"><div class="step-num">1</div><div class="step-content">Respective Technical team fills <strong>Change Request (CR)</strong> form</div></div><div class="step-item"><div class="step-num">2</div><div class="step-content">Approved by <strong class="hl">CAB — Change Advisory Board</strong></div></div><div class="step-item"><div class="step-num">3</div><div class="step-content">Security team creates roles in <span class="tcode">PFCG</span></div></div></div></div>
 </div>
 
-<!-- S3 -->
 <div class="section" id="s3">
   <div class="section-num">03 — PFCG</div>
   <h2 class="section-title">Profile Generator — Role Types &amp; Naming</h2>
@@ -735,7 +726,6 @@ EHP = Enhancement Package</div></div>
   <div class="card card-amber"><div class="card-title amber">Testing Methods</div><div class="grid-2"><div><div class="code-label green">Positive Testing</div><div style="font-size:.84rem;margin-top:.5rem">Verify user <strong>CAN execute</strong> the T-codes assigned under the role.</div></div><div><div class="code-label amber">Negative Testing</div><div style="font-size:.84rem;margin-top:.5rem">Verify user <strong>CANNOT execute</strong> T-codes that are NOT in the role.</div></div></div></div>
 </div>
 
-<!-- S4 -->
 <div class="section" id="s4">
   <div class="section-num">04 — AUTHORIZATION DATA</div>
   <h2 class="section-title">Auth Objects, Fields, Org Levels &amp; Traffic Lights</h2>
@@ -764,7 +754,6 @@ EHP = Enhancement Package</div></div>
   </div>
 </div>
 
-<!-- S5 -->
 <div class="section" id="s5">
   <div class="section-num">05 — COMPOSITE ROLES</div>
   <h2 class="section-title">Group of Single Roles</h2>
@@ -773,7 +762,7 @@ EHP = Enhancement Package</div></div>
   <div class="card card-cyan">
     <div class="card-title">Scenario — Why Composite Roles?</div>
     <div class="grid-3">
-      <div class="compare-col"><div class="compare-header" style="background:rgba(0,212,255,.08);color:var(--accent1)">ABAP Roles</div><div class="compare-body"><ul class="notes-list"><li>ABAP Display Single Role</li><li>ABAP Full Access Single Role</li></ul></div></div>
+      <div class="compare-col"><div class="compare-header" style="background:rgba(37,99,235,.08);color:var(--accent1)">ABAP Roles</div><div class="compare-body"><ul class="notes-list"><li>ABAP Display Single Role</li><li>ABAP Full Access Single Role</li></ul></div></div>
       <div class="compare-col"><div class="compare-header" style="background:rgba(124,58,237,.08);color:var(--accent2)">BASIS Roles</div><div class="compare-body"><ul class="notes-list"><li>BASIS Display Role</li><li>BASIS Admin Role</li></ul></div></div>
       <div class="compare-col"><div class="compare-header" style="background:rgba(16,185,129,.08);color:var(--accent3)">Security Roles</div><div class="compare-body"><ul class="notes-list"><li>Security Display Role</li><li>Security Admin Role</li></ul></div></div>
     </div>
@@ -783,7 +772,6 @@ EHP = Enhancement Package</div></div>
   <div class="card card-green"><div class="card-title green">Composite Role — PFCG Tabs</div><table class="data-table"><tr><th>Tab</th><th>Action</th></tr><tr><td>Description</td><td>Fill LONG TEXT — Why, When, Who</td></tr><tr><td>Roles</td><td>Add the single roles here</td></tr><tr><td>Menu</td><td>Click <strong>Import Menu</strong> to see single roles and their T-codes</td></tr><tr><td>User</td><td>List of users assigned to this composite role</td></tr><tr><td>Personalization</td><td>⚠ Do NOT touch</td></tr></table></div>
 </div>
 
-<!-- S5A -->
 <div class="section" id="s5a">
   <div class="section-num">05A — MASTER ROLES</div>
   <h2 class="section-title">Foundation for Derived Roles</h2>
@@ -792,7 +780,7 @@ EHP = Enhancement Package</div></div>
     <div class="card-title green">What is a Master Role?</div>
     <div class="alert success" style="margin-bottom:.75rem"><span class="alert-icon">🎯</span><div><strong>Key Purpose:</strong> Master Roles eliminate role duplication by creating ONE versioned role that multiple derived roles can inherit from, ensuring consistency across the organization.</div></div>
     <div style="background:var(--bg3);border-radius:8px;padding:1.1rem;margin-bottom:.75rem;border-left:3px solid var(--accent3)">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:1px;color:var(--accent3);margin-bottom:.75rem">ROLE HIERARCHY</div>
+      <div style="font-family:var(--font-sans);font-size:.72rem;font-weight:700;letter-spacing:.8px;color:var(--accent3);margin-bottom:.75rem">ROLE HIERARCHY</div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.8rem">
         <div style="background:rgba(16,185,129,.15);padding:10px;border-radius:6px;text-align:center;flex:1;min-width:100px"><div style="font-weight:700;color:var(--accent3)">Master Role</div><div style="font-size:.72rem;color:var(--text2);margin-top:2px">X_FINANCE</div><div style="font-size:.68rem;color:var(--text3);margin-top:1px">Org Values: *</div></div>
         <div style="color:var(--text3);font-weight:700">→</div>
@@ -809,7 +797,6 @@ EHP = Enhancement Package</div></div>
   <div class="alert info"><span class="alert-icon">💡</span><div><strong>Critical Point:</strong> When you modify a Master Role, ALL derived roles automatically inherit those changes. However, organization-specific values in derived roles remain unchanged.</div></div>
 </div>
 
-<!-- S6 -->
 <div class="section" id="s6">
   <div class="section-num">06 — DERIVED ROLES</div>
   <h2 class="section-title">Master Role → Derived Roles</h2>
@@ -827,7 +814,6 @@ EHP = Enhancement Package</div></div>
   </div>
 </div>
 
-<!-- S7 -->
 <div class="section" id="s7">
   <div class="section-num">07 — ROLE MODIFICATION</div>
   <h2 class="section-title">Modifying Single, Composite &amp; Derived Roles</h2>
@@ -839,7 +825,6 @@ EHP = Enhancement Package</div></div>
   </div>
 </div>
 
-<!-- S7A -->
 <div class="section" id="s7a">
   <div class="section-num">07A — TRANSPORT MANAGEMENT SYSTEM</div>
   <h2 class="section-title">Moving Roles Across Environments</h2>
@@ -848,7 +833,7 @@ EHP = Enhancement Package</div></div>
   <div class="card card-purple">
     <div class="card-title purple">The 3-Environment Journey</div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:.5rem 0">
-      <div style="background:rgba(0,212,255,.08);padding:12px 16px;border-radius:8px;text-align:center;flex:1;min-width:120px"><div style="font-weight:700;color:var(--accent1);margin-bottom:3px">📝 DEV</div><div style="font-size:.72rem;color:var(--text2)">Development</div></div>
+      <div style="background:rgba(37,99,235,.08);padding:12px 16px;border-radius:8px;text-align:center;flex:1;min-width:120px"><div style="font-weight:700;color:var(--accent1);margin-bottom:3px">📝 DEV</div><div style="font-size:.72rem;color:var(--text2)">Development</div></div>
       <div style="color:var(--text3);font-weight:700;font-size:1.2rem">→</div>
       <div style="background:rgba(245,158,11,.08);padding:12px 16px;border-radius:8px;text-align:center;flex:1;min-width:120px"><div style="font-weight:700;color:var(--accent4);margin-bottom:3px">✓ QA</div><div style="font-size:.72rem;color:var(--text2)">Quality Assurance</div></div>
       <div style="color:var(--text3);font-weight:700;font-size:1.2rem">→</div>
@@ -862,7 +847,6 @@ Example: ECCK900035
   <div class="card card-purple"><div class="card-title purple">Role Transport Workflow</div><div class="steps"><div class="step-item"><div class="step-num">1</div><div class="step-content"><strong>In DEV:</strong> Create role in PFCG — system automatically creates a Workbench TR.</div></div><div class="step-item"><div class="step-num">2</div><div class="step-content"><strong>Assign to TR:</strong> Go to <span class="tcode">SE09</span> → specify Workbench TR to attach the role.</div></div><div class="step-item"><div class="step-num">3</div><div class="step-content"><strong>Release Request:</strong> In SE09, select the TR and click "Release".</div></div><div class="step-item"><div class="step-num">4</div><div class="step-content"><strong>Transport to QA:</strong> TMS moves the role from DEV → QA.</div></div><div class="step-item"><div class="step-num">5</div><div class="step-content"><strong>Validate in QA:</strong> Test the role, verify users can perform required transactions.</div></div><div class="step-item"><div class="step-num">6</div><div class="step-content"><strong>Transport to PRD:</strong> Both Workbench TR and Customizing TR move to Production.</div></div></div></div>
 </div>
 
-<!-- S8 -->
 <div class="section" id="s8">
   <div class="section-num">08 — ROLE DELETION</div>
   <h2 class="section-title">Deleting Roles Across Environments</h2>
@@ -873,7 +857,6 @@ Example: ECCK900035
   </div>
 </div>
 
-<!-- S9 -->
 <div class="section" id="s9">
   <div class="section-num">09 — TROUBLESHOOTING</div>
   <h2 class="section-title">Common Authorization Issues</h2>
@@ -884,7 +867,6 @@ Example: ECCK900035
   <div class="card card-cyan"><div class="card-title">T-Codes Used for Troubleshooting</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:.5rem"><span class="tcode">SU53</span><span class="tcode">SU56</span><span class="tcode">ST01</span><span class="tcode">STAUTHTRACE</span></div></div>
 </div>
 
-<!-- S10 -->
 <div class="section" id="s10">
   <div class="section-num">10 — TOOLS</div>
   <h2 class="section-title">SU53 — Auth Check &amp; SU56 — User Buffer</h2>
@@ -895,7 +877,6 @@ Example: ECCK900035
   </div>
 </div>
 
-<!-- S11 -->
 <div class="section" id="s11">
   <div class="section-num">11 — TRACE TOOLS</div>
   <h2 class="section-title">ST01 System Trace &amp; STAUTHTRACE</h2>
@@ -907,7 +888,6 @@ Example: ECCK900035
   </div>
 </div>
 
-<!-- S12 -->
 <div class="section" id="s12">
   <div class="section-num">12 — SUIM</div>
   <h2 class="section-title">User Information System</h2>
@@ -916,7 +896,6 @@ Example: ECCK900035
   <div class="card card-cyan"><div class="card-title">Common SUIM Queries (Practice)</div><ul class="notes-list"><li>Find all users who have access to <span class="tcode">SU01</span> with Activity: <code>60</code></li><li>Find users whose User ID starts with <code>'S'</code> AND have access to SU01</li><li>Find all locked users in the system</li><li>Find roles containing T-codes: SU01, SU10, PFCG, SU53, SU56</li><li>Find roles starting with <code>'X'</code> that contain SU01 T-code</li><li>Find roles that give access to auth values: <code>S_TABU_DIS</code> → Activity: 03, Auth Group: SS</li><li>Find complete list of all Composite Roles in the system</li><li>Find T-codes assigned to user <code>USERGRC14</code></li><li>Find all Auth Objects which contain Activity as a field</li></ul></div>
 </div>
 
-<!-- S13 -->
 <div class="section" id="s13">
   <div class="section-num">13 — PFUD</div>
   <h2 class="section-title">Mass User Comparison</h2>
@@ -926,7 +905,6 @@ Example: ECCK900035
   <div class="card card-purple"><div class="card-title purple">Actions Performed in PFUD</div><div class="grid-2"><div><div class="code-label purple">1. Profile Matchup</div><ul class="notes-list" style="margin-top:.5rem"><li class="info">Ensures profiles get assigned to users</li><li class="info">Makes role status green under SU01</li></ul></div><div><div class="code-label">2. Composite Role Reconciliation</div><ul class="notes-list" style="margin-top:.5rem"><li class="info">When composite role is modified (role added/removed), reflects change to users</li></ul></div><div><div class="code-label green">3. HR Org Mgmt Reconciliation</div><ul class="notes-list" style="margin-top:.5rem"><li class="info">Ensures roles assigned to org positions reach the users under those positions</li></ul></div><div><div class="code-label amber">4. Cleanups</div><ul class="notes-list" style="margin-top:.5rem"><li class="info">Removes expired roles from SU01 user records</li></ul></div></div></div>
 </div>
 
-<!-- S14 -->
 <div class="section" id="s14">
   <div class="section-num">14 — IMPLEMENTATION</div>
   <h2 class="section-title">Project Types &amp; SU22 / SU24 / SU25 Setup</h2>
@@ -944,12 +922,11 @@ Example: ECCK900035
   </div>
 </div>
 
-<!-- S15 -->
 <div class="section" id="s15">
   <div class="section-num">15 — QUICK REFERENCE</div>
   <h2 class="section-title">Complete T-Code Reference</h2>
   <div class="section-divider"></div>
-  <div style="margin-bottom:1rem"><input type="text" id="tcodeFilter" placeholder="Filter T-codes…" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:8px 14px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.78rem;outline:none;transition:border-color .2s"/></div>
+  <div style="margin-bottom:1rem"><input type="text" id="tcodeFilter" placeholder="Filter T-codes…" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:9px 14px;color:var(--text);font-family:var(--font-sans);font-size:.92rem;outline:none;transition:border-color .2s"/></div>
   <div class="card" style="padding:0;overflow:hidden">
     <table class="data-table" id="tcodeTable">
       <thead><tr><th>#</th><th>T-Code</th><th>Description</th><th>Category</th></tr></thead>
@@ -994,12 +971,65 @@ Example: ECCK900035
   </div>
 </div>
 
+<div class="section" id="s16">
+  <div class="section-num">16 — TABLE REFERENCE</div>
+  <h2 class="section-title">Frequently Used SAP Security Tables</h2>
+  <div class="section-divider"></div>
+  <div class="alert info"><span class="alert-icon">🗃</span><div>This quick list covers the SAP tables most frequently used in <strong>SAP Security</strong> work for user admin, roles, authorizations, menu analysis, SU24 maintenance, and audits.</div></div>
+  <div class="card card-cyan">
+    <div class="card-title">High-Use Table Families</div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="tag">USR*</span>
+      <span class="tag purple">AGR*</span>
+      <span class="tag green">USOB*</span>
+      <span class="tag amber">UST*</span>
+      <span class="tag">TSTC / TSTCT</span>
+      <span class="tag red">CDHDR / CDPOS</span>
+      <span class="tag purple">TOBJ</span>
+      <span class="tag green">TACT / TACTT</span>
+    </div>
+  </div>
+  <div style="margin-bottom:1rem"><input type="text" id="sapTableFilter" placeholder="Filter SAP tables…" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:9px 14px;color:var(--text);font-family:var(--font-sans);font-size:.92rem;outline:none;transition:border-color .2s"/></div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="data-table" id="sapTableRef">
+      <thead><tr><th>#</th><th>Table</th><th>Description</th><th>Category</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>USR02</code></td><td>User logon data, user type, lock status, validity, last logon details</td><td><span class="tag">User Master</span></td></tr>
+        <tr><td>2</td><td><code>USR21</code></td><td>User to address link; commonly used to connect users with address data</td><td><span class="tag">User Master</span></td></tr>
+        <tr><td>3</td><td><code>USR04</code></td><td>User master authorizations and profile-related assignment details</td><td><span class="tag">User Master</span></td></tr>
+        <tr><td>4</td><td><code>USR05</code></td><td>User parameter IDs maintained in SU01 Parameters tab</td><td><span class="tag">User Master</span></td></tr>
+        <tr><td>5</td><td><code>USR40</code></td><td>Illegal password table</td><td><span class="tag">Security Policy</span></td></tr>
+        <tr><td>6</td><td><code>AGR_DEFINE</code></td><td>Role definition header; useful for single, composite, master, and derived role checks</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>7</td><td><code>AGR_TEXTS</code></td><td>Role description texts</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>8</td><td><code>AGR_USERS</code></td><td>Users assigned to roles</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>9</td><td><code>AGR_TCODES</code></td><td>Transaction codes contained in a role menu</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>10</td><td><code>AGR_AGRS</code></td><td>Relationship between composite roles and single roles</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>11</td><td><code>AGR_1251</code></td><td>Authorization object values inside roles</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>12</td><td><code>AGR_1252</code></td><td>Organizational level values for roles</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>13</td><td><code>AGR_PROF</code></td><td>Generated profile names linked to roles</td><td><span class="tag purple">Role Mgmt</span></td></tr>
+        <tr><td>14</td><td><code>UST04</code></td><td>Profiles assigned to users</td><td><span class="tag green">Profiles</span></td></tr>
+        <tr><td>15</td><td><code>UST10S</code></td><td>Authorization profiles and their authorization objects</td><td><span class="tag green">Profiles</span></td></tr>
+        <tr><td>16</td><td><code>UST12</code></td><td>Detailed authorization values inside profiles</td><td><span class="tag green">Profiles</span></td></tr>
+        <tr><td>17</td><td><code>USOBX</code></td><td>SAP standard check indicators for authorization objects by transaction</td><td><span class="tag amber">SU22</span></td></tr>
+        <tr><td>18</td><td><code>USOBT</code></td><td>SAP standard proposal values for authorization objects by transaction</td><td><span class="tag amber">SU22</span></td></tr>
+        <tr><td>19</td><td><code>USOBX_C</code></td><td>Customer-maintained SU24 check indicators</td><td><span class="tag amber">SU24</span></td></tr>
+        <tr><td>20</td><td><code>USOBT_C</code></td><td>Customer-maintained SU24 authorization proposal data</td><td><span class="tag amber">SU24</span></td></tr>
+        <tr><td>21</td><td><code>TOBJ</code></td><td>Authorization object definitions</td><td><span class="tag">Auth Objects</span></td></tr>
+        <tr><td>22</td><td><code>TACT</code></td><td>Activity values such as 01, 02, 03, 06</td><td><span class="tag">Auth Objects</span></td></tr>
+        <tr><td>23</td><td><code>TACTT</code></td><td>Texts/descriptions for activity values</td><td><span class="tag">Auth Objects</span></td></tr>
+        <tr><td>24</td><td><code>TSTC</code></td><td>Transaction code technical definitions</td><td><span class="tag green">T-Code Ref</span></td></tr>
+        <tr><td>25</td><td><code>TSTCT</code></td><td>Transaction code texts/descriptions</td><td><span class="tag green">T-Code Ref</span></td></tr>
+        <tr><td>26</td><td><code>CDHDR</code></td><td>Change document headers; useful for audit trails</td><td><span class="tag red">Audit</span></td></tr>
+        <tr><td>27</td><td><code>CDPOS</code></td><td>Change document item-level details; used with CDHDR</td><td><span class="tag red">Audit</span></td></tr>
+        <tr><td>28</td><td><code>ADRP</code></td><td>Person/address master data often joined through USR21 for user details</td><td><span class="tag">Address</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 </main>
 </div>
 
-<!-- ══════════════════════════════════════
-     OVERLAY + SLIDE-UP NAVIGATION SHEET
-══════════════════════════════════════ -->
 <div class="mob-overlay" id="mobOverlay"></div>
 
 <div class="mob-menu-sheet" id="mobSheet">
@@ -1061,6 +1091,7 @@ Example: ECCK900035
         <a class="sheet-nav-item" href="#s13"><span class="snd">🔄</span>PFUD — User Compare</a>
         <a class="sheet-nav-item" href="#s14"><span class="snd">🛠</span>Projects &amp; SU22/SU24/SU25</a>
         <a class="sheet-nav-item" href="#s15"><span class="snd">📋</span>TCode Reference</a>
+        <a class="sheet-nav-item" href="#s16"><span class="snd">🗃</span>Frequently Used Tables</a>
       </div>
     </div>
 
@@ -1076,14 +1107,15 @@ Example: ECCK900035
 </div>
 
 <script>
-/* ═══════════ CORE UTILITIES ═══════════ */
 function toggleNavGroup(el){ el.parentElement.classList.toggle('collapsed') }
 function toggleAccordion(id){ document.getElementById(id).classList.toggle('open') }
 
-/* ═══════════ SHEET OPEN / CLOSE ═══════════ */
-var _sheet   = document.getElementById('mobSheet');
+var _sheet = document.getElementById('mobSheet');
 var _overlay = document.getElementById('mobOverlay');
-var _hbtn    = document.getElementById('mobHamburger');
+var _hbtn = document.getElementById('mobHamburger');
+var _sheetBody = document.getElementById('sheetBody');
+var _sheetHandle = document.querySelector('.sheet-handle');
+var _sheetHeader = document.querySelector('.sheet-header');
 
 function openSheet(){
   _sheet.classList.add('open');
@@ -1101,16 +1133,10 @@ function toggleSheet(){
   _sheet.classList.contains('open') ? closeSheet() : openSheet();
 }
 
-/* Hamburger click */
 _hbtn.addEventListener('click', toggleSheet);
-
-/* Overlay click closes sheet */
 _overlay.addEventListener('click', closeSheet);
-
-/* Close button */
 document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
 
-/* ═══════════ SHEET NAV ITEMS — smooth scroll + close ═══════════ */
 document.querySelectorAll('.sheet-nav-item').forEach(function(item){
   item.addEventListener('click', function(e){
     var href = item.getAttribute('href');
@@ -1129,14 +1155,12 @@ document.querySelectorAll('.sheet-nav-item').forEach(function(item){
   });
 });
 
-/* ═══════════ SHEET GROUP COLLAPSE ═══════════ */
 document.querySelectorAll('.sheet-group-title').forEach(function(title){
   title.addEventListener('click', function(){
     title.closest('.sheet-group').classList.toggle('scollapsed');
   });
 });
 
-/* ═══════════ SHEET SEARCH FILTER ═══════════ */
 document.getElementById('sheetSearch').addEventListener('input', function(){
   var q = this.value.toLowerCase().trim();
   document.querySelectorAll('.sheet-nav-item').forEach(function(item){
@@ -1150,15 +1174,22 @@ document.getElementById('sheetSearch').addEventListener('input', function(){
   });
 });
 
-/* ═══════════ SWIPE DOWN TO CLOSE (touch) ═══════════ */
 var _startY = 0;
-_sheet.addEventListener('touchstart', function(e){ _startY = e.touches[0].clientY; }, { passive: true });
-_sheet.addEventListener('touchmove', function(e){
+var _canSwipeClose = false;
+function onSheetSwipeStart(e){
+  _startY = e.touches[0].clientY;
+  _canSwipeClose = _sheetBody.scrollTop <= 0;
+}
+function onSheetSwipeMove(e){
+  if(!_canSwipeClose) return;
   var dy = e.touches[0].clientY - _startY;
-  if(dy > 60 && _sheet.scrollTop <= 0) closeSheet();
-}, { passive: true });
+  if(dy > 85) closeSheet();
+}
+[_sheetHandle, _sheetHeader].forEach(function(el){
+  el.addEventListener('touchstart', onSheetSwipeStart, { passive: true });
+  el.addEventListener('touchmove', onSheetSwipeMove, { passive: true });
+});
 
-/* ═══════════ GLOBAL SEARCH (header) ═══════════ */
 document.getElementById('searchBox').addEventListener('input', function(){
   var q = this.value.toLowerCase().trim();
   document.querySelectorAll('.section').forEach(function(sec){
@@ -1166,7 +1197,6 @@ document.getElementById('searchBox').addEventListener('input', function(){
   });
 });
 
-/* ═══════════ T-CODE TABLE FILTER ═══════════ */
 document.getElementById('tcodeFilter').addEventListener('input', function(){
   var q = this.value.toLowerCase();
   document.querySelectorAll('#tcodeTable tbody tr').forEach(function(row){
@@ -1174,7 +1204,13 @@ document.getElementById('tcodeFilter').addEventListener('input', function(){
   });
 });
 
-/* ═══════════ T-CODE CLICK TO COPY ═══════════ */
+document.getElementById('sapTableFilter').addEventListener('input', function(){
+  var q = this.value.toLowerCase();
+  document.querySelectorAll('#sapTableRef tbody tr').forEach(function(row){
+    row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
 document.querySelectorAll('.tcode').forEach(function(el){
   el.title = 'Click to copy';
   el.addEventListener('click', function(){
@@ -1186,14 +1222,12 @@ document.querySelectorAll('.tcode').forEach(function(el){
   });
 });
 
-/* ═══════════ SCROLL PROGRESS ═══════════ */
 window.addEventListener('scroll', function(){
   var pct = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressLabel').textContent = pct + '%';
 });
 
-/* ═══════════ INTERSECTION OBSERVER (active desktop nav) ═══════════ */
 var allNavItems = document.querySelectorAll('.nav-item');
 var allSheetItems = document.querySelectorAll('.sheet-nav-item');
 var io = new IntersectionObserver(function(entries){
@@ -1207,7 +1241,6 @@ var io = new IntersectionObserver(function(entries){
 }, { threshold: 0.25, rootMargin: '-60px 0px -40% 0px' });
 document.querySelectorAll('.section[id]').forEach(function(s){ io.observe(s); });
 
-/* ═══════════ DESKTOP NAV — smooth scroll ═══════════ */
 allNavItems.forEach(function(item){
   item.addEventListener('click', function(e){
     var href = item.getAttribute('href');
@@ -1223,7 +1256,6 @@ allNavItems.forEach(function(item){
   });
 });
 
-/* ═══════════ INIT: collapse nav groups except first ═══════════ */
 document.querySelectorAll('.nav-group').forEach(function(g, i){ if(i > 0) g.classList.add('collapsed'); });
 </script>
 </body>
