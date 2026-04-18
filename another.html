@@ -4,28 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAP Security Mastery</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #ffffff;
-    --surface: #f8f9fa;
-    --surface2: #f0f1f3;
-    --border: #e5e7eb;
-    --accent: #0891b2;
-    --accent2: #7c3aed;
-    --accent3: #d97706;
-    --text: #111827;
-    --muted: #4b5563;
-    --success: #059669;
-    --danger: #dc2626;
-    --glow: 0 0 20px rgba(8,145,178,0.15);
-    --glow2: 0 0 20px rgba(124,58,237,0.15);
+    --bg:#ffffff; --bg2:#f8f9fa; --bg3:#f0f1f3;
+    --card:#ffffff; --card2:#f8f9fa; --border:#e8eaed;
+    --accent1:#1f2937; --accent2:#7c3aed; --accent3:#059669;
+    --accent4:#d97706; --accent5:#dc2626;
+    --text:#1f2937; --text2:#6b7280; --text3:#9ca3af;
+    --glow:rgba(31,41,55,.08);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -40,8 +33,8 @@
     position: fixed;
     inset: 0;
     background-image: 
-      linear-gradient(rgba(8,145,178,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(8,145,178,0.05) 1px, transparent 1px);
+      linear-gradient(rgba(31,41,55,.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(31,41,55,.02) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
@@ -79,7 +72,7 @@
   .logo-icon {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -94,7 +87,7 @@
   .logo-text {
     font-size: 16px;
     font-weight: 800;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     white-space: nowrap;
@@ -110,7 +103,7 @@
 
   .progress-label {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text2);
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 500;
   }
@@ -124,7 +117,7 @@
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
     border-radius: 2px;
     transition: width 0.4s ease;
     width: 0%;
@@ -153,9 +146,9 @@
 
   .hero-tag {
     display: inline-block;
-    background: rgba(8,145,178,0.1);
-    border: 1px solid rgba(8,145,178,0.3);
-    color: var(--accent);
+    background: rgba(31,41,55,0.1);
+    border: 1px solid rgba(31,41,55,0.3);
+    color: var(--accent1);
     padding: 5px 14px;
     border-radius: 100px;
     font-size: 12px;
@@ -175,13 +168,13 @@
   }
 
   .hero h1 span {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .hero p {
-    color: var(--muted);
+    color: var(--text2);
     font-size: clamp(15px, 2vw, 18px);
     max-width: 500px;
     margin: 0 auto 32px;
@@ -205,13 +198,13 @@
   .stat-num {
     font-size: 24px;
     font-weight: 800;
-    color: var(--accent);
+    color: var(--accent1);
     font-family: 'Space Mono', monospace;
   }
 
   .stat-label {
     font-size: 13px;
-    color: var(--muted);
+    color: var(--text2);
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 500;
   }
@@ -234,7 +227,7 @@
   }
 
   .module-card {
-    background: var(--surface);
+    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 20px;
@@ -251,13 +244,13 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
     opacity: 0;
     transition: opacity 0.25s;
   }
 
   .module-card:hover {
-    border-color: rgba(0,229,255,0.3);
+    border-color: rgba(31,41,55,0.3);
     transform: translateY(-3px);
     box-shadow: var(--glow);
   }
@@ -312,7 +305,7 @@
 
   .module-desc {
     font-size: 13px;
-    color: var(--muted);
+    color: var(--text2);
     line-height: 1.6;
     margin-bottom: 14px;
     font-weight: 500;
@@ -322,7 +315,7 @@
     display: flex;
     gap: 12px;
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text2);
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 500;
   }
@@ -348,7 +341,7 @@
   /* LESSON PANEL */
   .lesson-panel {
     display: none;
-    background: var(--surface);
+    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 20px;
     overflow: hidden;
@@ -364,7 +357,7 @@
     gap: 12px;
     padding: 20px;
     border-bottom: 1px solid var(--border);
-    background: var(--surface2);
+    background: var(--bg3);
     flex-wrap: wrap;
     gap: 12px;
   }
@@ -372,7 +365,7 @@
   .btn-back {
     background: transparent;
     border: 1px solid var(--border);
-    color: var(--muted);
+    color: var(--text2);
     padding: 8px 14px;
     border-radius: 8px;
     cursor: pointer;
@@ -383,11 +376,11 @@
     font-weight: 500;
   }
 
-  .btn-back:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-back:hover { border-color: var(--accent1); color: var(--accent1); }
 
   .lesson-title-wrap { flex: 1; min-width: 0; }
   .lesson-title-wrap h2 { font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lesson-title-wrap p { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+  .lesson-title-wrap p { font-size: 12px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
 
   .lesson-body { padding: 20px; }
 
@@ -412,16 +405,16 @@
     font-weight: 600;
     white-space: nowrap;
     transition: all 0.2s;
-    color: var(--muted);
+    color: var(--text2);
     background: transparent;
     border: none;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 
   .tab.active {
-    background: var(--surface2);
-    color: var(--accent);
-    box-shadow: 0 0 0 1px rgba(8,145,178,0.2);
+    background: var(--bg3);
+    color: var(--accent1);
+    box-shadow: 0 0 0 1px rgba(31,41,55,0.2);
   }
 
   .tab-content { display: none; }
@@ -439,7 +432,7 @@
   .content-block h3 {
     font-size: 14px;
     font-weight: 700;
-    color: var(--accent);
+    color: var(--accent1);
     margin-bottom: 12px;
     font-family: 'IBM Plex Mono', monospace;
     text-transform: uppercase;
@@ -473,7 +466,7 @@
 
   .kv-table td:first-child {
     font-family: 'IBM Plex Mono', monospace;
-    color: var(--accent);
+    color: var(--accent1);
     font-weight: 500;
     width: 40%;
     white-space: nowrap;
@@ -484,8 +477,8 @@
   /* HIGHLIGHT BOX */
   .highlight-box {
     background: rgba(8,145,178,0.05);
-    border: 1px solid rgba(8,145,178,0.2);
-    border-left: 3px solid var(--accent);
+    border: 1px solid rgba(31,41,55,0.2);
+    border-left: 3px solid var(--accent1);
     border-radius: 8px;
     padding: 14px 16px;
     margin: 14px 0;
@@ -544,7 +537,7 @@
 
   .quiz-num {
     font-family: 'IBM Plex Mono', monospace;
-    color: var(--accent);
+    color: var(--accent1);
     font-size: 12px;
     margin-bottom: 6px;
     font-weight: 500;
@@ -559,18 +552,18 @@
     cursor: pointer;
     font-size: 14px;
     transition: all 0.2s;
-    background: var(--surface);
+    background: var(--bg2);
     color: var(--text);
     text-align: left;
     width: 100%;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
     font-weight: 500;
   }
 
   .option:hover:not(:disabled) {
-    border-color: rgba(8,145,178,0.4);
-    background: rgba(8,145,178,0.05);
+    border-color: rgba(31,41,55,0.4);
+    background: rgba(31,41,55,0.05);
   }
 
   .option.correct {
@@ -611,11 +604,11 @@
   }
 
   .quiz-score.show { display: block; }
-  .score-num { font-size: 40px; font-weight: 800; color: var(--accent); font-family: 'Space Mono', monospace; }
-  .score-label { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .score-num { font-size: 40px; font-weight: 800; color: var(--accent1); font-family: 'Space Mono', monospace; }
+  .score-label { color: var(--text2); font-size: 13px; margin-top: 4px; }
 
   .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
     border: none;
     color: #000;
     padding: 12px 24px;
@@ -623,7 +616,7 @@
     cursor: pointer;
     font-weight: 700;
     font-size: 13px;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     margin-top: 14px;
     transition: opacity 0.2s;
     display: inline-block;
@@ -674,7 +667,7 @@
   .card-label {
     font-size: 11px;
     font-family: 'IBM Plex Mono', monospace;
-    color: var(--muted);
+    color: var(--text2);
     margin-bottom: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -684,7 +677,7 @@
   .card-text { font-size: 16px; font-weight: 600; line-height: 1.7; color: var(--text); }
   .card-answer { font-size: 14px; color: var(--text); line-height: 1.7; font-weight: 500; }
 
-  .card-hint { font-size: 12px; color: var(--muted); margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+  .card-hint { font-size: 12px; color: var(--text2); margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
 
   .flashcard-nav {
     display: flex;
@@ -707,13 +700,13 @@
     font-weight: 500;
   }
 
-  .btn-nav:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-nav:hover { border-color: var(--accent1); color: var(--accent1); }
   .btn-nav:disabled { opacity: 0.3; cursor: default; }
 
   .card-counter {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
-    color: var(--muted);
+    color: var(--text2);
     text-align: center;
     flex: 1;
     font-weight: 500;
@@ -742,7 +735,7 @@
     color: var(--text);
   }
 
-  .flow-node:hover { border-color: var(--accent); box-shadow: var(--glow); }
+  .flow-node:hover { border-color: var(--accent1); box-shadow: var(--glow); }
 
   .flow-node.start { background: rgba(5,150,105,0.1); border-color: rgba(5,150,105,0.4); color: #047857; }
   .flow-node.end { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.4); color: #6d28d9; }
@@ -750,14 +743,14 @@
 
   .flow-arrow {
     font-size: 18px;
-    color: var(--accent);
+    color: var(--accent1);
     padding: 4px 0;
     animation: pulse 2s infinite;
   }
 
   .flow-label {
     font-size: 11px;
-    color: var(--muted);
+    color: var(--text2);
     font-family: 'IBM Plex Mono', monospace;
     padding: 2px 0;
     font-weight: 500;
@@ -766,9 +759,9 @@
   /* TCODE PILL */
   .tcode {
     display: inline-block;
-    background: rgba(8,145,178,0.1);
-    border: 1px solid rgba(8,145,178,0.25);
-    color: var(--accent);
+    background: rgba(31,41,55,0.1);
+    border: 1px solid rgba(31,41,55,0.25);
+    color: var(--accent1);
     padding: 2px 8px;
     border-radius: 5px;
     font-family: 'IBM Plex Mono', monospace;
@@ -802,7 +795,7 @@
     gap: 12px;
   }
 
-  .complete-text { font-size: 12px; color: var(--muted); }
+  .complete-text { font-size: 12px; color: var(--text2); }
   
   .btn-complete {
     background: linear-gradient(135deg, var(--success), #34d399);
@@ -813,7 +806,7 @@
     cursor: pointer;
     font-weight: 700;
     font-size: 13px;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     transition: opacity 0.2s;
   }
   .btn-complete:hover { opacity: 0.85; }
@@ -1084,7 +1077,7 @@
       <div class="tab-content" id="ua-flow">
         <div class="content-block">
           <h3>User Access Request Process</h3>
-          <p style="margin-bottom:16px;color:var(--muted);font-size:12px;">The typical workflow when a user needs SAP access:</p>
+          <p style="margin-bottom:16px;color:var(--text2);font-size:12px;">The typical workflow when a user needs SAP access:</p>
           <div class="flow-wrap">
             <div class="flow-node start">▶ START</div>
             <div class="flow-arrow">↓</div>
@@ -1227,7 +1220,7 @@
 
         <div class="content-block">
           <h3>Authorization Structure</h3>
-          <p style="margin-bottom:12px;color:var(--muted);font-size:12px;">The hierarchy of SAP authorization:</p>
+          <p style="margin-bottom:12px;color:var(--text2);font-size:12px;">The hierarchy of SAP authorization:</p>
           <div class="code-block">Authorization Object
   └── Auth Field 1 → Value
   └── Auth Field 2 → Value
@@ -1354,7 +1347,7 @@ Example: X:HR:PERSONAL_ADMIN:TATA</div>
           <h3>Composite Role</h3>
           <p>A group of single roles bundled together for easy assignment. Reduces security admin tasks and simplifies user experience.</p>
           <div class="highlight-box success">Example: Security team needs → Security Admin Role + ABAP Display Role → Bundle as Y:SECURITY_COMPOSITE_ROLE</div>
-          <p style="margin-top:10px;font-size:12px;color:var(--muted);">Tabs: Description, Roles, Menu (click Import Menu), User, Personalization</p>
+          <p style="margin-top:10px;font-size:12px;color:var(--text2);">Tabs: Description, Roles, Menu (click Import Menu), User, Personalization</p>
         </div>
 
         <div class="content-block">
@@ -1448,7 +1441,7 @@ No limit on number of derived roles!</div>
 
         <div class="content-block">
           <h3>Deleting Auth Objects</h3>
-          <p style="margin-bottom:10px;color:var(--muted);font-size:13px;">Both conditions must be met:</p>
+          <p style="margin-bottom:10px;color:var(--text2);font-size:13px;">Both conditions must be met:</p>
           <ul>
             <li>Auth object must be <strong>deactivated</strong></li>
             <li>Status must be <strong>Manually</strong> or <strong>Changed</strong></li>
@@ -1587,7 +1580,7 @@ No limit on number of derived roles!</div>
           <p>Transport = Movement of data from one SAP environment to another via Transport Requests (TR).</p>
           <div class="code-block">DEV  ──→  QA  ──→  PRD
 (Development)  (Quality)  (Production)</div>
-          <p style="margin-top:12px;font-size:12px;color:var(--muted);">In QA and PRD: PFCG display access only. All changes made in DEV.</p>
+          <p style="margin-top:12px;font-size:12px;color:var(--text2);">In QA and PRD: PFCG display access only. All changes made in DEV.</p>
         </div>
 
         <div class="content-block">
@@ -1608,7 +1601,7 @@ Task = Space reserved for ONE user. Only that user can load data into the task.<
             <tr><td>Workbench TR</td><td>Carries SAP standard data (ABAP code, T-codes, programs)</td></tr>
             <tr><td>Customizing TR</td><td>Carries customized data (business data, users, roles, transactional data)</td></tr>
           </table>
-          <p style="margin-top:10px;font-size:12px;color:var(--muted);">T-codes for TR: <span class="tcode">SE01</span> <span class="tcode">SE09</span> <span class="tcode">SE10</span>. Tables: E070, E071</p>
+          <p style="margin-top:10px;font-size:12px;color:var(--text2);">T-codes for TR: <span class="tcode">SE01</span> <span class="tcode">SE09</span> <span class="tcode">SE10</span>. Tables: E070, E071</p>
         </div>
 
         <div class="content-block">

@@ -1722,6 +1722,64 @@ EHP = Enhancement Package</div>
     </div>
   </div>
 
+  <div class="card card-purple">
+    <div class="card-title purple">Why Org Values Require Customizing TR</div>
+    <div style="font-size:.85rem;line-height:1.7;margin-bottom:1rem;">
+      <p style="margin-bottom:1rem"><strong>Key Principle:</strong> Plant, Company Code, Business Unit, and org-specific values are <strong>business configuration data</strong>, NOT technical objects. SAP treats them differently:</p>
+      <ul style="margin-left:1.5rem;list-style:disc;margin-bottom:1rem">
+        <li><strong>Technical objects</strong> (T-codes, auth objects, menu) → Universal across environments → <strong>Workbench TR</strong></li>
+        <li><strong>Business data</strong> (Company Code 100 vs 300, Plant, Sales Org) → Environment-specific → <strong>Customizing TR</strong></li>
+      </ul>
+      <p style="background:rgba(124,58,237,.08);padding:.75rem;border-radius:6px;border-left:3px solid var(--accent2);"><strong>Result:</strong> Your role travels in TWO transport requests — role structure in Workbench TR, org values in Customizing TR. Both must reach Production for the role to work completely.</p>
+    </div>
+  </div>
+
+  <div class="card card-amber">
+    <div class="card-title amber">Quick Reference: What Goes in Which TR?</div>
+    <table class="data-table" style="font-size:.8rem;">
+      <tr>
+        <th style="width:40%">What You Add to the Role</th>
+        <th style="width:30%">Type</th>
+        <th style="width:30%">Transport Request</th>
+      </tr>
+      <tr>
+        <td><strong>T-codes, Menu, Menu Structure</strong></td>
+        <td>Technical</td>
+        <td style="color:var(--accent5);font-weight:700">Workbench TR</td>
+      </tr>
+      <tr>
+        <td><strong>Authorization Objects &amp; Values</strong></td>
+        <td>Technical</td>
+        <td style="color:var(--accent5);font-weight:700">Workbench TR</td>
+      </tr>
+      <tr>
+        <td><strong>Composite Role Structure</strong></td>
+        <td>Technical</td>
+        <td style="color:var(--accent5);font-weight:700">Workbench TR</td>
+      </tr>
+      <tr>
+        <td><strong>Plant, Company Code, Sales Org, Cost Center</strong></td>
+        <td>Business Data</td>
+        <td style="color:var(--accent4);font-weight:700">Customizing TR</td>
+      </tr>
+      <tr>
+        <td><strong>Any Organization-Specific Values</strong></td>
+        <td>Business Data</td>
+        <td style="color:var(--accent4);font-weight:700">Customizing TR</td>
+      </tr>
+      <tr>
+        <td><strong>User-to-Role Assignments</strong></td>
+        <td>Business Data</td>
+        <td style="color:var(--accent4);font-weight:700">Customizing TR</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="alert success" style="margin-top:1rem;">
+    <span class="alert-icon">✔</span>
+    <div><strong>Complete Role Transport = Both TRs Arriving Together:</strong> Your role structure travels in Workbench TR (DEV→QA→PRD), and org-specific values travel in Customizing TR (QA→PRD). When both reach Production, users get the full, working role with correct access to their specific company code, plant, or business unit.</div>
+  </div>
+
   <div class="alert warn">
     <span class="alert-icon">⚠</span>
     <div><strong>Critical Note:</strong> Never release a Transport Request with incomplete roles or missing authorizations. Always test thoroughly in DEV before releasing. Once transported, you may need admin intervention to undo or modify across multiple environments.</div>
