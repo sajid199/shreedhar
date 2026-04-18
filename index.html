@@ -7,21 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0f1117;--bg2:#161822;--bg3:#1d1f2e;--card:#1a1c2a;--card2:#1e2030;
-  --border:#2a2d3e;--border2:#353850;--accent1:#00d4ff;--accent2:#7c3aed;
-  --accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#e2e8f0;
-  --text2:#94a3b8;--text3:#64748b;--header-h:56px;--mob-bar-h:60px;
+  --bg:#ffffff;--bg2:#f8f9fa;--bg3:#e9ecef;--card:#ffffff;--card2:#f8f9fa;
+  --border:#dee2e6;--border2:#adb5bd;--accent1:#00d4ff;--accent2:#7c3aed;
+  --accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#212529;
+  --text2:#6c757d;--text3:#495057;--header-h:56px;--mob-bar-h:60px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h)+12px)}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;z-index:0;
-  background-image:linear-gradient(rgba(0,212,255,.03)1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03)1px,transparent 1px);
+  background-image:linear-gradient(rgba(0,0,0,.02)1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.02)1px,transparent 1px);
   background-size:32px 32px;pointer-events:none}
 
 /* ═══════════ HEADER ═══════════ */
 header{position:sticky;top:0;z-index:200;height:var(--header-h);
-  background:rgba(15,17,23,.92);backdrop-filter:blur(20px);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;padding:0 1.5rem;gap:1rem}
 .logo{font-family:'IBM Plex Mono',monospace;font-size:.9rem;font-weight:700;color:var(--accent1);
@@ -135,7 +135,7 @@ code,.mono{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--ac
 
 /* ═══════════ LISTS ═══════════ */
 ul.notes-list{list-style:none}
-ul.notes-list li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:.85rem;color:var(--text);line-height:1.6;border-bottom:1px solid rgba(255,255,255,.04)}
+ul.notes-list li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:.85rem;color:var(--text);line-height:1.6;border-bottom:1px solid rgba(0,0,0,.04)}
 ul.notes-list li:last-child{border-bottom:none}
 ul.notes-list li::before{content:'▸';color:var(--accent1);flex-shrink:0;margin-top:2px;font-size:.65rem}
 ul.notes-list li.warn::before{color:var(--accent4);content:'⚠'}
