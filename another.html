@@ -93,6 +93,27 @@
     white-space: nowrap;
   }
 
+  .nav-menu {
+    display: flex;
+    gap: 1rem;
+    margin-left: 2rem;
+  }
+
+  .nav-link {
+    font-family: 'Inter', sans-serif;
+    font-size: .8rem;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all .2s;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    background: var(--bg2);
+    color: var(--accent1);
+  }
+
   .progress-bar-wrap {
     flex: 1;
     max-width: 200px;
@@ -852,6 +873,10 @@
       <div class="logo-icon">SAP</div>
       <span class="logo-text">Security Mastery</span>
     </a>
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-link">📚 Notes</a>
+      <a href="another.html" class="nav-link active">🎯 Practice</a>
+    </nav>
     <div class="progress-bar-wrap">
       <div class="progress-label">Overall Progress: <span id="prog-pct">0%</span></div>
       <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
@@ -886,8 +911,8 @@
       <div class="module-desc">SU01 tabs, user creation process, mandatory fields, and change docs.</div>
       <div class="module-meta">
         <span>📖 6 topics</span>
-        <span>🃏 8 cards</span>
-        <span>❓ 5 quiz</span>
+        <span>🃏 8 review cards</span>
+        <span>✅ 5 assessments</span>
       </div>
     </div>
 
@@ -901,8 +926,8 @@
       <div class="module-desc">Dialog, System, Service, Communication, Reference user types and UFLAG values.</div>
       <div class="module-meta">
         <span>📖 5 topics</span>
-        <span>🃏 10 cards</span>
-        <span>❓ 5 quiz</span>
+        <span>🃏 10 review cards</span>
+        <span>✅ 5 assessments</span>
       </div>
     </div>
 
@@ -916,8 +941,8 @@
       <div class="module-desc">Authentication vs authorization, auth objects, fields, T-codes and SU24.</div>
       <div class="module-meta">
         <span>📖 8 topics</span>
-        <span>🃏 10 cards</span>
-        <span>❓ 5 quiz</span>
+        <span>🃏 10 review cards</span>
+        <span>✅ 5 assessments</span>
       </div>
     </div>
 
@@ -931,8 +956,8 @@
       <div class="module-desc">PFCG, single/composite/derived/master roles, profile concept, naming conventions.</div>
       <div class="module-meta">
         <span>📖 10 topics</span>
-        <span>🃏 12 cards</span>
-        <span>❓ 5 quiz</span>
+        <span>🃏 12 review cards</span>
+        <span>✅ 5 assessments</span>
       </div>
     </div>
 
@@ -946,8 +971,8 @@
       <div class="module-desc">Traffic lights, org fields vs normal fields, statuses, expert mode generation.</div>
       <div class="module-meta">
         <span>📖 8 topics</span>
-        <span>🃏 8 cards</span>
-        <span>❓ 5 quiz</span>
+        <span>🃏 8 review cards</span>
+        <span>✅ 5 assessments</span>
       </div>
     </div>
 
@@ -961,8 +986,8 @@
       <div class="module-desc">SU53, SU56, SUIM, ST01, STAUTHTRACE, return codes and common issues.</div>
       <div class="module-meta">
         <span>📖 6 topics</span>
-        <span>🃏 8 cards</span>
-        <span>❓ 4 quiz</span>
+        <span>🃏 8 review cards</span>
+        <span>✅ 4 assessments</span>
       </div>
     </div>
 
@@ -976,8 +1001,8 @@
       <div class="module-desc">TMS, TR types, Dev→QA→PRD flow, security team duties, role deletion.</div>
       <div class="module-meta">
         <span>📖 5 topics</span>
-        <span>🃏 6 cards</span>
-        <span>❓ 3 quiz</span>
+        <span>🃏 6 review cards</span>
+        <span>✅ 3 assessments</span>
       </div>
     </div>
 
@@ -991,8 +1016,8 @@
       <div class="module-desc">SU20/21/22/24/25, USOBT, USOBX, project types, important T-codes.</div>
       <div class="module-meta">
         <span>📖 7 topics</span>
-        <span>🃏 8 cards</span>
-        <span>❓ 4 quiz</span>
+        <span>🃏 8 review cards</span>
+        <span>✅ 4 assessments</span>
       </div>
     </div>
 
@@ -1011,10 +1036,10 @@
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'ua-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'ua-flow')">🔄 Process</button>
-        <button class="tab" onclick="switchTab(this,'ua-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'ua-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'ua-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'ua-flow')">🔄 Workflow</button>
+        <button class="tab" onclick="switchTab(this,'ua-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'ua-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="ua-learn">
@@ -1129,9 +1154,9 @@
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'ut-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'ut-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'ut-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'ut-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'ut-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'ut-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="ut-learn">
@@ -1203,9 +1228,9 @@
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'ac-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'ac-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'ac-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'ac-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'ac-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'ac-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="ac-learn">
@@ -1283,10 +1308,10 @@ SA38 → enter program name → Execute</div>
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'rp-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'rp-types')">🔀 Role Types</button>
-        <button class="tab" onclick="switchTab(this,'rp-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'rp-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'rp-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'rp-types')">🔀 Role Categories</button>
+        <button class="tab" onclick="switchTab(this,'rp-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'rp-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="rp-learn">
@@ -1405,9 +1430,9 @@ No limit on number of derived roles!</div>
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'at-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'at-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'at-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'at-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'at-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'at-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="at-learn">
@@ -1483,9 +1508,9 @@ No limit on number of derived roles!</div>
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'ts-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'ts-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'ts-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'ts-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'ts-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'ts-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="ts-learn">
@@ -1569,9 +1594,9 @@ No limit on number of derived roles!</div>
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'tr-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'tr-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'tr-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'tr-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'tr-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'tr-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="tr-learn">
@@ -1652,9 +1677,9 @@ Task = Space reserved for ONE user. Only that user can load data into the task.<
     </div>
     <div class="lesson-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(this,'im-learn')">📖 Learn</button>
-        <button class="tab" onclick="switchTab(this,'im-flash')">🃏 Flashcards</button>
-        <button class="tab" onclick="switchTab(this,'im-quiz')">❓ Quiz</button>
+        <button class="tab active" onclick="switchTab(this,'im-learn')">� Study Guide</button>
+        <button class="tab" onclick="switchTab(this,'im-flash')">🃏 Review Cards</button>
+        <button class="tab" onclick="switchTab(this,'im-quiz')">✅ Assessment</button>
       </div>
 
       <div class="tab-content active" id="im-learn">
