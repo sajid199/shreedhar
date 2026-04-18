@@ -859,6 +859,44 @@
     .kv-table td:first-child { width: 45%; }
   }
 
+  /* ENHANCED MOBILE RESPONSIVE */
+  @media (max-width: 768px) {
+    .header-inner { padding: 0 1rem; gap: 1rem; height: auto; min-height: 60px; flex-wrap: wrap; }
+    .logo { font-size: .9rem; margin-right: auto; }
+    .nav-menu { margin-left: 0; order: 2; width: 100%; justify-content: center; margin: 1rem 0; }
+    .nav-link { font-size: .75rem; padding: 6px 10px; }
+    .progress-bar-wrap { flex: 1; max-width: none; order: 1; margin: 0 1rem; }
+    .progress-label { font-size: .7rem; }
+    .progress-track { width: 80px; }
+    .hero { padding: 30px 16px 25px; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero p { font-size: .9rem; }
+    .stats-row { grid-template-columns: 1fr; gap: 12px; }
+    .stat-card { padding: 1rem; }
+    .modules-grid { gap: 1rem; }
+    .module-card { padding: 1.25rem; }
+    .module-title { font-size: 1rem; }
+    .module-desc { font-size: .85rem; }
+    .lesson-content { padding: 1.5rem 1rem; }
+    .lesson-title-wrap h2 { font-size: 1.1rem; }
+    .tabs { padding: 0 1rem; }
+    .tab-btn { font-size: .8rem; padding: 8px 12px; }
+    .kv-table { font-size: .8rem; }
+    .kv-table th, .kv-table td { padding: 8px; }
+  }
+
+  @media (max-width: 480px) {
+    .header-inner { padding: 0 .75rem; }
+    .nav-menu { gap: .5rem; }
+    .hero { padding: 25px 12px 20px; }
+    .hero h1 { font-size: 1.5rem; }
+    .hero p { font-size: .85rem; }
+    .module-card { padding: 1rem; }
+    .lesson-content { padding: 1.25rem .75rem; }
+    .tabs { padding: 0 .75rem; }
+    .tab-btn { font-size: .75rem; padding: 6px 10px; }
+  }
+
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
