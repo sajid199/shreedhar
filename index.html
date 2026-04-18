@@ -26,6 +26,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdr
   border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:2rem;height:60px}
 .logo{font-family:'Inter',sans-serif;font-size:1rem;color:var(--accent1);letter-spacing:2px;text-transform:uppercase;white-space:nowrap;font-weight:700}
 .logo span{color:var(--accent2)}
+.mobile-menu-toggle{display:none;background:none;border:none;font-size:1.5rem;color:var(--accent1);cursor:pointer;padding:8px;border-radius:4px;transition:background .2s}
+.mobile-menu-toggle:hover{background:var(--bg2)}
 .nav-menu{display:flex;gap:1rem;margin-left:2rem}
 .nav-link{font-family:'Inter',sans-serif;font-size:.8rem;color:var(--text2);text-decoration:none;padding:8px 12px;border-radius:6px;transition:all .2s}
 .nav-link:hover,.nav-link.active{background:var(--bg2);color:var(--accent1)}
@@ -153,6 +155,7 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
 @media(max-width:768px){
   header{padding:0 1rem;gap:1rem;height:auto;min-height:60px;flex-wrap:wrap}
   .logo{font-size:.9rem;margin-right:auto}
+  .mobile-menu-toggle{display:block;order:-1}
   .nav-menu{margin-left:0;order:2;width:100%;justify-content:center;margin:1rem 0}
   .search-wrap{flex:1;max-width:none;order:1;margin:0 1rem}
   #searchBox{font-size:.8rem;padding:8px 14px 8px 40px}
@@ -161,11 +164,10 @@ ul.notes-list li.info::before{color:var(--accent2);content:'●'}
   .progress-track{width:80px}
   main{padding:2rem 1.5rem}
   .layout{grid-template-columns:1fr;min-height:calc(100vh - 80px)}
-  nav.sidebar{display:none}
-  .section-header{flex-direction:column;gap:8px;align-items:flex-start}
-  h2.section-title{font-size:1.2rem}
-  .card{padding:1rem}
-  .code-block{padding:.75rem 1rem;font-size:.75rem}
+  nav.sidebar{display:none;position:fixed;left:0;top:60px;width:280px;height:calc(100vh - 60px);z-index:200;transform:translateX(-100%);transition:transform .3s ease;background:var(--bg);border-right:1px solid var(--border)}
+  nav.sidebar.open{display:block;transform:translateX(0)}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;opacity:0;transition:opacity .3s ease}
+  .sidebar-overlay.show{display:block;opacity:1}
 }
 
 @media(max-width:480px){
@@ -297,6 +299,7 @@ mark{background:rgba(217,119,6,.2);color:var(--accent4);border-radius:2px;paddin
 
 <header>
   <div class="logo">SAP<span>//</span>SEC</div>
+  <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
   <nav class="nav-menu">
     <a href="index.html" class="nav-link active">📚 Notes</a>
     <a href="another.html" class="nav-link">🎯 Practice</a>
@@ -315,6 +318,38 @@ mark{background:rgba(217,119,6,.2);color:var(--accent4);border-radius:2px;paddin
 
 <div class="layout">
 <nav class="sidebar">
+  <div class="nav-section-title">Foundations</div>
+  <a class="nav-item" href="#n1"><span class="nav-dot"></span>SAP Architecture</a>
+  <a class="nav-item" href="#n2"><span class="nav-dot"></span>SAP Landscape</a>
+  <a class="nav-item" href="#n3"><span class="nav-dot"></span>Client Administration</a>
+  <a class="nav-item" href="#n4"><span class="nav-dot"></span>User Administration</a>
+  <div class="nav-section-title">Core Concepts</div>
+  <a class="nav-item" href="#s1"><span class="nav-dot"></span>Profile Concept</a>
+  <a class="nav-item" href="#s2"><span class="nav-dot"></span>Role Administration</a>
+  <a class="nav-item" href="#s3"><span class="nav-dot"></span>PFCG — Role Types</a>
+  <a class="nav-item" href="#s4"><span class="nav-dot"></span>Auth Data &amp; Traffic Lights</a>
+  <div class="nav-section-title">Role Types</div>
+  <a class="nav-item" href="#s5"><span class="nav-dot"></span>Composite Roles</a>
+  <a class="nav-item" href="#s5a"><span class="nav-dot"></span>Master Roles</a>
+  <a class="nav-item" href="#s6"><span class="nav-dot"></span>Derived Roles</a>
+  <a class="nav-item" href="#s7"><span class="nav-dot"></span>Role Modification</a>
+  <a class="nav-item" href="#s7a"><span class="nav-dot"></span>Transport Management System</a>
+  <a class="nav-item" href="#s8"><span class="nav-dot"></span>Role Deletion</a>
+  <div class="nav-section-title">Troubleshooting</div>
+  <a class="nav-item" href="#s9"><span class="nav-dot"></span>Auth Issues</a>
+  <a class="nav-item" href="#s10"><span class="nav-dot"></span>SU53 / SU56</a>
+  <a class="nav-item" href="#s11"><span class="nav-dot"></span>ST01 / STAUTHTRACE</a>
+  <a class="nav-item" href="#s12"><span class="nav-dot"></span>SUIM</a>
+  <div class="nav-section-title">Mass Operations</div>
+  <a class="nav-item" href="#s13"><span class="nav-dot"></span>PFUD — User Compare</a>
+  <div class="nav-section-title">Implementation</div>
+  <a class="nav-item" href="#s14"><span class="nav-dot"></span>Projects &amp; SU22/SU24/SU25</a>
+  <a class="nav-item" href="#s15"><span class="nav-dot"></span>TCode Reference</a>
+  <div class="nav-section-title">Advanced Learning</div>
+  <a class="nav-item" href="questions.html" style="color:var(--accent2);font-weight:700"><span class="nav-dot" style="background:var(--accent2);box-shadow:0 0 8px var(--accent2)"></span>SAP Security Mastery</a>
+</nav>
+
+<main id="mainContent">
   <div class="nav-section-title">Foundations</div>
   <a class="nav-item" href="#n1"><span class="nav-dot"></span>SAP Architecture</a>
   <a class="nav-item" href="#n2"><span class="nav-dot"></span>SAP Landscape</a>
@@ -2257,7 +2292,24 @@ EHP = Enhancement Package</div>
 </main>
 </div>
 
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <script>
+// Mobile menu toggle functionality
+document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('show');
+});
+
+document.getElementById('sidebarOverlay').addEventListener('click', function() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+});
+
 function toggleAccordion(id) {
   document.getElementById(id).classList.toggle('open');
 }
