@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Fiori Security – Complete Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f8f9fa;
+    --bg3: #e9ecef;
+    --card: #ffffff;
+    --card2: #f8f9fa;
+    --border: #d1d5db;
+    --border2: #9ca3af;
+    --accent1: #2563eb;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #212529;
+    --text2: #6c757d;
+    --text3: #495057;
+    --font-sans: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.68;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1.5rem;
+    height: 56px;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: var(--font-mono);
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--accent1);
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  .logo span { color: var(--text3); }
+
+  .header-search {
+    position: relative;
+    flex: 1;
+    max-width: 360px;
+  }
+
+  .header-search input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 9px 14px 9px 36px;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: .92rem;
+    outline: none;
+  }
+
+  .header-search .si {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: .88rem;
+  }
+
+  .nav-cta {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--accent1);
+    color: var(--accent1);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover { background: rgba(37,99,235,.08); transform: translateY(-1px); }
+
+  .card {
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 45px rgba(15,23,42,.06);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 22px 52px rgba(15,23,42,.1);
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 60px 40px 48px;
+    margin: 0 1.5rem 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 18px;
+  }
+
+  .hero p { max-width: 640px; margin: 0 auto 28px; }
+
+  .hero .hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+
+  .hero-btn {
+    background: var(--accent1);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+  }
+
+  .hero-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+  @media (max-width: 768px) {
+    header { padding: 0 1rem; gap: .75rem; }
+    .hero { margin: 0 1rem 18px; padding: 40px 24px 36px; }
+    .hero-stats { gap: 16px; }
+    .hero-actions { flex-direction: column; }
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 50%, #eff6ff 100%);
+    padding: 60px 40px 50px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(37,99,235,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(37,99,235,0.1);
+    border: 1px solid rgba(37,99,235,0.2);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #e8eaf6 0%, #7c9ef7 50%, #4f8ef7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 15px;
+    max-width: 550px;
+    margin: 0 auto 30px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .hero-stat .lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+    width: 100%;
+  }
+  .nav-wrap::-webkit-scrollbar { display: none; }
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 20px;
+    min-width: max-content;
+  }
+  .nav-tab {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .nav-tab .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 7px;
+    vertical-align: middle;
+  }
+
+  #mobHamburger{
+    display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;
+    width:38px;height:38px;background:var(--bg3);border:1px solid var(--border2);
+    border-radius:10px;cursor:pointer;flex-shrink:0;padding:0;
+    transition:border-color .25s,background .25s;
+  }
+  #mobHamburger:hover{border-color:var(--accent1);background:rgba(37,99,235,.08)}
+  #mobHamburger.is-open{border-color:var(--accent2);background:rgba(124,58,237,.12)}
+  .ham-line{display:block;width:18px;height:2px;background:var(--text2);border-radius:2px;
+    transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s,background .2s}
+  #mobHamburger.is-open .ham-line:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--accent2)}
+  #mobHamburger.is-open .ham-line:nth-child(2){opacity:0;transform:scaleX(0)}
+  #mobHamburger.is-open .ham-line:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--accent2)}
+
+  .nav-wrap { display: none; }
+  .layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 56px); position: relative; z-index: 1; }
+  nav.sidebar { position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; background: var(--bg2); border-right: 1px solid var(--border); padding: 1.25rem 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .nav-group { margin-bottom: .25rem; }
+  .nav-group-title { font-family: var(--font-sans); font-size: .68rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text3); padding: .9rem 1.25rem .35rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: color .2s; user-select: none; }
+  .nav-group-title:hover { color: var(--accent1); }
+  .nav-group-title .tog { font-size: .65rem; transition: transform .25s; color: var(--text3); }
+  .nav-group.collapsed .tog { transform: rotate(-90deg); }
+  .nav-group-content { overflow: hidden; transition: max-height .3s ease, opacity .2s; max-height: 900px; opacity: 1; }
+  .nav-group.collapsed .nav-group-content { max-height: 0; opacity: 0; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 1.25rem; cursor: pointer; font-size: .9rem; color: var(--text2); border-left: 2px solid transparent; transition: all .18s; font-weight: 500; text-decoration: none; font-family: var(--font-sans); }
+  .nav-item:hover { color: var(--accent1); border-left-color: rgba(37,99,235,.4); background: rgba(37,99,235,.04); }
+  .nav-item.active { color: var(--accent1); border-left-color: var(--accent1); background: rgba(37,99,235,.06); }
+  .nav-item .nd { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); flex-shrink: 0; transition: all .2s; }
+  .nav-item.active .nd, .nav-item:hover .nd { background: var(--accent1); box-shadow: 0 0 8px var(--accent1); }
+  .nav-item.special { color: var(--accent2); }
+  .nav-item.special .nd { background: var(--accent2); box-shadow: 0 0 8px var(--accent2); }
+  .nav-item.special:hover, .nav-item.special.active { color: var(--accent2); border-left-color: var(--accent2); background: rgba(124,58,237,.06); }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.sidebar { display: none; }
+    .nav-wrap { display: none; }
+    #mobHamburger{display:flex}
+    .container { padding: 24px 16px 80px; }
+    .hero { margin: 0 0 18px; padding: 32px 22px 32px; }
+    .hero-stats { gap: 12px; justify-content: space-between; }
+    .hero-stat { width: calc(50% - 6px); }
+    .hero-actions { flex-direction: column; }
+    .hero-btn { width: 100%; text-align: center; }
+  }
+
+  .mob-overlay{
+    position:fixed;inset:0;z-index:9998;
+    background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
+    opacity:0;pointer-events:none;transition:opacity .3s ease;
+    display:block;
+  }
+  .mob-overlay.show{opacity:1;pointer-events:all}
+  .mob-menu-sheet{
+    position:fixed;bottom:0;left:0;right:0;z-index:9999;
+    max-height:92vh;
+    background:var(--bg2);border:1px solid var(--border);
+    border-radius:20px 20px 0 0;
+    transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);
+    overflow:hidden;display:flex;flex-direction:column;
+  }
+  .mob-menu-sheet.open{transform:translateY(0)}
+  .sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:12px auto 0;flex-shrink:0}
+  .sheet-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem .5rem;flex-shrink:0;border-bottom:1px solid var(--border)}
+  .sheet-title{font-family:var(--font-sans);font-size:.78rem;font-weight:700;color:var(--accent1);letter-spacing:1px;text-transform:uppercase}
+  .sheet-close{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:.82rem;padding:4px 10px;cursor:pointer;font-family:var(--font-sans);transition:all .2s}
+  .sheet-close:hover{color:var(--accent5);border-color:var(--accent5)}
+  .sheet-search-wrap{padding:.6rem 1.25rem;flex-shrink:0;border-bottom:1px solid var(--border)}
+  .sheet-search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;
+    padding:9px 12px;color:var(--text);font-family:var(--font-sans);font-size:.9rem;outline:none;transition:border-color .2s}
+  .sheet-search-wrap input:focus{border-color:var(--accent1)}
+  .sheet-search-wrap input::placeholder{color:var(--text3)}
+  .sheet-body{overflow-y:auto;flex:1;min-height:0;padding:.5rem 0 2.5rem;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .sheet-body::-webkit-scrollbar{width:3px}
+  .sheet-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+  .sheet-group{margin-bottom:.25rem}
+  .sheet-group-title{font-family:var(--font-sans);font-size:.68rem;font-weight:700;
+    letter-spacing:1px;text-transform:uppercase;color:var(--text3);
+    padding:.75rem 1.25rem .3rem;display:flex;justify-content:space-between;align-items:center;
+    cursor:pointer;user-select:none;transition:color .2s}
+  .sheet-group-title:hover{color:var(--accent1)}
+  .sheet-group-title .stog{font-size:.6rem;transition:transform .25s;color:var(--text3)}
+  .sheet-group.scollapsed .stog{transform:rotate(-90deg)}
+  .sheet-group-content{overflow:hidden;transition:max-height .35s ease;max-height:2000px}
+  .sheet-group.scollapsed .sheet-group-content{max-height:0}
+  .sheet-nav-item{
+    display:flex;align-items:center;gap:10px;
+    padding:13px 1.25rem;cursor:pointer;
+    font-size:.9rem;color:var(--text2);font-weight:500;
+    font-family:var(--font-sans);text-decoration:none;border-left:3px solid transparent;transition:all .15s;
+  }
+  .sheet-nav-item:hover{color:var(--text);background:rgba(37,99,235,.05);border-left-color:rgba(37,99,235,.3)}
+  .sheet-nav-item.active{color:var(--accent1);background:rgba(37,99,235,.07);border-left-color:var(--accent1)}
+  .sheet-nav-item.special{color:var(--accent2)}
+  .sheet-nav-item.special.active,.sheet-nav-item.special:hover{background:rgba(124,58,237,.07);border-left-color:var(--accent2)}
+  .sheet-nav-item .snd{width:24px;height:24px;border-radius:6px;background:var(--bg3);border:1px solid var(--border2);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;transition:all .2s}
+  .sheet-nav-item.active .snd{background:rgba(37,99,235,.15);border-color:var(--accent1);color:var(--accent1)}
+  .sheet-nav-item.special .snd{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);color:var(--accent2)}
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-blue::before { background: linear-gradient(90deg, #4f8ef7, #7c9ef7); opacity: 1; }
+  .card-purple::before { background: linear-gradient(90deg, #7c5cfc, #a855f7); opacity: 1; }
+  .card-green::before { background: linear-gradient(90deg, #00d4a8, #22c55e); opacity: 1; }
+  .card-yellow::before { background: linear-gradient(90deg, #ffd166, #f59e0b); opacity: 1; }
+  .card-red::before { background: linear-gradient(90deg, #ff6b6b, #ef4444); opacity: 1; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: rgba(79,142,247,0.15); }
+  .icon-purple { background: rgba(124,92,252,0.15); }
+  .icon-green { background: rgba(0,212,168,0.15); }
+  .icon-yellow { background: rgba(255,209,102,0.15); }
+  .icon-red { background: rgba(255,107,107,0.15); }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin: 2px;
+  }
+  .badge-blue { background: rgba(79,142,247,0.15); color: #7cb9f7; border: 1px solid rgba(79,142,247,0.2); }
+  .badge-green { background: rgba(0,212,168,0.15); color: #00d4a8; border: 1px solid rgba(0,212,168,0.2); }
+  .badge-purple { background: rgba(124,92,252,0.15); color: #a57cfc; border: 1px solid rgba(124,92,252,0.2); }
+  .badge-yellow { background: rgba(255,209,102,0.15); color: #ffd166; border: 1px solid rgba(255,209,102,0.2); }
+  .badge-red { background: rgba(255,107,107,0.15); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.2); }
+
+  /* ── FLOW DIAGRAMS ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 16px 0;
+  }
+  .flow-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    min-width: 160px;
+    text-align: center;
+  }
+  .flow-node.blue { border-color: rgba(79,142,247,0.4); color: #7cb9f7; background: rgba(79,142,247,0.08); }
+  .flow-node.green { border-color: rgba(0,212,168,0.4); color: #00d4a8; background: rgba(0,212,168,0.08); }
+  .flow-node.purple { border-color: rgba(124,92,252,0.4); color: #a57cfc; background: rgba(124,92,252,0.08); }
+  .flow-node.yellow { border-color: rgba(255,209,102,0.4); color: #ffd166; background: rgba(255,209,102,0.08); }
+  .flow-arrow {
+    color: var(--text-dim);
+    font-size: 18px;
+    padding: 4px 0;
+    margin-left: 20px;
+  }
+  .flow-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .comp-table th {
+    background: var(--surface2);
+    padding: 10px 16px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(209,213,219,0.8);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: rgba(59,130,246,0.07); }
+  .comp-table .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #7cb9f7;
+  }
+
+  /* ── CODE PILL ── */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.2);
+    color: #7cb9f7;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* ── TCODE BOX ── */
+  .tcode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .tcode-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .tcode-item .tc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .tcode-item .td {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ── INTERVIEW Q ── */
+  .iq {
+    background: linear-gradient(135deg, rgba(79,142,247,0.06), rgba(124,92,252,0.06));
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 12px 0;
+  }
+  .iq-q {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .iq-q-tag {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .iq-q-text {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .iq-a {
+    margin-left: 40px;
+    background: var(--surface);
+    border-left: 3px solid var(--accent3);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .iq-a strong { color: var(--text); }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; margin: 12px 0; }
+  .checklist li {
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+  .checklist li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .checklist li strong { color: var(--text); }
+
+  /* ── STEPS ── */
+  .steps { margin: 14px 0; }
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(209,213,219,0.8);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-weight: 600; font-size: 13.5px; color: var(--text); margin-bottom: 3px; }
+  .step-desc { font-size: 12.5px; color: var(--text-muted); }
+
+  /* ── TWO COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 12px 0;
+  }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .mini-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .mini-card.blue h4 { color: var(--accent); }
+  .mini-card.green h4 { color: var(--accent3); }
+  .mini-card.purple h4 { color: #a57cfc; }
+  .mini-card.yellow h4 { color: var(--warn); }
+  .mini-card.red h4 { color: var(--danger); }
+  .mini-card p, .mini-card li { font-size: 12.5px; color: var(--text-muted); }
+  .mini-card ul { list-style: none; }
+  .mini-card ul li { padding: 3px 0; padding-left: 14px; position: relative; }
+  .mini-card ul li::before { content: '•'; position: absolute; left: 0; }
+  .mini-card.blue ul li::before { color: var(--accent); }
+  .mini-card.green ul li::before { color: var(--accent3); }
+  .mini-card.purple ul li::before { color: #a57cfc; }
+  .mini-card.yellow ul li::before { color: var(--warn); }
+  .mini-card.red ul li::before { color: var(--danger); }
+
+  /* ── YES/NO ROW ── */
+  .yn-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(37,42,69,0.4);
+    font-size: 13px;
+  }
+  .yn-row:last-child { border-bottom: none; }
+  .yn-icon { font-size: 16px; flex-shrink: 0; width: 22px; text-align: center; }
+  .yn-label { color: var(--text-muted); flex: 1; }
+  .yn-val { font-weight: 600; }
+  .yn-val.yes { color: var(--accent3); }
+  .yn-val.no { color: var(--danger); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-text { color: var(--text-muted); line-height: 1.6; }
+  .callout-text strong { color: var(--text); }
+  .callout.tip { background: rgba(0,212,168,0.07); border: 1px solid rgba(0,212,168,0.2); }
+  .callout.warn { background: rgba(255,209,102,0.07); border: 1px solid rgba(255,209,102,0.2); }
+  .callout.info { background: rgba(79,142,247,0.07); border: 1px solid rgba(79,142,247,0.2); }
+  .callout.danger { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.2); }
+
+  /* ── APP TYPE CARDS ── */
+  .app-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .app-type {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .app-type:hover { transform: translateY(-2px); }
+  .app-type .at-icon { font-size: 22px; margin-bottom: 8px; }
+  .app-type .at-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .app-type .at-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.5; }
+  .app-type .at-examples { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+  .app-type:nth-child(1) { border-top: 2px solid var(--accent); }
+  .app-type:nth-child(2) { border-top: 2px solid #7c5cfc; }
+  .app-type:nth-child(3) { border-top: 2px solid var(--accent3); }
+  .app-type:nth-child(4) { border-top: 2px solid var(--warn); }
+  .app-type:nth-child(5) { border-top: 2px solid var(--danger); }
+
+  /* ── TROUBLE FLOW ── */
+  .trouble-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 14px 0;
+    font-size: 12px;
+  }
+  .tf-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: var(--text-muted);
+  }
+  .tf-arrow { color: var(--text-dim); font-size: 16px; }
+
+  /* ── SCROLL TO TOP ── */
+  #scrollTop {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 42px; height: 42px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(79,142,247,0.4);
+    transition: opacity 0.3s;
+    z-index: 999;
+  }
+  #scrollTop.show { display: flex; }
+
+  /* ── QUICK REF ── */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .ref-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .ref-item h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(209,213,219,0.8);
+  }
+  .ref-row:last-child { border-bottom: none; }
+  .ref-key { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 11px; }
+  .ref-val { color: var(--text-muted); font-size: 11px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.8); border-radius: 3px; }
+</style>
+</head>
+<body>
+<header>
+  <button id="mobHamburger" aria-label="Open menu">
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+  </button>
+  <div class="logo">SAP<span>//</span>Fiori</div>
+  <div class="header-search">
+    <span class="si">🔍</span>
+    <input type="text" placeholder="Search sections…" />
+  </div>
+  <a class="nav-cta" href="index.html">View SAP Security Notes</a>
+</header>
+
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showSection('basics')"><span class="dot" style="background:#4f8ef7"></span>Basics</div>
+    <div class="nav-tab" onclick="showSection('components')"><span class="dot" style="background:#7c5cfc"></span>Components</div>
+    <div class="nav-tab" onclick="showSection('apptypes')"><span class="dot" style="background:#00d4a8"></span>App Types</div>
+    <div class="nav-tab" onclick="showSection('deployment')"><span class="dot" style="background:#ffd166"></span>Deployment</div>
+    <div class="nav-tab" onclick="showSection('security')"><span class="dot" style="background:#ff6b6b"></span>Security</div>
+    <div class="nav-tab" onclick="showSection('trouble')"><span class="dot" style="background:#f97316"></span>Troubleshoot</div>
+    <div class="nav-tab" onclick="showSection('users')"><span class="dot" style="background:#ec4899"></span>Users</div>
+    <div class="nav-tab" onclick="showSection('interview')"><span class="dot" style="background:#a855f7"></span>Interview Q&A</div>
+  </div>
+</div>
+
+<!-- MENU + CONTENT -->
+<div class="layout">
+  <nav class="sidebar">
+    <div class="nav-group">
+      <div class="nav-group-title" onclick="toggleNavGroup(this)">Overview <span class="tog">▼</span></div>
+      <div class="nav-group-content">
+        <a class="nav-item active" href="#basics" data-target="basics" onclick="showSection('basics');return false"><span class="nd"></span>Basics</a>
+        <a class="nav-item" href="#components" data-target="components" onclick="showSection('components');return false"><span class="nd"></span>Components</a>
+        <a class="nav-item" href="#apptypes" data-target="apptypes" onclick="showSection('apptypes');return false"><span class="nd"></span>App Types</a>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title" onclick="toggleNavGroup(this)">Implementation <span class="tog">▼</span></div>
+      <div class="nav-group-content">
+        <a class="nav-item" href="#deployment" data-target="deployment" onclick="showSection('deployment');return false"><span class="nd"></span>Deployment</a>
+        <a class="nav-item" href="#security" data-target="security" onclick="showSection('security');return false"><span class="nd"></span>Security</a>
+        <a class="nav-item" href="#trouble" data-target="trouble" onclick="showSection('trouble');return false"><span class="nd"></span>Troubleshoot</a>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title" onclick="toggleNavGroup(this)">Admin &amp; Q&A <span class="tog">▼</span></div>
+      <div class="nav-group-content">
+        <a class="nav-item" href="#users" data-target="users" onclick="showSection('users');return false"><span class="nd"></span>Users</a>
+        <a class="nav-item" href="#interview" data-target="interview" onclick="showSection('interview');return false"><span class="nd"></span>Interview Q&A</a>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title" onclick="toggleNavGroup(this)">Extras <span class="tog">▼</span></div>
+      <div class="nav-group-content">
+        <a class="nav-item special" href="index.html"><span class="nd"></span>Open SAP Security Notes</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📘 Interview Ready Notes</div>
+  <h1>SAP Fiori Security<br>Complete Study Guide</h1>
+  <p>Simple language, clear examples, interview answers — everything you need in one place</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">5</div><div class="lbl">App Types</div></div>
+    <div class="hero-stat"><div class="num">8</div><div class="lbl">Topics</div></div>
+    <div class="hero-stat"><div class="num">25+</div><div class="lbl">Interview Q&A</div></div>
+    <div class="hero-stat"><div class="num">30+</div><div class="lbl">T-Codes</div></div>
+  </div>
+  <div class="hero-actions">
+    <a class="hero-btn" href="index.html">Open SAP Security Notes</a>
+    <a class="hero-btn" href="#security">Jump to Security</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1 — BASICS
+════════════════════════════════════════════ -->
+<div class="section active" id="basics">
+  <div class="section-title">SAP Fiori — The Basics</div>
+  <div class="section-sub">What it is, why it exists, and how it's different from old SAP GUI</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">🌐</div>What is SAP Fiori?</div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">
+      SAP Fiori is a <strong style="color:var(--text)">modern, web-based interface</strong> to use SAP on a browser — like opening a website instead of old software.
+      Instead of remembering T-Codes (like MM01), users just click an <strong style="color:var(--text)">App tile</strong> — similar to a mobile phone app icon.
+    </p>
+    <div class="two-col">
+      <div class="mini-card red">
+        <h4>❌ Old Way (SAP GUI)</h4>
+        <ul>
+          <li>Open SAP Logon program</li>
+          <li>Type T-Code like <code>MM01</code></li>
+          <li>Old-style screen opens</li>
+          <li>Only works on desktop</li>
+        </ul>
+      </div>
+      <div class="mini-card green">
+        <h4>✅ New Way (SAP Fiori)</h4>
+        <ul>
+          <li>Open a web browser</li>
+          <li>Click an App tile</li>
+          <li>Modern clean screen</li>
+          <li>Works on mobile, tablet, PC</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-text"><strong>Simple way to explain in interview:</strong> "SAP Fiori is like converting old SAP transactions into mobile-friendly web apps. Users click tiles instead of typing T-Codes, but the security rules behind are the same."</div>
+    </div>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">🗃️</div>ECC vs S/4HANA — What's the Difference?</div>
+    <table class="comp-table">
+      <tr><th>Feature</th><th>SAP ECC</th><th>SAP S/4HANA</th></tr>
+      <tr><td>Database</td><td>Any (Oracle, SQL Server, DB2...)</td><td>Only SAP HANA</td></tr>
+      <tr><td>Speed</td><td>Normal</td><td>Very fast (in-memory)</td></tr>
+      <tr><td>Interface</td><td>SAP GUI mainly</td><td>Fiori first</td></tr>
+      <tr><td>Analytics</td><td>Separate reports</td><td>Real-time analytics</td></tr>
+      <tr><td>Roles / PFCG</td><td>✅ Same</td><td>✅ Same</td></tr>
+    </table>
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-text"><strong>Common confusion:</strong> SAP HANA ≠ S/4HANA. HANA is the <em>database</em>. S/4HANA is the <em>ERP application</em> that runs ON the HANA database.</div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">🔐</div>Security — What Changed, What Didn't?</div>
+    <div class="two-col">
+      <div class="mini-card blue">
+        <h4>✅ Still the Same</h4>
+        <ul>
+          <li>Roles exist</li>
+          <li>Authorization Objects exist</li>
+          <li>PFCG is used</li>
+          <li>SU01 is used</li>
+          <li>Profiles exist</li>
+        </ul>
+      </div>
+      <div class="mini-card purple">
+        <h4>🆕 New in Fiori</h4>
+        <ul>
+          <li>Catalogs</li>
+          <li>Tiles &amp; Target Mappings</li>
+          <li>Spaces &amp; Pages</li>
+          <li>OData Services (IWSG/IWSV)</li>
+          <li>Launchpad Designer</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-text"><strong>Key interview point:</strong> "Authorization concept is same in Fiori. Roles, objects, PFCG — all same. Only the interface changed from T-Code to App tiles."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 2 — COMPONENTS
+════════════════════════════════════════════ -->
+<div class="section" id="components">
+  <div class="section-title">Fiori Key Components</div>
+  <div class="section-sub">Catalogs, Tiles, Target Mappings, Spaces, Pages — explained simply</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">📦</div>Catalog — Collection of Apps</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      Think of a Catalog like a <strong style="color:var(--text)">folder</strong> that contains apps. You group related apps inside one catalog.
+    </p>
+    <div class="two-col">
+      <div class="mini-card blue">
+        <h4>SAP Standard Catalog</h4>
+        <ul>
+          <li>Created by SAP</li>
+          <li>Cannot be changed</li>
+          <li>Used as reference</li>
+          <li>Example: <code>SAP_MM_BC_PO</code></li>
+        </ul>
+      </div>
+      <div class="mini-card green">
+        <h4>Custom Catalog (Z*)</h4>
+        <ul>
+          <li>You create this</li>
+          <li>Start with Z or Y</li>
+          <li>Used in roles</li>
+          <li>Example: <code>ZCAT_PURCHASING</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">🟦</div>Tile — The App Icon</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      A Tile is the <strong style="color:var(--text)">visual icon</strong> the user sees on the Fiori launchpad. Like a mobile app icon. Click it → app opens.
+    </p>
+    <table class="comp-table">
+      <tr><th>Tile Type</th><th>What it Shows</th><th>Example</th></tr>
+      <tr><td><span class="badge badge-blue">Static</span></td><td>Fixed text, never changes</td><td>"Create Material"</td></tr>
+      <tr><td><span class="badge badge-green">Dynamic</span></td><td>Live data that updates</td><td>"Open Orders: 125" (updates automatically)</td></tr>
+      <tr><td><span class="badge badge-purple">Custom</span></td><td>Made for special apps</td><td>Company-specific tiles</td></tr>
+    </table>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">🗺️</div>Target Mapping — Connects Tile to App</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      When you click a tile, SAP needs to know <strong style="color:var(--text)">"where to go?"</strong> — that's what Target Mapping does.
+    </p>
+    <div class="callout danger">
+      <div class="callout-icon">❗</div>
+      <div class="callout-text"><strong>Without Target Mapping:</strong> Tile appears ✅ — but clicking it does NOTHING ❌. Always required!</div>
+    </div>
+    <div class="card" style="background:var(--surface2);margin-top:12px;">
+      <div style="font-size:13px;color:var(--text-muted);">How it works — <strong style="color:var(--text)">Semantic Object + Semantic Action</strong></div>
+      <div style="margin-top:10px;">
+        <div class="flow">
+          <div class="flow-item"><div class="flow-node blue">Tile Click</div><div class="flow-desc">User taps tile</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node purple">Semantic Object</div><div class="flow-desc">Business entity (e.g. SalesOrder)</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node yellow">Semantic Action</div><div class="flow-desc">What to do (e.g. displayOverviewPage)</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node green">App Opens ✅</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-title"><div class="card-icon icon-yellow">🏗️</div>Spaces & Pages — Modern Layout</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      SAP replaced the old "Groups" concept with Spaces & Pages for better organization.
+    </p>
+    <div class="flow" style="margin:0 0 16px 0;">
+      <div class="flow-item"><div class="flow-node blue">Space</div><div class="flow-desc">= Business Area (e.g. Purchasing)</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node purple">Page</div><div class="flow-desc">= Group of apps in that area</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node green">Section</div><div class="flow-desc">= Sub-group inside a page</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node yellow">Tiles</div><div class="flow-desc">= The actual app icons</div></div>
+    </div>
+    <table class="comp-table">
+      <tr><th></th><th>Groups (Old)</th><th>Spaces & Pages (New)</th></tr>
+      <tr><td>Style</td><td>All apps on one page</td><td>Organized by area/page</td></tr>
+      <tr><td>Navigation</td><td>Scrolling</td><td>Dropdown menu</td></tr>
+      <tr><td>SAP recommends</td><td>❌ Deprecated</td><td>✅ Use this</td></tr>
+      <tr><td>Still usable?</td><td>✅ Yes (many clients still use)</td><td>✅ Yes</td></tr>
+    </table>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-text"><strong>Deprecated doesn't mean deleted.</strong> Groups still work. Many old clients use them. But for new projects, always use Spaces & Pages.</div>
+    </div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title"><div class="card-icon icon-red">⚡</div>OData Services — Data Pipeline</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:14px;">
+      OData Services are how Fiori apps <strong style="color:var(--text)">talk to the SAP backend</strong>. Without them, the app opens but shows nothing.
+    </p>
+    <div class="two-col">
+      <div class="mini-card blue">
+        <h4>IWSG — Frontend Service</h4>
+        <ul>
+          <li>G = Gateway = Frontend</li>
+          <li>Controls app startup</li>
+          <li>Contains S_SERVICE object</li>
+          <li>Without it → app won't start</li>
+        </ul>
+      </div>
+      <div class="mini-card purple">
+        <h4>IWSV — Backend Service</h4>
+        <ul>
+          <li>V = Backend/Vendor Service</li>
+          <li>Provides business data</li>
+          <li>Contains auth objects</li>
+          <li>Without it → app starts but fails</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">🧠</div>
+      <div class="callout-text"><strong>Memory trick:</strong> IWSG = Gateway (G) = starts the app. IWSV = backend Service (V) = provides data. Both needed for app to work properly.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3 — APP TYPES
+════════════════════════════════════════════ -->
+<div class="section" id="apptypes">
+  <div class="section-title">Fiori Application Types</div>
+  <div class="section-sub">5 types of Fiori apps — each works differently and needs different setup</div>
+
+  <div class="app-types">
+    <div class="app-type">
+      <div class="at-icon">📝</div>
+      <div class="at-name" style="color:var(--accent)">Transactional</div>
+      <div class="at-desc">Do business work — create, change, approve things</div>
+      <div class="at-examples">
+        <span class="badge badge-blue">Create PO</span>
+        <span class="badge badge-blue">Post Payment</span>
+        <span class="badge badge-blue">Approve Request</span>
+      </div>
+    </div>
+    <div class="app-type">
+      <div class="at-icon">📊</div>
+      <div class="at-name" style="color:#a57cfc">Analytical</div>
+      <div class="at-desc">See charts, dashboards, KPIs — needs SAP HANA</div>
+      <div class="at-examples">
+        <span class="badge badge-purple">Sales Overview</span>
+        <span class="badge badge-purple">Revenue Chart</span>
+      </div>
+    </div>
+    <div class="app-type">
+      <div class="at-icon">🔍</div>
+      <div class="at-name" style="color:var(--accent3)">Fact Sheet</div>
+      <div class="at-desc">Search and view details of business objects — needs HANA</div>
+      <div class="at-examples">
+        <span class="badge badge-green">Customer Info</span>
+        <span class="badge badge-green">Sales Order Detail</span>
+      </div>
+    </div>
+    <div class="app-type">
+      <div class="at-icon">🖥️</div>
+      <div class="at-name" style="color:var(--warn)">SAP GUI</div>
+      <div class="at-desc">Old SAP T-Codes opened via Fiori tile</div>
+      <div class="at-examples">
+        <span class="badge badge-yellow">MM01</span>
+        <span class="badge badge-yellow">SU01</span>
+        <span class="badge badge-yellow">PFCG</span>
+      </div>
+    </div>
+    <div class="app-type">
+      <div class="at-icon">🌍</div>
+      <div class="at-name" style="color:var(--danger)">Web Dynpro</div>
+      <div class="at-desc">Browser apps built with ABAP/Java — desktop focused</div>
+      <div class="at-examples">
+        <span class="badge badge-red">Asset Balances</span>
+        <span class="badge badge-red">F1669</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-blue" style="margin-top:20px;">
+    <div class="card-title"><div class="card-icon icon-blue">📊</div>Transactional vs Analytical — Key Difference</div>
+    <table class="comp-table">
+      <tr><th>Point</th><th>Transactional</th><th>Analytical</th></tr>
+      <tr><td>Purpose</td><td>Do work (create/change/delete)</td><td>See data (reports/charts/KPIs)</td></tr>
+      <tr><td>Database</td><td>Any database</td><td>SAP HANA only</td></tr>
+      <tr><td>User action</td><td>Performs task</td><td>Views/analyzes info</td></tr>
+      <tr><td>Example</td><td>Create Sales Order</td><td>Sales Revenue Dashboard</td></tr>
+      <tr><td>First Fiori apps</td><td>✅ Yes (2013 first 25 apps)</td><td>Came later</td></tr>
+    </table>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">🔍</div>Fact Sheet Apps — How They Work</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      Fact Sheet apps don't need tiles or Spaces. Users search in the <strong style="color:var(--text)">Enterprise Search bar</strong> and see full object details.
+    </p>
+    <div class="flow">
+      <div class="flow-item"><div class="flow-node blue">User Types "Sales Order 104"</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node purple">Enterprise Search</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node yellow">Search Connector</div><div class="flow-desc">Must be activated!</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node green">Result shows order details, customer, status, etc.</div></div>
+    </div>
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-text"><strong>Important setup:</strong> Use transaction <code>STC01</code> to activate Enterprise Search task list. Without Search Connectors, search returns nothing.</div>
+    </div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-title"><div class="card-icon icon-yellow">🖥️</div>SAP GUI Apps — Key Difference in Security</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      SAP GUI apps work exactly like old T-Codes but launched from Fiori. Security setup is different!
+    </p>
+    <div class="two-col">
+      <div class="mini-card red">
+        <h4>❌ Not needed for SAP GUI apps</h4>
+        <ul>
+          <li>IWSG Service</li>
+          <li>IWSV Service</li>
+          <li>OData activation</li>
+        </ul>
+      </div>
+      <div class="mini-card green">
+        <h4>✅ What you need instead</h4>
+        <ul>
+          <li>Transaction Code (e.g. MM03)</li>
+          <li>SU24 authorization defaults</li>
+          <li>S_TCODE authorization object</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-text"><strong>Custom SAP GUI App:</strong> If SU01, PFCG not in Fiori Apps Library — create custom tile with your own Semantic Object (e.g. <code>ZSECURITY_SU01</code>). First check SE93 that T-Code supports "SAP GUI for HTML".</div>
+    </div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title"><div class="card-icon icon-red">🌍</div>Web Dynpro Apps — Authorization Setup</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px;">
+      Web Dynpro apps are browser apps built with ABAP. They need SICF service to be active.
+    </p>
+    <table class="comp-table">
+      <tr><th>Feature</th><th>SAPUI5/Fiori App</th><th>Web Dynpro App</th></tr>
+      <tr><td>Technology</td><td>HTML5, JavaScript, CSS</td><td>ABAP or Java</td></tr>
+      <tr><td>Mobile support</td><td>✅ Full</td><td>❌ Desktop mainly</td></tr>
+      <tr><td>Auth source</td><td>IWSG + IWSV</td><td>Web Dynpro App name</td></tr>
+      <tr><td>Service check</td><td>/IWFND/MAINT_SERVICE</td><td>SICF</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4 — DEPLOYMENT
+════════════════════════════════════════════ -->
+<div class="section" id="deployment">
+  <div class="section-title">Deployment Types</div>
+  <div class="section-sub">Embedded vs Central Hub — most asked interview topic</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">🏢</div>Embedded Deployment — One System</div>
+    <div class="flow" style="margin-bottom:16px;">
+      <div class="flow-item">
+        <div class="flow-node green" style="min-width:260px;">S/4HANA System (One Server)</div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:12px;margin-left:20px;">
+        <div class="flow-node blue" style="min-width:120px;">Backend</div>
+        <span style="color:var(--text-dim);align-self:center;">+</span>
+        <div class="flow-node purple" style="min-width:120px;">Fiori Frontend</div>
+      </div>
+    </div>
+    <ul class="checklist">
+      <li>Frontend and backend on <strong>same server</strong></li>
+      <li>Only <strong>one role</strong> to maintain (simpler)</li>
+      <li>Easier administration — preferred by most customers</li>
+      <li><strong>Most common</strong> in S/4HANA projects today</li>
+    </ul>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">🏗️</div>Central Hub Deployment — Two Systems</div>
+    <div class="flow" style="margin-bottom:16px;">
+      <div class="flow-item"><div class="flow-node blue">Fiori Frontend Server</div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-item"><div class="flow-node purple">S/4HANA Backend Server</div></div>
+    </div>
+    <ul class="checklist">
+      <li>Frontend and backend on <strong>separate servers</strong></li>
+      <li>Need to maintain <strong>frontend roles</strong> AND <strong>backend roles</strong></li>
+      <li>Same user needs access in <strong>both systems</strong></li>
+      <li>More complex to manage</li>
+      <li>Used in some older or large enterprise setups</li>
+    </ul>
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-text"><strong>In Central Hub:</strong> Backend error log is <code>/IWBEP/ERROR_LOG</code>. In Embedded: usually only check <code>/IWFND/ERROR_LOG</code>.</div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">📊</div>Comparison Table</div>
+    <table class="comp-table">
+      <tr><th>Feature</th><th>Embedded</th><th>Central Hub</th></tr>
+      <tr><td>Number of systems</td><td>1</td><td>2</td></tr>
+      <tr><td>Role maintenance</td><td>One role</td><td>Separate frontend + backend roles</td></tr>
+      <tr><td>Complexity</td><td>Simple</td><td>Complex</td></tr>
+      <tr><td>Performance</td><td>Better</td><td>Depends on network</td></tr>
+      <tr><td>Common usage</td><td>✅ Most common</td><td>Less common</td></tr>
+      <tr><td>System alias in Target Mapping</td><td>Leave blank</td><td>Must set frontend alias</td></tr>
+    </table>
+    <div class="callout tip">
+      <div class="callout-icon">🎤</div>
+      <div class="callout-text"><strong>Interview answer:</strong> "In embedded, both frontend and backend are in same system, so one role is enough. In central hub, they are separate systems, so I need to maintain frontend role and backend role both and assign to user in both systems."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 5 — SECURITY / ROLE SETUP
+════════════════════════════════════════════ -->
+<div class="section" id="security">
+  <div class="section-title">Fiori Security & Role Setup</div>
+  <div class="section-sub">Step-by-step — how to create and assign Fiori access</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">🔑</div>How Fiori Security Works — Simple Flow</div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Old SAP GUI</div>
+        <div class="flow">
+          <div class="flow-item"><div class="flow-node blue">User</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node purple">Role</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node yellow">Auth Objects</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node green">T-Code Access</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">SAP Fiori</div>
+        <div class="flow">
+          <div class="flow-item"><div class="flow-node blue">User</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node purple">Role</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node yellow">Catalog</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node blue">Fiori App</div></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-item"><div class="flow-node green">Auth Objects</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">📋</div>Steps to Create Fiori Access (SAPUI5 App)</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create Custom Catalog</div><div class="step-desc">Use <code>/UI2/FLPD_CUST</code> → Give it an ID like <code>ZCAT_MY_APP</code></div></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Add Tile Reference</div><div class="step-desc">Copy the tile from SAP standard catalog into your catalog</div></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Add Target Mapping</div><div class="step-desc">Copy Target Mapping too — connects tile to the actual app</div></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Create Space & Page</div><div class="step-desc">Use "Manage Launchpad Spaces" — Space = business area, Page = apps inside</div></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Create Role in PFCG</div><div class="step-desc">New single role — e.g. <code>Z_MY_APP_ROLE</code></div></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Add Catalog + Space to Role</div><div class="step-desc">In Menu tab → Add Launchpad Catalog → Add Space</div></div></div>
+      <div class="step"><div class="step-num">7</div><div class="step-body"><div class="step-title">Add OData Services</div><div class="step-desc">Authorization Defaults → Add IWSG (frontend) + IWSV (backend)</div></div></div>
+      <div class="step"><div class="step-num">8</div><div class="step-body"><div class="step-title">Generate Authorization Profile</div><div class="step-desc">Change Auth Data → Generate → Save</div></div></div>
+      <div class="step"><div class="step-num">9</div><div class="step-body"><div class="step-title">Assign Role to User</div><div class="step-desc">SU01 → Roles tab → Add role → Save</div></div></div>
+      <div class="step"><div class="step-num">10</div><div class="step-body"><div class="step-title">Configure Page Content</div><div class="step-desc">Manage Launchpad Pages → Edit → Add Section → Drag tile in → Save</div></div></div>
+      <div class="step"><div class="step-num">11</div><div class="step-body"><div class="step-title">Test</div><div class="step-desc">Login as user → Check Fiori Launchpad → Click tile → App should open</div></div></div>
+    </div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-title"><div class="card-icon icon-yellow">🔧</div>Important Transaction Codes</div>
+    <div class="tcode-grid">
+      <div class="tcode-item"><div class="tc">/UI2/FLPD_CUST</div><div class="td">Launchpad Designer — create catalog, tile, target mapping</div></div>
+      <div class="tcode-item"><div class="tc">/UI2/FLPCM_CUST</div><div class="td">Fiori Content Manager — newer tool, same purpose</div></div>
+      <div class="tcode-item"><div class="tc">/UI2/FLPAM</div><div class="td">Launchpad App Manager</div></div>
+      <div class="tcode-item"><div class="tc">/UI2/RSP_LIST</div><div class="td">View roles with spaces and pages assigned</div></div>
+      <div class="tcode-item"><div class="tc">/UI2/FLIA</div><div class="td">Analyze catalogs and group usage</div></div>
+      <div class="tcode-item"><div class="tc">/IWFND/MAINT_SERVICE</div><div class="td">Activate / check OData services</div></div>
+      <div class="tcode-item"><div class="tc">PFCG</div><div class="td">Role creation and authorization management</div></div>
+      <div class="tcode-item"><div class="tc">SU01</div><div class="td">User maintenance — create/change users</div></div>
+      <div class="tcode-item"><div class="tc">SE93</div><div class="td">Check if T-Code supports SAP GUI for HTML</div></div>
+      <div class="tcode-item"><div class="tc">SICF</div><div class="td">Activate Web Dynpro / Enterprise Search services</div></div>
+      <div class="tcode-item"><div class="tc">STC01</div><div class="td">Run task list for Enterprise Search (Fact Sheet apps)</div></div>
+      <div class="tcode-item"><div class="tc">/UI2/SEMOBJ</div><div class="td">Create custom Semantic Objects</div></div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">🧠</div>
+      <div class="callout-text"><strong>CUST vs CONF:</strong> CUST = Client-specific (your company changes only). CONF = Cross-client (affects all clients in system). Security consultants mainly use CUST.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 6 — TROUBLESHOOTING
+════════════════════════════════════════════ -->
+<div class="section" id="trouble">
+  <div class="section-title">Troubleshooting Fiori Issues</div>
+  <div class="section-sub">Most common problems and how to fix them — very important for interviews</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">🗂️</div>3 Types of Fiori Issues</div>
+    <div class="two-col">
+      <div class="mini-card blue">
+        <h4>1. Launchpad / UI Issues</h4>
+        <ul>
+          <li>Tile missing</li>
+          <li>Space/Page not visible</li>
+          <li>Wrong navigation</li>
+          <li>Target Mapping missing</li>
+          <li>Catalog not assigned</li>
+        </ul>
+      </div>
+      <div class="mini-card purple">
+        <h4>2. OData / App Issues</h4>
+        <ul>
+          <li>App won't open</li>
+          <li>Page failed to load</li>
+          <li>HTTP 403 / 404 / 500 error</li>
+          <li>App opens but no data shows</li>
+          <li>Service not activated</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mini-card red" style="margin-top:12px;">
+      <h4>3. Data / Database Issues</h4>
+      <ul>
+        <li>One user sees data, another doesn't</li>
+        <li>Data missing or wrong</li>
+        <li>HANA / CDS view problems</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">🔧</div>Troubleshooting Tools — Know These!</div>
+    <table class="comp-table">
+      <tr><th>Tool</th><th>What it does</th><th>Use when</th></tr>
+      <tr><td><code>SU53</code></td><td>Shows last failed authorization check</td><td>User can't do something — run immediately after</td></tr>
+      <tr><td><code>STAUTHTRACE</code></td><td>Full authorization trace</td><td>Complex auth problems, SU53 not enough</td></tr>
+      <tr><td><code>ST01</code></td><td>System trace (auth + RFC)</td><td>Advanced tracing needed</td></tr>
+      <tr><td><code>/IWFND/ERROR_LOG</code></td><td>Frontend Gateway error log</td><td>App fails to load, OData errors</td></tr>
+      <tr><td><code>/IWBEP/ERROR_LOG</code></td><td>Backend error log</td><td>Central Hub deployments mainly</td></tr>
+      <tr><td><code>F12</code> (browser)</td><td>Browser developer tools</td><td>HTTP errors, JavaScript errors, quick check</td></tr>
+      <tr><td>App Support (in Fiori)</td><td>Shows App ID, technical info, errors</td><td>Don't know which app user clicked</td></tr>
+    </table>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">🎯</div>Scenario 1 — SAP GUI App Won't Open</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Tile is visible but clicking it shows "no authorization" or "transaction cannot be started"</p>
+    <div class="trouble-flow">
+      <div class="tf-step">User clicks tile</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Error appears</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Run SU53</div><div class="tf-arrow">→</div>
+      <div class="tf-step">S_TCODE missing</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Open PFCG role</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Add T-Code in Auth Defaults</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Generate + User Compare</div><div class="tf-arrow">→</div>
+      <div class="tf-step">✅ Fixed</div>
+    </div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-title"><div class="card-icon icon-yellow">🎯</div>Scenario 2 — Missing IWSG (App Won't Start)</div>
+    <div class="callout danger"><div class="callout-icon">❗</div><div class="callout-text">Error: "No authorization to access service" — App tile visible but clicking does nothing or shows error immediately.</div></div>
+    <div class="trouble-flow" style="margin-top:12px;">
+      <div class="tf-step">Check App Support or /IWFND/ERROR_LOG</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Find catalog → find role in PFCG</div><div class="tf-arrow">→</div>
+      <div class="tf-step">IWSG missing in role</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Add IWSG in Auth Defaults → Generate</div><div class="tf-arrow">→</div>
+      <div class="tf-step">User Compare → Test</div><div class="tf-arrow">→</div>
+      <div class="tf-step">✅ Fixed</div>
+    </div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title"><div class="card-icon icon-red">🎯</div>Scenario 3 — "Page Failed to Load"</div>
+    <div class="callout danger"><div class="callout-icon">❗</div><div class="callout-text">App opens but shows "Page Failed to Load" or blank screen — OData service not activated in gateway.</div></div>
+    <div class="trouble-flow" style="margin-top:12px;">
+      <div class="tf-step">Press F12 (browser)</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Check /IWFND/ERROR_LOG</div><div class="tf-arrow">→</div>
+      <div class="tf-step">"No service found" error</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Check Fiori Apps Library for required service</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Go to /IWFND/MAINT_SERVICE</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Add + activate the service</div><div class="tf-arrow">→</div>
+      <div class="tf-step">✅ Fixed</div>
+    </div>
+    <div class="callout warn" style="margin-top:12px;">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-text"><strong>Common mistake:</strong> After transporting OData service to QA/Production, the SICF service stays inactive. Always manually activate SICF after import!</div>
+    </div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">🎯</div>Scenario 4 — Blank Screen / Annotation Error</div>
+    <div class="callout danger"><div class="callout-icon">❗</div><div class="callout-text">App opens, no error shown, but screen is completely blank. No obvious auth error.</div></div>
+    <div class="trouble-flow" style="margin-top:12px;">
+      <div class="tf-step">F12 → Console tab</div><div class="tf-arrow">→</div>
+      <div class="tf-step">HTTP 400 / "Vocabulary Annotation" error</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Check /IWFND/ERROR_LOG</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Find the Annotation service name</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Go to /IWFND/MAINT_SERVICE</div><div class="tf-arrow">→</div>
+      <div class="tf-step">Register the missing service</div><div class="tf-arrow">→</div>
+      <div class="tf-step">✅ Fixed</div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">📊</div>Quick Error Reference Table</div>
+    <table class="comp-table">
+      <tr><th>Problem</th><th>Likely Cause</th><th>Fix</th></tr>
+      <tr><td>Tile missing</td><td>Catalog not in role</td><td>Add catalog to role in PFCG</td></tr>
+      <tr><td>Space missing</td><td>Space not in role</td><td>Add Space to role</td></tr>
+      <tr><td>App won't start (auth error)</td><td>Missing IWSG</td><td>Add IWSG in role auth defaults</td></tr>
+      <tr><td>App starts but fails</td><td>Missing IWSV</td><td>Add IWSV in role auth defaults</td></tr>
+      <tr><td>SAP GUI app fails</td><td>Missing S_TCODE</td><td>Add T-Code in role, run SU53 first</td></tr>
+      <tr><td>Page failed to load</td><td>OData service not activated</td><td>Activate in /IWFND/MAINT_SERVICE</td></tr>
+      <tr><td>Blank screen</td><td>Annotation service missing</td><td>Register missing service</td></tr>
+      <tr><td>HTTP 403</td><td>Authorization missing</td><td>SU53 / STAUTHTRACE to find what's missing</td></tr>
+      <tr><td>HTTP 404</td><td>Service not found</td><td>Activate in /IWFND/MAINT_SERVICE</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 7 — USERS
+════════════════════════════════════════════ -->
+<div class="section" id="users">
+  <div class="section-title">SAP User Administration</div>
+  <div class="section-sub">User types, tables, password rules — commonly asked in interviews</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">👤</div>5 SAP User Types</div>
+    <table class="comp-table">
+      <tr><th>Code</th><th>Type</th><th>Login?</th><th>Password Expires?</th><th>Use Case</th></tr>
+      <tr><td><span class="badge badge-blue">A</span></td><td>Dialog</td><td class="yn-val yes">✅ Yes</td><td class="yn-val yes">✅ Yes</td><td>Normal business users</td></tr>
+      <tr><td><span class="badge badge-purple">B</span></td><td>System</td><td class="yn-val no">❌ No</td><td class="yn-val no">❌ No</td><td>Background jobs, RFC</td></tr>
+      <tr><td><span class="badge badge-green">C</span></td><td>Communication</td><td class="yn-val no">❌ No</td><td class="yn-val yes">✅ Yes</td><td>External system connect</td></tr>
+      <tr><td><span class="badge badge-yellow">L</span></td><td>Reference</td><td class="yn-val no">❌ No</td><td>N/A</td><td>Extra authorizations</td></tr>
+      <tr><td><span class="badge badge-red">S</span></td><td>Service</td><td>⚠️ Shared</td><td class="yn-val no">❌ No</td><td>Anonymous/shared access</td></tr>
+    </table>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-text"><strong>Interview answer for Reference User:</strong> "Reference user cannot login directly. It is used to give extra authorizations to another user. When both are assigned together, user gets combined access from both."</div>
+    </div>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">📊</div>Important Tables to Remember</div>
+    <div class="ref-grid">
+      <div class="ref-item">
+        <h4>User Data Tables</h4>
+        <div class="ref-row"><span class="ref-key">USR02</span><span class="ref-val">User master, lock status, last logon</span></div>
+        <div class="ref-row"><span class="ref-key">USR03</span><span class="ref-val">Name, department, address</span></div>
+        <div class="ref-row"><span class="ref-key">USR21</span><span class="ref-val">Person number (updated when user created)</span></div>
+        <div class="ref-row"><span class="ref-key">ADR6</span><span class="ref-val">Email address</span></div>
+        <div class="ref-row"><span class="ref-key">USGRP</span><span class="ref-val">User groups</span></div>
+      </div>
+      <div class="ref-item">
+        <h4>USR02 — Lock Values</h4>
+        <div class="ref-row"><span class="ref-key">0</span><span class="ref-val">Not locked</span></div>
+        <div class="ref-row"><span class="ref-key">32</span><span class="ref-val">Locked globally</span></div>
+        <div class="ref-row"><span class="ref-key">64</span><span class="ref-val">Locked by admin</span></div>
+        <div class="ref-row"><span class="ref-key">128</span><span class="ref-val">Locked — too many failed logins</span></div>
+      </div>
+      <div class="ref-item">
+        <h4>Auth Objects for Admins</h4>
+        <div class="ref-row"><span class="ref-key">S_USER_GRP</span><span class="ref-val">Control which users admin can edit</span></div>
+        <div class="ref-row"><span class="ref-key">S_USER_PRO</span><span class="ref-val">Profile assignment control</span></div>
+        <div class="ref-row"><span class="ref-key">S_USER_AGR</span><span class="ref-val">Role assignment control</span></div>
+        <div class="ref-row"><span class="ref-key">S_USER_TCD</span><span class="ref-val">T-Code assignment control</span></div>
+      </div>
+      <div class="ref-item">
+        <h4>Key T-Codes</h4>
+        <div class="ref-row"><span class="ref-key">SU01</span><span class="ref-val">User maintenance</span></div>
+        <div class="ref-row"><span class="ref-key">SU3</span><span class="ref-val">User's own parameters</span></div>
+        <div class="ref-row"><span class="ref-key">SUGR</span><span class="ref-val">Maintain user groups</span></div>
+        <div class="ref-row"><span class="ref-key">EWZ5</span><span class="ref-val">Mass lock/unlock users</span></div>
+        <div class="ref-row"><span class="ref-key">RZ10</span><span class="ref-val">Password policy parameters</span></div>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-text"><strong>Key fact:</strong> First table updated when user is created = <code>USR21</code>. To find email: USR21 (get person number) → ADR6 (use person number to find email).</div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">👥</div>User Group vs User Group for Auth Check</div>
+    <div class="two-col">
+      <div class="mini-card blue">
+        <h4>User Group (SUGR)</h4>
+        <p>Just for organizing users. Example: SD team, FI team, MM team. No security restriction.</p>
+      </div>
+      <div class="mini-card purple">
+        <h4>User Group for Auth Check (S_USER_GRP)</h4>
+        <p>Controls which admins can maintain which users. Admin with INDIA can only edit Indian users. Admin with AUSTRALIA only edits Australian users.</p>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-icon">🎤</div>
+      <div class="callout-text"><strong>Interview:</strong> "User group is just for categorization. But S_USER_GRP authorization object is used to restrict which security administrator can manage which group of users. This is important for large companies with multiple teams in different countries."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 8 — INTERVIEW Q&A
+════════════════════════════════════════════ -->
+<div class="section" id="interview">
+  <div class="section-title">Interview Q&A — Ready Answers</div>
+  <div class="section-sub">Simple answers in easy English — practice these before your interview</div>
+
+  <div class="card card-blue">
+    <div class="card-title"><div class="card-icon icon-blue">🎤</div>Fiori Basics</div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is SAP Fiori? How is it different from SAP GUI?</div></div>
+      <div class="iq-a">SAP Fiori is a <strong>web-based interface</strong> to use SAP. Instead of opening SAP GUI program and typing T-Codes, users open a browser and click app tiles. The backend authorization — roles, objects, PFCG — stays exactly same. Only the front interface changed.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is a Catalog in Fiori?</div></div>
+      <div class="iq-a">Catalog is a <strong>collection of Fiori apps</strong>. We create a custom catalog (Z* prefix), copy app tiles and target mappings into it, then assign the catalog to a role in PFCG. Without catalog in the role, user cannot see the apps on launchpad.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is Target Mapping? Why is it important?</div></div>
+      <div class="iq-a">Target Mapping tells SAP <strong>which app to open</strong> when user clicks a tile. It uses Semantic Object and Semantic Action. If target mapping is missing, the tile appears on launchpad but <strong>clicking does nothing</strong>. So it is mandatory for every tile.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is the difference between Groups and Spaces & Pages?</div></div>
+      <div class="iq-a">Groups is the <strong>old method</strong> — all apps show on one page, it looks cluttered. Spaces and Pages is the <strong>modern SAP approach</strong> — Space is like a business area (e.g. Purchasing), inside it Pages organize apps neatly. SAP recommends Spaces and Pages but Groups still work in old systems.</div>
+    </div>
+  </div>
+
+  <div class="card card-purple">
+    <div class="card-title"><div class="card-icon icon-purple">🎤</div>OData Services & Deployment</div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is the difference between IWSG and IWSV?</div></div>
+      <div class="iq-a"><strong>IWSG = Frontend service</strong>. It starts the application. Without IWSG, tile is visible but app won't open at all.<br><br><strong>IWSV = Backend service</strong>. It provides authorization objects and business data. Without IWSV, app opens but fails when doing business operation.<br><br>Memory trick: G = Gateway = Frontend. V = Backend.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is Embedded vs Central Hub Deployment?</div></div>
+      <div class="iq-a">In <strong>Embedded</strong>, frontend and backend are on same S/4HANA server. One role is enough. Easier to manage. Most common.<br><br>In <strong>Central Hub</strong>, frontend server and backend server are separate. Need to maintain two sets of roles — frontend roles and backend roles. User needs access in both systems.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is the difference between CUST and CONF transactions?</div></div>
+      <div class="iq-a"><strong>CUST</strong> (like /UI2/FLPD_CUST) = Client-specific. Changes only affect current client. Security consultants use this.<br><br><strong>CONF</strong> (like /UI2/FLPD_CONF) = Cross-client. Changes affect all clients in the system. Used by Basis/admin team.</div>
+    </div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-title"><div class="card-icon icon-green">🎤</div>Application Types</div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What are the different types of Fiori applications?</div></div>
+      <div class="iq-a">There are 5 types:<br><br>
+      1. <strong>Transactional</strong> — do work like create/change/delete (works on any database)<br>
+      2. <strong>Analytical</strong> — charts/KPIs/reports (needs SAP HANA)<br>
+      3. <strong>Fact Sheet</strong> — search and view object details (needs HANA + Enterprise Search)<br>
+      4. <strong>SAP GUI</strong> — old T-Code opened from Fiori tile<br>
+      5. <strong>Web Dynpro</strong> — browser app built with ABAP, mainly desktop</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is special about SAP GUI apps in terms of security?</div></div>
+      <div class="iq-a">SAP GUI apps don't need IWSG or IWSV services. Instead, authorization comes from the <strong>T-Code</strong> and <strong>SU24</strong> authorization defaults — same as old SAP GUI. S_TCODE authorization object must be in the role. If it's missing, tile shows but app won't open.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is a Fact Sheet app and how does user access it?</div></div>
+      <div class="iq-a">Fact Sheet apps show detailed info about a business object like Sales Order, Customer, Material. User doesn't click a tile — they use the <strong>Enterprise Search bar</strong> to search. Needs SAP HANA and Search Connectors to be activated via STC01 task list.</div>
+    </div>
+  </div>
+
+  <div class="card card-yellow">
+    <div class="card-title"><div class="card-icon icon-yellow">🎤</div>Troubleshooting Scenarios — Most Asked!</div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">User can see tile but app does not open. How to troubleshoot?</div></div>
+      <div class="iq-a">
+        Step 1 — Find the application type (from Fiori Apps Library)<br>
+        Step 2 — Check catalog, role, space assignment<br>
+        Step 3 — Run <strong>SU53</strong> right after error to see what authorization failed<br>
+        Step 4 — Check <strong>IWSG</strong> in role (for Fiori apps)<br>
+        Step 5 — Check <strong>S_TCODE</strong> in role (for SAP GUI apps)<br>
+        Step 6 — Check <strong>/IWFND/ERROR_LOG</strong> for gateway errors<br>
+        Step 7 — If complex, run <strong>STAUTHTRACE</strong><br>
+        Step 8 — After fix: generate role, do user comparison, test again
+      </div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">User sees "Page Failed to Load". What is the issue?</div></div>
+      <div class="iq-a">Most likely an <strong>OData service is not activated</strong> in the gateway. Steps: Press F12 in browser → check Console for errors → check /IWFND/ERROR_LOG → find the missing service name → go to /IWFND/MAINT_SERVICE → Add Service → select LOCAL/co-deployed → activate → retest.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">App opens but shows blank screen. What to check?</div></div>
+      <div class="iq-a">This is usually an <strong>Annotation/Vocabulary service missing</strong>. Open browser F12 → Console → look for HTTP 400 or "vocabulary annotation" error. Check /IWFND/ERROR_LOG. Find the annotation service name → register it in /IWFND/MAINT_SERVICE. Then activate SICF if needed. Retest.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">Which transaction do you check first for Fiori authorization error?</div></div>
+      <div class="iq-a">Start with <strong>SU53</strong> — run it immediately after the user gets the error. SU53 shows the last authorization check that failed. If SU53 is not clear enough, then run <strong>STAUTHTRACE</strong> for complete trace. For gateway/OData errors, check <strong>/IWFND/ERROR_LOG</strong>.</div>
+    </div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title"><div class="card-icon icon-red">🎤</div>User Admin Questions</div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">What is Reference User? When is it used?</div></div>
+      <div class="iq-a">Reference User cannot log in directly. It is assigned to a normal user to give <strong>extra authorizations</strong>. The main user gets access from both his own role AND the reference user's role combined. Useful when a user needs special extra access without changing their main roles.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">How to find why a user is locked?</div></div>
+      <div class="iq-a">Check table <strong>USR02</strong>. Look at the lock status field: 0 = not locked, 32 = locked globally, 64 = locked by admin, 128 = locked due to too many failed login attempts. To unlock: SU01 → enter user → click unlock button.</div>
+    </div>
+
+    <div class="iq">
+      <div class="iq-q"><div class="iq-q-tag">Q</div><div class="iq-q-text">How to find email address of a user in SAP?</div></div>
+      <div class="iq-a">Two steps: First check table <strong>USR21</strong> — get the person number. Then check table <strong>ADR6</strong> using that person number — it shows the email address. Also, USR21 is the first table that gets updated when a new user is created.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+  </main>
+</div><!-- /layout -->
+
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu-sheet" id="mobSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Menu</div>
+    <button class="sheet-close" id="sheetCloseBtn">Close</button>
+  </div>
+  <div class="sheet-search-wrap">
+    <input type="text" id="sheetSearch" placeholder="Search sections…" />
+  </div>
+  <div class="sheet-body" id="sheetBody">
+    <div class="sheet-group" id="sg1">
+      <div class="sheet-group-title"><span>Overview</span><span class="stog">▼</span></div>
+      <div class="sheet-group-content">
+        <a class="sheet-nav-item" href="#basics"><span class="snd">🌐</span>Basics</a>
+        <a class="sheet-nav-item" href="#components"><span class="snd">📦</span>Components</a>
+        <a class="sheet-nav-item" href="#apptypes"><span class="snd">🧩</span>App Types</a>
+      </div>
+    </div>
+    <div class="sheet-group" id="sg2">
+      <div class="sheet-group-title"><span>Implementation</span><span class="stog">▼</span></div>
+      <div class="sheet-group-content">
+        <a class="sheet-nav-item" href="#deployment"><span class="snd">🚀</span>Deployment</a>
+        <a class="sheet-nav-item" href="#security"><span class="snd">🔐</span>Security</a>
+        <a class="sheet-nav-item" href="#trouble"><span class="snd">⚠️</span>Troubleshoot</a>
+      </div>
+    </div>
+    <div class="sheet-group" id="sg3">
+      <div class="sheet-group-title"><span>Admin & Q&A</span><span class="stog">▼</span></div>
+      <div class="sheet-group-content">
+        <a class="sheet-nav-item" href="#users"><span class="snd">👤</span>Users</a>
+        <a class="sheet-nav-item" href="#interview"><span class="snd">🎤</span>Interview Q&A</a>
+      </div>
+    </div>
+    <div class="sheet-group" id="sg4">
+      <div class="sheet-group-title"><span>Extras</span><span class="stog">▼</span></div>
+      <div class="sheet-group-content">
+        <a class="sheet-nav-item special" href="index.html"><span class="snd">🏠</span>Open SAP Security Notes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  function toggleNavGroup(el) {
+    el.parentElement.classList.toggle('collapsed');
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const tabs = document.querySelectorAll('.nav-tab');
+    const tabMap = ['basics','components','apptypes','deployment','security','trouble','users','interview'];
+    const tabIndex = tabMap.indexOf(id);
+    if (tabIndex !== -1) tabs[tabIndex].classList.add('active');
+    const activeNav = document.querySelector(`.nav-item[data-target="${id}"]`);
+    if (activeNav) activeNav.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // Scroll-to-top visibility
+  const btn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('show', window.scrollY > 300);
+  });
+
+  const _sheet = document.getElementById('mobSheet');
+  const _overlay = document.getElementById('mobOverlay');
+  const _hbtn = document.getElementById('mobHamburger');
+  const _sheetBody = document.getElementById('sheetBody');
+  const _sheetClose = document.getElementById('sheetCloseBtn');
+
+  function openSheet(){
+    _sheet.classList.add('open');
+    _overlay.classList.add('show');
+    _hbtn.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSheet(){
+    _sheet.classList.remove('open');
+    _overlay.classList.remove('show');
+    _hbtn.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  function toggleSheet(){
+    _sheet.classList.contains('open') ? closeSheet() : openSheet();
+  }
+
+  _hbtn.addEventListener('click', toggleSheet);
+  _overlay.addEventListener('click', closeSheet);
+  _sheetClose.addEventListener('click', closeSheet);
+
+  document.querySelectorAll('.sheet-nav-item').forEach(function(item){
+    item.addEventListener('click', function(e){
+      const href = item.getAttribute('href');
+      if(href && href.startsWith('#')){
+        e.preventDefault();
+        closeSheet();
+        setTimeout(function(){
+          showSection(href.slice(1));
+        }, 260);
+      }
+    });
+  });
+
+  document.querySelectorAll('.sheet-group-title').forEach(function(title){
+    title.addEventListener('click', function(){
+      title.closest('.sheet-group').classList.toggle('scollapsed');
+    });
+  });
+
+  document.getElementById('sheetSearch').addEventListener('input', function(){
+    const q = this.value.toLowerCase().trim();
+    document.querySelectorAll('.sheet-nav-item').forEach(function(item){
+      const match = !q || item.textContent.toLowerCase().includes(q);
+      item.style.display = match ? '' : 'none';
+      if(match && q) item.closest('.sheet-group').classList.remove('scollapsed');
+    });
+    document.querySelectorAll('.sheet-group').forEach(function(group){
+      const visible = Array.from(group.querySelectorAll('.sheet-nav-item')).some(function(item){ return item.style.display !== 'none'; });
+      group.style.display = (!q || visible) ? '' : 'none';
+    });
+  });
+
+</script>
+</body>
+</html>
