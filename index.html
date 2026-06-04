@@ -228,6 +228,16 @@ mark{background:rgba(245,158,11,.2);color:var(--accent4);border-radius:2px;paddi
 .ana-original .ana-title{color:var(--accent3)}
 .ana-xerox{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.15)}
 .ana-xerox .ana-title{color:var(--accent1)}
+.qr-grid{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:start;margin-bottom:1.25rem}
+.qr-panel{background:var(--card);border:1px solid rgba(245,158,11,.22);border-radius:18px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem;max-width:280px;box-shadow:0 20px 55px rgba(37,99,235,.06);position:relative}
+.qr-badge{display:inline-flex;align-items:center;gap:.45rem;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);border-radius:999px;padding:.35rem .85rem;font-size:.78rem;color:var(--accent4);font-weight:700}
+.qr-image{width:100%;max-width:220px;height:auto;border-radius:18px;border:1px solid rgba(16,185,129,.15);box-shadow:0 22px 45px rgba(0,0,0,.08);background:#fff}
+.qr-copy{font-family:var(--font-sans);font-size:.91rem;color:var(--text3);text-align:center;line-height:1.65}
+.qr-copy strong{color:var(--text);font-weight:700}
+@media(max-width:768px){
+  .qr-grid{grid-template-columns:1fr}
+  .qr-panel{max-width:100%;margin:auto}
+}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 
@@ -1258,7 +1268,7 @@ Example: ECCK900035</div>
   </div>
 
   <!-- QR + Benefits grid -->
-  <div style="display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:start;margin-bottom:1.25rem">
+  <div class="qr-grid">
     <div>
       <div class="card card-amber" style="margin-bottom:.9rem">
         <div class="card-title amber">Your Support Helps Build More</div>
@@ -1277,16 +1287,11 @@ Example: ECCK900035</div>
     </div>
 
     <!-- QR Code box -->
-    <div style="flex-shrink:0;text-align:center">
-      <div style="background:var(--card);border:2px solid rgba(245,158,11,.35);border-radius:14px;padding:1.25rem 1.1rem;display:inline-block;box-shadow:0 8px 32px rgba(245,158,11,.1)">
-        <div style="font-family:var(--font-sans);font-size:.68rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:#f59e0b;margin-bottom:.75rem">Scan to Support ☕</div>
-
-        <!-- ✏️ REPLACE the div below with your QR code image: -->
-        <img src="QR.jpeg" alt="Buy Me a Coffee QR"   
-           style="width:160px;height:160px;border-radius:8px;display:block"> -->
-        
-
-        <div style="font-family:var(--font-sans);font-size:.8rem;color:var(--text2);margin-top:.85rem;line-height:1.6">Buy Me a Coffee<br><span style="color:#f59e0b;font-weight:700;font-size:.85rem">UPI · GPay · PhonePe</span></div>
+    <div style="flex-shrink:0;display:flex;justify-content:center;">
+      <div class="qr-panel" style="position:relative;">
+        <div class="qr-badge">Scan to Support ☕</div>
+        <img class="qr-image" src="QR.jpeg" alt="Buy Me a Coffee QR" />
+        <div class="qr-copy"><strong>Buy Me a Coffee</strong><br>UPI · GPay · PhonePe</div>
       </div>
     </div>
   </div>
@@ -1302,8 +1307,6 @@ Example: ECCK900035</div>
 
 </div>
 
-</main>
-</div>
 </main>
 </div>
 
