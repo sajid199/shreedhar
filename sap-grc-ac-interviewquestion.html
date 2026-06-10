@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP GRC Access Risk Analysis – Interview Guide</title>
+<style>
+  :root {
+    --primary: #0057a8;
+    --primary-dark: #003d7a;
+    --accent: #00aaff;
+    --success: #00b894;
+    --warning: #fdcb6e;
+    --danger: #d63031;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1e2a3a;
+    --text-light: #5a6a7e;
+    --border: #dce6f0;
+    --tag-bg: #e8f4ff;
+    --tag-color: #0057a8;
+    --shadow: 0 4px 20px rgba(0,87,168,0.10);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #0080cc 100%);
+    color: #fff; padding: 36px 20px 28px; text-align: center;
+  }
+  header .badge {
+    display: inline-block; background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35); border-radius: 20px;
+    padding: 4px 16px; font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  header h1 { font-size: clamp(1.4rem, 4vw, 2.1rem); font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+  header p { font-size: clamp(0.85rem, 2.5vw, 1rem); opacity: 0.85; max-width: 580px; margin: 0 auto; }
+  .stats-row { display: flex; justify-content: center; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
+  .stat-pill {
+    background: rgba(255,255,255,0.15); border-radius: 30px;
+    padding: 8px 16px; font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .site-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 16px 0;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.9);
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(0,87,168,0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .site-nav a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,87,168,0.11);
+    background: #fff;
+  }
+  .site-nav a.active {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .search-wrap {
+    max-width: 700px; margin: 18px auto 0; padding: 0 16px;
+    position: relative; z-index: 10;
+  }
+  .search-wrap input {
+    width: 100%; border: none; border-radius: 30px;
+    padding: 14px 50px 14px 20px; font-size: 0.95rem;
+    box-shadow: 0 6px 28px rgba(0,87,168,0.18); outline: none; color: var(--text);
+  }
+  .search-wrap input::placeholder { color: var(--text-light); }
+  .search-icon { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--primary); }
+
+  .video-tabs {
+    display: flex; gap: 0; max-width: 960px; margin: 24px auto 0;
+    padding: 0 16px; border-bottom: 2px solid var(--border);
+  }
+  .video-tab {
+    flex: 1; padding: 11px 10px; text-align: center; font-size: 0.82rem;
+    font-weight: 700; cursor: pointer; border: none; background: var(--card);
+    color: var(--text-light); border-bottom: 3px solid transparent;
+    margin-bottom: -2px; transition: all 0.2s; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+  .video-tab:hover { color: var(--primary); background: #f0f6ff; }
+  .video-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: #fff; }
+
+  .filter-bar {
+    display: flex; gap: 8px; overflow-x: auto;
+    padding: 16px 16px 6px; max-width: 960px; margin: 0 auto;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0; background: var(--card); border: 2px solid var(--border);
+    border-radius: 22px; padding: 7px 16px; font-size: 0.82rem;
+    font-weight: 600; cursor: pointer; color: var(--text-light); transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  main { max-width: 960px; margin: 0 auto; padding: 8px 16px 60px; }
+
+  .video-panel { display: none; }
+  .video-panel.active { display: block; }
+
+  .section-title {
+    font-size: 1rem; font-weight: 700; color: var(--primary);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 28px 0 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 2px; background: var(--border); border-radius: 2px; }
+
+  .q-card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); margin-bottom: 14px;
+    border: 1px solid var(--border); overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .q-card:hover { box-shadow: 0 8px 32px rgba(0,87,168,0.15); transform: translateY(-2px); }
+  .q-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 18px 14px; cursor: pointer; user-select: none;
+  }
+  .q-num {
+    min-width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff; font-size: 0.8rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .q-title-block { flex: 1; }
+  .q-title { font-size: clamp(0.9rem, 2.5vw, 1rem); font-weight: 700; line-height: 1.4; color: var(--text); }
+  .q-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { background: var(--tag-bg); color: var(--tag-color); border-radius: 12px; padding: 2px 10px; font-size: 0.72rem; font-weight: 600; }
+  .tag.high { background: #fff0f0; color: var(--danger); }
+  .tag.med  { background: #fff8e1; color: #b8860b; }
+  .tag.low  { background: #e8faf3; color: var(--success); }
+  .q-toggle { font-size: 1.2rem; color: var(--primary); transition: transform 0.3s; flex-shrink: 0; margin-top: 4px; }
+  .q-card.open .q-toggle { transform: rotate(180deg); }
+  .q-body { display: none; padding: 0 18px 18px 66px; animation: fadeIn 0.25s ease; }
+  .q-card.open .q-body { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .answer-lead { font-size: 0.95rem; color: var(--text-light); margin-bottom: 12px; line-height: 1.6; }
+  .answer-box {
+    background: #f7faff; border-left: 4px solid var(--primary);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 14px 16px; font-size: 0.9rem; line-height: 1.7; color: var(--text); margin-bottom: 12px;
+  }
+  .answer-box.success { border-color: var(--success); background: #f0faf6; }
+  .answer-box.warning { border-color: var(--warning); background: #fffbf0; }
+  .answer-box.danger  { border-color: var(--danger);  background: #fff5f5; }
+  .tip-box {
+    display: flex; gap: 10px; background: #e8f4ff; border-radius: var(--radius-sm);
+    padding: 11px 14px; font-size: 0.84rem; color: var(--primary-dark);
+    margin-top: 10px; align-items: flex-start;
+  }
+  .tip-box .tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .step-list { counter-reset: step; list-style: none; padding: 0; margin: 8px 0; }
+  .step-list li {
+    counter-increment: step; display: flex; gap: 12px;
+    align-items: flex-start; margin-bottom: 10px; font-size: 0.88rem; line-height: 1.55;
+  }
+  .step-list li::before {
+    content: counter(step); min-width: 24px; height: 24px;
+    background: var(--primary); color: #fff; border-radius: 50%;
+    font-size: 0.72rem; font-weight: 800; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .bullet-list { list-style: none; padding: 0; margin: 8px 0; }
+  .bullet-list li { padding: 5px 0 5px 22px; font-size: 0.88rem; line-height: 1.55; position: relative; }
+  .bullet-list li::before { content: '▸'; position: absolute; left: 4px; color: var(--accent); font-weight: bold; }
+
+  .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 10px 0; }
+  .risk-tile { border-radius: var(--radius-sm); padding: 14px; text-align: center; font-size: 0.84rem; font-weight: 600; }
+  .risk-tile .risk-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .risk-tile.sod { background: #fff0f3; color: #c0392b; border: 1px solid #ffc8d0; }
+  .risk-tile.ca  { background: #fff8e1; color: #8d6e00; border: 1px solid #ffe09a; }
+  .risk-tile.cp  { background: #e8faf3; color: #1a7a4a; border: 1px solid #a8e6c8; }
+
+  .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin: 10px 0; }
+  .cmp-table th { background: var(--primary); color: #fff; padding: 9px 12px; text-align: left; font-weight: 600; }
+  .cmp-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .cmp-table tr:last-child td { border-bottom: none; }
+  .cmp-table tr:nth-child(even) td { background: #f7faff; }
+  .cmp-table td:first-child { font-weight: 700; color: var(--primary); width: 30%; }
+
+  .file-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin: 10px 0; }
+  .file-table th { background: var(--primary); color: #fff; padding: 8px 12px; text-align: left; font-weight: 600; }
+  .file-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .file-table tr:last-child td { border-bottom: none; }
+  .file-table tr:nth-child(even) td { background: #f7faff; }
+  .file-table td:first-child, .file-table th:first-child { width: 36px; text-align: center; font-weight: 700; color: var(--primary); }
+
+  .db-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin: 10px 0; }
+  .db-table th { background: var(--primary-dark); color: #fff; padding: 9px 12px; text-align: left; font-weight: 600; }
+  .db-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+  .db-table tr:last-child td { border-bottom: none; }
+  .db-table tr:nth-child(even) td { background: #f0f6ff; }
+  .db-table td:first-child { font-family: 'Courier New', monospace; font-size: 0.8rem; color: var(--primary-dark); font-weight: 700; white-space: nowrap; }
+
+  code { background: #eef4ff; color: var(--primary-dark); border-radius: 4px; padding: 2px 6px; font-family: 'Courier New', monospace; font-size: 0.85em; }
+
+  .progress-wrap { margin-top: 12px; }
+  .progress-label { font-size: 0.78rem; color: var(--text-light); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .progress-bar-bg { background: var(--border); border-radius: 6px; height: 8px; overflow: hidden; }
+  .progress-bar { height: 8px; border-radius: 6px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+
+  .no-results { text-align: center; padding: 50px 20px; color: var(--text-light); font-size: 0.95rem; display: none; }
+  .no-results .icon { font-size: 3rem; margin-bottom: 12px; }
+
+  footer { background: var(--primary-dark); color: rgba(255,255,255,0.7); text-align: center; padding: 22px 16px; font-size: 0.8rem; }
+  footer strong { color: #fff; }
+  .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .footer-links a { color: #fff; text-decoration: none; opacity: 0.9; }
+  .footer-links a:hover { text-decoration: underline; opacity: 1; }
+
+  @media (max-width: 540px) {
+    .q-body { padding-left: 18px; }
+    .risk-grid { grid-template-columns: 1fr; }
+    header { padding: 28px 16px 24px; }
+    .video-tab { font-size: 0.74rem; padding: 9px 6px; }
+    .cmp-table td:first-child { width: 38%; }
+      .site-nav { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">📚 Interview Prep Guide</div>
+  <h1>SAP GRC – Access Risk Analysis (ARA)</h1>
+  <p>All key concepts, interview Q&amp;A explained simply — Hello Viewers, Welcome Back! 👋</p>
+  <div class="stats-row">
+    <div class="stat-pill">❓ 27 Questions</div>
+    <div class="stat-pill">🎬 2 Videos</div>
+    <div class="stat-pill">🎯 ARA Module</div>
+    <div class="stat-pill">⚡ Beginner → Expert</div>
+  </div>
+</header>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">📚 Notes</a>
+  <a href="another.html">🎯 Practice</a>
+  <a href="questions.html">❓ Questions</a>
+  <a href="fiori-learning.html">🌟 Fiori Learning</a>
+  <a href="contact.html">✉ Contact</a>
+  <a href="sap-grc-ac-interviewquestion.html" class="active">🧭 GRC Guide</a>
+</nav>
+
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="Search questions, topics, tables…" oninput="handleSearch()">
+  <div class="search-icon">🔍</div>
+</div>
+
+<div class="video-tabs">
+  <button class="video-tab active" onclick="switchVideo('v1', this)">🎬 Video 1 – Core Concepts</button>
+  <button class="video-tab" onclick="switchVideo('v2', this)">🎬 Video 2 – Risk Analysis &amp; Tables</button>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" onclick="filterByTag('all', this)">All Topics</button>
+  <button class="filter-btn" onclick="filterByTag('fundamentals', this)">Fundamentals</button>
+  <button class="filter-btn" onclick="filterByTag('risk types', this)">Risk Types</button>
+  <button class="filter-btn" onclick="filterByTag('rule set', this)">Rule Set</button>
+  <button class="filter-btn" onclick="filterByTag('process', this)">Process</button>
+  <button class="filter-btn" onclick="filterByTag('risk analysis', this)">Risk Analysis</button>
+  <button class="filter-btn" onclick="filterByTag('reports', this)">Reports</button>
+  <button class="filter-btn" onclick="filterByTag('tables', this)">DB Tables</button>
+  <button class="filter-btn" onclick="filterByTag('common issues', this)">Common Issues</button>
+  <button class="filter-btn" onclick="filterByTag('scenario', this)">Scenario Based</button>
+</div>
+
+<main>
+<div id="noResults" class="no-results"><div class="icon">🔍</div><strong>No matching questions found.</strong><br>Try a different keyword or clear the filter.</div>
+
+<!-- VIDEO 1 PANEL -->
+<div class="video-panel active" id="panel-v1">
+
+  <div class="section-title">📖 Fundamental Concepts</div>
+
+  <div class="q-card" data-tags="fundamentals" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-title-block">
+        <div class="q-title">What is a Risk? (General &amp; SAP GRC)</div>
+        <div class="q-tags"><span class="tag">Fundamentals</span><span class="tag low">Easy</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <p class="answer-lead">A common opening question — answer in two layers: general, then GRC-specific.</p>
+      <div class="answer-box"><strong>📌 General:</strong><br>Any event or activity that can cause a <em>loss to an organization</em> or may lead to <em>fraud</em>.</div>
+      <div class="answer-box success"><strong>📌 In SAP GRC:</strong><br>A <strong>combination of functions</strong> which, when assigned to a user, causes a loss. When a single user has access to two <em>conflicting activities</em>, this leads to a risk.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Always give the GRC-specific answer after the general one. Layered answers show depth of knowledge.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="fundamentals" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-title-block">
+        <div class="q-title">What is a Function? What are Actions and Permissions?</div>
+        <div class="q-tags"><span class="tag">Fundamentals</span><span class="tag low">Easy</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box"><strong>🔷 Function:</strong><br>A set of <strong>actions and permissions</strong> that can be performed by a user. Example: <em>Vendor Master Maintenance</em> contains all T-codes and authorizations for vendor creation/maintenance.</div>
+      <div class="answer-box warning"><strong>⚡ Action:</strong><br>Primarily a <strong>T-code</strong>, but can also be a Fiori App, Query, RFC Function Module, or Web Application.</div>
+      <div class="answer-box"><strong>🔑 Permission:</strong><br>= <strong>Authorizations</strong>. Pulled automatically from <code>SU24</code> when a T-code is added. Only mark change/create-level authorizations as <strong>Active</strong> — display-only access is not a risk.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Mention the <strong>AND/OR condition</strong> in permissions — AND = both must exist; OR = either one triggers the risk.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk types fundamentals" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-title-block">
+        <div class="q-title">How many types of Risks are there in SAP GRC? Explain each.</div>
+        <div class="q-tags"><span class="tag">Risk Types</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="risk-grid">
+        <div class="risk-tile sod"><div class="risk-icon">⚔️</div><strong>SOD Risk</strong><br><span style="font-weight:400;font-size:0.78rem">Segregation of Duties</span></div>
+        <div class="risk-tile ca"><div class="risk-icon">🔴</div><strong>Critical Action</strong><br><span style="font-weight:400;font-size:0.78rem">Sensitive T-code/App</span></div>
+        <div class="risk-tile cp"><div class="risk-icon">🔐</div><strong>Critical Permission</strong><br><span style="font-weight:400;font-size:0.78rem">Sensitive Authorization</span></div>
+      </div>
+      <div class="answer-box"><strong>1️⃣ SOD:</strong> Two or more conflicting functions assigned to same user. Example: Create Vendor + Pay Vendor. Minimum 2 functions needed.</div>
+      <div class="answer-box warning"><strong>2️⃣ Critical Action:</strong> A single sensitive T-code (e.g. <code>SE38</code>, <code>SE16</code>) that should not be in production. Single function only.</div>
+      <div class="answer-box danger"><strong>3️⃣ Critical Permission:</strong> A critical authorization (e.g. <code>S_DEVELOP</code> with Activity <code>02</code>) that must not be in production. Single function — <em>permissions only, no actions</em>. Adding actions causes a system error.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>SOD = multiple conflicting functions. CA &amp; CP = single function with sensitive access. State this clearly.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="rule set fundamentals" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-title-block">
+        <div class="q-title">What is a Rule Set? How many can be created?</div>
+        <div class="q-tags"><span class="tag">Rule Set</span><span class="tag low">Easy</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box"><strong>📦 Rule Set:</strong><br>A container of all generated rules. Default rule set = <strong>"Global"</strong>. No limit on custom rule sets. Rules generate only for risks with <strong>Active</strong> status.</div>
+      <div class="tip-box"><span class="tip-icon">⚠️</span><div>Always verify risk status is <strong>Active</strong> before generating rules. Inactive risks are excluded.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="process rule set" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">5</div>
+      <div class="q-title-block">
+        <div class="q-title">What is the complete process of Risk Creation in SAP GRC?</div>
+        <div class="q-tags"><span class="tag">Process</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <ol class="step-list">
+        <li><strong>Define Business Process</strong> — Finance, Procurement, Purchase etc. Used to organize reports.</li>
+        <li><strong>Define Rule Set</strong> — Use standard Global or create custom. Just provide name and description.</li>
+        <li><strong>Create Functions</strong> — Add T-codes (Actions) + Authorizations (Permissions). Mark only risky ones as Active. Set AND/OR conditions carefully.</li>
+        <li><strong>Create Risk</strong> — Risk ID, Description, Level, Type (SOD/CA/CP), assign functions, assign Rule Set, set Risk Owners.</li>
+        <li><strong>Generate Rules</strong> — Select risk → Generate Rules → Foreground or Background. Rules stored in Rule Set.</li>
+      </ol>
+      <div class="answer-box warning"><strong>⚠️ Critical Permission Risk:</strong> The function must contain <em>only permissions, no actions</em>. Actions cause a system error.</div>
+      <div class="answer-box success"><strong>✅ Remember:</strong> Risk creation alone is not enough. Rules must be generated for the risk to be detected in analysis.</div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="process rule set" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">6</div>
+      <div class="q-title-block">
+        <div class="q-title">How do you download/re-upload a Rule Set? How many files are downloaded?</div>
+        <div class="q-tags"><span class="tag">Rule Set</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <p class="answer-lead">Bulk changes → Download (select Connector Group) → Edit text files → Re-upload. Exactly <strong>10 files</strong> are downloaded.</p>
+      <div style="overflow-x:auto;margin:10px 0;">
+        <table class="file-table">
+          <thead><tr><th>#</th><th>File</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Business Process</td><td>Business process definitions</td></tr>
+            <tr><td>2</td><td>Functions</td><td>Function master data</td></tr>
+            <tr><td>3</td><td>Function – Business Process Mapping</td><td>Links functions to processes</td></tr>
+            <tr><td>4</td><td>Function Actions</td><td>T-codes per function</td></tr>
+            <tr><td>5</td><td>Function Permissions</td><td>Authorizations per function</td></tr>
+            <tr><td>6</td><td>Risks</td><td>Risk master data</td></tr>
+            <tr><td>7</td><td>Rule Set</td><td>Rule set definitions</td></tr>
+            <tr><td>8</td><td>Risk – Rule Set Mapping</td><td>Links risks to rule sets</td></tr>
+            <tr><td>9</td><td>Risk Description</td><td>Risk descriptions</td></tr>
+            <tr><td>10</td><td>Risk Owners</td><td>Risk owner assignments</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="answer-box danger"><strong>🚨 Leading Zeros Warning!</strong><br>Values like <code>01</code>, <code>02</code> lose leading zeros in Excel. Always format those columns as <strong>TEXT</strong> before editing. Truncated zeros corrupt the entire rule set.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Always take a <strong>backup copy</strong> before editing. Edit only the working copy. Use the backup to revert if something goes wrong.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="common issues" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">7</div>
+      <div class="q-title-block">
+        <div class="q-title">What is a False Positive Risk? How do you handle it?</div>
+        <div class="q-tags"><span class="tag">Common Issues</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box warning"><strong>📌 Definition:</strong><br>System flags something as a risk, but in reality it is <em>technically not a risk</em>. It is incorrectly identified.</div>
+      <div class="answer-box success"><strong>✅ How to Handle:</strong>
+        <ul class="bullet-list">
+          <li>Review the rule set definition for that risk carefully.</li>
+          <li>Check functions, actions, permissions, and AND/OR conditions.</li>
+          <li>Correct the configuration (deactivate irrelevant permissions).</li>
+          <li>Regenerate the rules and re-run risk analysis to verify fix.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="common issues scenario" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">8</div>
+      <div class="q-title-block">
+        <div class="q-title">How do you ensure the Rule Set stays up-to-date with system changes?</div>
+        <div class="q-tags"><span class="tag">Common Issues</span><span class="tag high">Critical</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box danger"><strong>🚨 Common Problem:</strong><br>Changes made in Production but forgotten in Development/Quality → rule set discrepancies across DEV → QAS → PRD → risks fire in one system but not others.</div>
+      <div class="answer-box success"><strong>✅ Best Practices:</strong>
+        <ul class="bullet-list">
+          <li>Synchronize rule set changes across <strong>all landscapes</strong> (DEV, QAS, PRD) simultaneously.</li>
+          <li>Use a change management process — document and transport every change.</li>
+          <li>Schedule periodic audits to compare rule sets across systems.</li>
+          <li>Assign clear <strong>ownership</strong> to the GRC team for rule set maintenance.</li>
+        </ul>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Mentioning landscape synchronization shows real-world project experience — differentiates experienced candidates.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="scenario rule set" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">9</div>
+      <div class="q-title-block">
+        <div class="q-title">Describe a scenario where you modified the standard rule set.</div>
+        <div class="q-tags"><span class="tag">Scenario</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success"><strong>Option A – Modify via Custom Functions:</strong><br>Create new custom functions → Add to the standard risk → Regenerate rules.</div>
+      <div class="answer-box warning"><strong>Option B – Modify Standard Function Directly:</strong><br>Edit actions/permissions in the existing standard function → Activate/deactivate as needed → Regenerate rules.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>The choice depends on the business requirement. Always involve the process owner and document changes for audit.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="scenario risk types" data-video="v1">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">10</div>
+      <div class="q-title-block">
+        <div class="q-title">SOD: Create Vendor + Pay Vendor — explain the risk and remediation.</div>
+        <div class="q-tags"><span class="tag">Scenario</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box danger"><strong>🚨 Risk:</strong><br>One person can create a fictitious vendor and pay them — classic fraud. This is a <strong>SOD Risk</strong>.</div>
+      <div class="answer-box success"><strong>✅ Remediation:</strong>
+        <ul class="bullet-list">
+          <li><strong>Role Redesign:</strong> Remove one conflicting access from the user (preferred).</li>
+          <li><strong>Mitigation Control:</strong> If business requires both accesses, assign a compensating control (e.g. periodic review, dual approval).</li>
+          <li><strong>GRC Mitigation:</strong> Assign mitigation control in GRC with documented justification.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:36px">📊 Video 1 – Topic Coverage</div>
+  <div style="background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);">
+    <div class="progress-wrap"><div class="progress-label"><span>Fundamentals</span><span>Q1–Q3</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:90%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>Risk Types</span><span>Q3, Q10</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:75%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>Rule Set &amp; Process</span><span>Q4–Q6, Q9</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:90%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>Issues &amp; Scenarios</span><span>Q7–Q10</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:80%"></div></div></div>
+  </div>
+
+</div>
+
+<!-- VIDEO 2 PANEL -->
+<div class="video-panel" id="panel-v2">
+
+  <div class="section-title">🔍 Risk Analysis Types</div>
+
+  <div class="q-card" data-tags="risk analysis fundamentals" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">11</div>
+      <div class="q-title-block">
+        <div class="q-title">What are the different types of Risk Analysis available in SAP GRC?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag low">Easy</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box">
+        <ul class="bullet-list">
+          <li><strong>User Level</strong> — Reads all roles assigned to a user, compares against rule set, identifies user-level risks.</li>
+          <li><strong>Role Level</strong> — Reads all T-codes and authorizations in a role, identifies if the role itself carries SOD/CA/CP risks.</li>
+          <li><strong>Profile Level</strong> — Analyzes at the authorization profile level.</li>
+          <li><strong>HR Object Level</strong> — Analyzes risks tied to HR objects (positions, jobs, org units).</li>
+        </ul>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>It is recommended that roles are clean (no SOD conflicts) because any role-level SOD risk will automatically create a user-level SOD risk for every user assigned that role.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis fundamentals" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">12</div>
+      <div class="q-title-block">
+        <div class="q-title">Explain User Level Risk Analysis in detail.</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag low">Easy</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success">
+        <strong>How it works:</strong>
+        <ol class="step-list">
+          <li>GRC reads all roles assigned to the user in the connected system.</li>
+          <li>Compares the combined access (T-codes + authorizations) against the active rule set.</li>
+          <li>Identifies if any SOD conflict, Critical Action, or Critical Permission risk exists for that user.</li>
+          <li>Flags and reports the risk with details of conflicting roles and T-codes.</li>
+        </ol>
+      </div>
+      <div class="answer-box warning"><strong>📌 Example:</strong><br>User has Role A (Create Vendor T-codes) + Role B (Pay Vendor T-codes) → GRC identifies the SOD conflict across both roles and flags the user.</div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">13</div>
+      <div class="q-title-block">
+        <div class="q-title">Explain Role Level Risk Analysis. Why is it recommended?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box"><strong>Prerequisites:</strong> Run <strong>Authorization Sync</strong> for the role first — this syncs the role's authorizations into GRC.</div>
+      <div class="answer-box success">
+        <strong>How it works:</strong><br>
+        GRC reads all T-codes and authorizations in the role → compares against rule set → identifies:
+        <ul class="bullet-list">
+          <li>SOD risk if role has T-codes for both conflicting functions.</li>
+          <li>Critical Action risk if role contains a sensitive T-code.</li>
+          <li>Critical Permission risk if role has a sensitive authorization.</li>
+        </ul>
+      </div>
+      <div class="answer-box danger"><strong>🚨 Why Clean Roles Matter:</strong><br>If a role has an SOD conflict → every user assigned that role automatically inherits the SOD risk. This is why roles must be designed to be clean and SOD-conflict-free.</div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">14</div>
+      <div class="q-title-block">
+        <div class="q-title">I am modifying an existing role. How can I check if my changes will cause a risk BEFORE making them?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag">Scenario</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success">
+        <strong>✅ Use Role Level Simulation in NWBC:</strong>
+        <ol class="step-list">
+          <li>Navigate to Role Level Simulation in NWBC.</li>
+          <li>Provide the existing role name.</li>
+          <li>Add the T-codes/authorizations you plan to add, or mark the ones you plan to remove.</li>
+          <li>Run the simulation — GRC compares the proposed changes against the rule set.</li>
+          <li>Review the result: will it cause a new risk or not?</li>
+        </ol>
+      </div>
+      <div class="answer-box warning"><strong>📌 Decision:</strong><br>✦ Risk found → Do further modifications before proceeding.<br>✦ No risk → Proceed with actual role changes confidently.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>This is a proactive, best-practice approach. Mentioning simulation in interviews shows maturity in GRC usage.</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">📊 Report Types</div>
+
+  <div class="q-card" data-tags="reports risk analysis" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">15</div>
+      <div class="q-title-block">
+        <div class="q-title">What are the different types of reports available after Risk Analysis?</div>
+        <div class="q-tags"><span class="tag">Reports</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div style="overflow-x:auto;margin:10px 0;">
+        <table class="cmp-table">
+          <thead><tr><th>Report Type</th><th>What It Shows</th><th>Best Used For</th></tr></thead>
+          <tbody>
+            <tr><td>Detailed Report</td><td>User → Risk → Function → T-code → Role causing the risk</td><td>Deep analysis, root cause identification, remediation</td></tr>
+            <tr><td>Summary Report</td><td>T-code usage frequency — how many times a user executed a transaction</td><td>Usage analysis, checking if conflict is theoretical or active</td></tr>
+            <tr><td>Management Summary</td><td>Users + risks + mitigation status overview</td><td>Management review, audit reporting</td></tr>
+            <tr><td>Executive Summary</td><td>High-level view of users and risks</td><td>Executive/board-level reporting</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Detailed report is the <strong>analyst's best friend</strong> — use it to identify exactly which role and T-code is causing the conflict and plan remediation.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="reports scenario common issues" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">16</div>
+      <div class="q-title-block">
+        <div class="q-title">A user has a risk. How do you identify the role, T-code, and whether the T-code was actually used?</div>
+        <div class="q-tags"><span class="tag">Scenario</span><span class="tag">Reports</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success">
+        <ol class="step-list">
+          <li>Run <strong>User Level Risk Analysis</strong> for the specific user.</li>
+          <li>Download the <strong>Detailed Report</strong> → identify the roles, functions, and conflicting T-codes.</li>
+          <li>Check the <strong>Summary Report</strong> → see how many times the conflicting T-code was actually executed.</li>
+          <li>Use this data to decide: remove the role, or apply a mitigation control.</li>
+        </ol>
+      </div>
+      <div class="answer-box danger"><strong>🚨 Challenge with Detailed Report on Large Data:</strong><br>For users with many risks, the detailed report can be extremely large → may fail to load or fail to download from NWBC.</div>
+      <div class="answer-box warning"><strong>✅ Solutions:</strong>
+        <ul class="bullet-list">
+          <li>Run risk analysis in <strong>smaller chunks</strong> (subset of users at a time).</li>
+          <li>Use <strong>backend JAC spool download</strong> for large-volume extracts when NWBC download fails.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">⚙️ Batch vs Online Risk Analysis</div>
+
+  <div class="q-card" data-tags="risk analysis fundamentals" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">17</div>
+      <div class="q-title-block">
+        <div class="q-title">What is Batch Risk Analysis (Offline Risk Analysis)?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box"><strong>📌 Also Called:</strong> Offline Risk Analysis. Used for <strong>large volumes of data</strong> without real-time connectivity.</div>
+      <div class="answer-box success">
+        <ol class="step-list">
+          <li>Run <strong>Repository Object Sync</strong> — syncs all users, roles, and profiles from connector system to GRC.</li>
+          <li>Run <strong>Authorization Sync</strong> — syncs role authorizations from connector system to GRC.</li>
+          <li>Once both sync jobs are successful, schedule <strong>Batch Risk Analysis via SPRO/background job</strong>.</li>
+          <li>On completion, reports are generated and available for analysis in GRC.</li>
+        </ol>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Both sync jobs must be successful <em>before</em> scheduling batch risk analysis — otherwise data will be stale or incomplete.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis fundamentals" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">18</div>
+      <div class="q-title-block">
+        <div class="q-title">What is Online Risk Analysis? What is the difference between Online and Offline?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div style="overflow-x:auto;margin:10px 0;">
+        <table class="cmp-table">
+          <thead><tr><th>Feature</th><th>Online (Real-time)</th><th>Offline (Batch)</th></tr></thead>
+          <tbody>
+            <tr><td>Data Source</td><td>Live connector system</td><td>Pre-synced GRC database</td></tr>
+            <tr><td>Trigger</td><td>Manual via NWBC</td><td>Scheduled background job</td></tr>
+            <tr><td>Best For</td><td>Small/specific user or role analysis</td><td>Large volume, all users</td></tr>
+            <tr><td>Dependency</td><td>Connector must be reachable</td><td>Sync jobs must have run</td></tr>
+            <tr><td>Risk of Error</td><td>Connector errors, timeout for large data</td><td>Stale data if sync not recent</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Neither is universally better — choose based on volume, urgency, and connector availability. Mentioning this trade-off shows good judgment.</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">🔧 Rule Set Configuration</div>
+
+  <div class="q-card" data-tags="rule set scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">19</div>
+      <div class="q-title-block">
+        <div class="q-title">How do you set a default Rule Set for Access Requests? (Parameter 1021)</div>
+        <div class="q-tags"><span class="tag">Rule Set</span><span class="tag">Scenario</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success"><strong>✅ Solution:</strong><br>Use <strong>Parameter 1021</strong> in SPRO/GRC configuration. Set the default rule set ID there → this rule set is automatically selected when an access request is raised and risk analysis runs on submission.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Parameter 1021 is a commonly asked config parameter in interviews. Know its purpose clearly.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="rule set scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">20</div>
+      <div class="q-title-block">
+        <div class="q-title">How to auto-select different Rule Sets based on Company Code during Access Requests?</div>
+        <div class="q-tags"><span class="tag">Rule Set</span><span class="tag">Scenario</span><span class="tag high">Advanced</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <p class="answer-lead">Goes beyond simple parameter config — requires BRF+ (Business Rules Framework).</p>
+      <div class="answer-box success">
+        <ol class="step-list">
+          <li>Create a <strong>BRF+ attribute</strong> for Company Code.</li>
+          <li>Write a <strong>BRF+ rule</strong>: If Company Code = 1000 → use Rule Set 1. If Company Code = 2000 → use Rule Set 2.</li>
+          <li>Configure the BRF+ rule in <strong>SPRO GRC parameters</strong>.</li>
+          <li>System now auto-selects the correct rule set based on user's company code — no manual selection needed.</li>
+        </ol>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Knowing BRF+ integration with GRC is an <strong>advanced differentiator</strong> in interviews.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="rule set scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">21</div>
+      <div class="q-title-block">
+        <div class="q-title">Should custom T-codes be included in the Rule Set? How do you check if a T-code is already in it?</div>
+        <div class="q-tags"><span class="tag">Rule Set</span><span class="tag">Scenario</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box warning"><strong>📌 Decision:</strong><br>It is a <strong>business decision</strong>.<br>✦ Reporting/Display T-code → Usually not required.<br>✦ Create/Change access T-code → <strong>Recommended</strong> to include.</div>
+      <div class="answer-box success"><strong>✅ How to Check:</strong><br>Use table <code>GRFN_ACT_RULE</code>.<br>Enter: Custom T-code + Connector → Execute → If records returned, T-code is already in the rule set.</div>
+    </div>
+  </div>
+
+  <div class="section-title">🗄️ Important ARA Database Tables</div>
+
+  <div class="q-card" data-tags="tables fundamentals" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">22</div>
+      <div class="q-title-block">
+        <div class="q-title">What are the important database tables in SAP GRC ARA module?</div>
+        <div class="q-tags"><span class="tag">DB Tables</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box" style="margin-bottom:8px;"><strong>📋 Rule Set Configuration Tables (10 download files):</strong></div>
+      <div style="overflow-x:auto;margin-bottom:12px;">
+        <table class="db-table">
+          <thead><tr><th>Table</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>GRSA_BUSPROCESS</td><td>Business Process definitions</td></tr>
+            <tr><td>GRSA_FUNCTION</td><td>Function master data</td></tr>
+            <tr><td>GRSA_FUNC_BP</td><td>Function – Business Process mapping</td></tr>
+            <tr><td>GRSA_FUNC_ACT</td><td>Function Actions (T-codes)</td></tr>
+            <tr><td>GRSA_FUNC_PER</td><td>Function Permissions (Authorizations)</td></tr>
+            <tr><td>GRSA_SOD_RISK</td><td>Risk master data</td></tr>
+            <tr><td>GRSA_RULESET</td><td>Rule Set definitions</td></tr>
+            <tr><td>GRSA_RISK_RS</td><td>Risk – Rule Set mapping</td></tr>
+            <tr><td>GRSA_RISK_DESC</td><td>Risk descriptions</td></tr>
+            <tr><td>GRSA_RISK_OWN</td><td>Risk owners</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="answer-box" style="margin-bottom:8px;"><strong>⚡ Key Rules &amp; Violation Tables:</strong></div>
+      <div style="overflow-x:auto;margin-bottom:12px;">
+        <table class="db-table">
+          <thead><tr><th>Table</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>GRFN_ACT_RULE</td><td>All <strong>actions (T-codes/Fiori apps)</strong> that are part of active rules in the rule set</td></tr>
+            <tr><td>GRFN_PRM_RULE</td><td>All <strong>permissions (authorizations)</strong> that are part of active rules in the rule set</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="answer-box" style="margin-bottom:8px;"><strong>📊 SOD Violation Analysis Tables:</strong></div>
+      <div style="overflow-x:auto;">
+        <table class="db-table">
+          <thead><tr><th>Table</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>GRA_USER_ACT_VL</td><td>SOD action violations at <strong>user</strong> level</td></tr>
+            <tr><td>GRA_ROLE_ACT_VL</td><td>SOD action violations at <strong>role</strong> level</td></tr>
+            <tr><td>GRA_USER_PRM_VL</td><td>SOD permission violations at <strong>user</strong> level</td></tr>
+            <tr><td>GRA_ROLE_PRM_VL</td><td>SOD permission violations at <strong>role</strong> level</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Use <code>GRFN_ACT_RULE</code> to check if a T-code is part of your rule set. Use <code>GRA_USER_ACT_VL</code> for backend violation analysis.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="tables scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">23</div>
+      <div class="q-title-block">
+        <div class="q-title">How do you check if a custom T-code is part of the Rule Set using a table?</div>
+        <div class="q-tags"><span class="tag">DB Tables</span><span class="tag">Scenario</span><span class="tag low">Easy</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success">
+        <ol class="step-list">
+          <li>Open table <code>GRFN_ACT_RULE</code> via <code>SE16</code> or <code>SE16N</code>.</li>
+          <li>Enter the custom T-code in the <strong>Action</strong> field.</li>
+          <li>Enter the relevant <strong>Connector</strong> (system ID).</li>
+          <li>Execute — if records returned, T-code is already in the rule set.</li>
+          <li>If no records → T-code is not in the rule set → add it to the relevant function if required.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">🔄 Sync Jobs</div>
+
+  <div class="q-card" data-tags="risk analysis process" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">24</div>
+      <div class="q-title-block">
+        <div class="q-title">What are the two synchronization jobs needed before Batch Risk Analysis?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag">Process</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div style="overflow-x:auto;margin:10px 0;">
+        <table class="cmp-table">
+          <thead><tr><th>Sync Job</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>Repository Object Sync</td><td>Syncs all <strong>users, roles, and profiles</strong> from the connector system into GRC.</td></tr>
+            <tr><td>Authorization Sync</td><td>Syncs the <strong>role authorizations</strong> (T-codes, auth objects) from the connector system into GRC.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="answer-box danger"><strong>⚠️ Both must be successful</strong> before scheduling Batch Risk Analysis. Failure of either results in outdated/incomplete risk analysis.</div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis scenario common issues" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">25</div>
+      <div class="q-title-block">
+        <div class="q-title">What do you do when the Detailed Report fails to load or download due to large data volume?</div>
+        <div class="q-tags"><span class="tag">Common Issues</span><span class="tag">Risk Analysis</span><span class="tag high">Important</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box danger"><strong>🚨 Problem:</strong><br>Running risk analysis for large numbers of users generates enormous data. Detailed report may fail to load in NWBC or throw errors during download.</div>
+      <div class="answer-box success"><strong>✅ Solutions:</strong>
+        <ul class="bullet-list">
+          <li>Run risk analysis in <strong>smaller batches</strong> — subset of users at a time.</li>
+          <li>Use <strong>backend JAC spool download</strong> — submit as background job, download output from spool.</li>
+          <li>Apply <strong>filters</strong> (business process, risk level, rule set) to reduce result set size.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis fundamentals" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">26</div>
+      <div class="q-title-block">
+        <div class="q-title">What is the next step after identifying a Risk — Remediation or Mitigation?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag">Fundamentals</span><span class="tag med">Medium</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box success"><strong>1️⃣ Remediation:</strong><br>Fix the root cause — remove the conflicting access from the user/role. Eliminates the risk entirely.<br><br><em>Example:</em> Remove the Pay Vendor role from a user who also has Create Vendor access.</div>
+      <div class="answer-box warning"><strong>2️⃣ Mitigation:</strong><br>When business requires the user to have both accesses, implement a <strong>compensating control</strong>.<br><br><em>Example:</em> Periodic manager review, dual approval workflow, activity monitoring. Assign a formal Mitigation Control in GRC with documented justification.</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><div>Remediation is always preferred — it eliminates risk. Mitigation is a business-driven exception. This topic is covered in depth in the next video.</div></div>
+    </div>
+  </div>
+
+  <div class="q-card" data-tags="risk analysis scenario" data-video="v2">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">27</div>
+      <div class="q-title-block">
+        <div class="q-title">Why should roles be kept clean (SOD-conflict-free)?</div>
+        <div class="q-tags"><span class="tag">Risk Analysis</span><span class="tag">Scenario</span><span class="tag high">Best Practice</span></div>
+      </div>
+      <div class="q-toggle">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="answer-box danger"><strong>🚨 The Problem with Dirty Roles:</strong><br>If a role contains an SOD conflict → every single user assigned that role <strong>automatically inherits</strong> the SOD risk → creates a large number of user-level violations that are difficult to remediate individually.</div>
+      <div class="answer-box success"><strong>✅ Best Practice:</strong><br>Design roles to serve a single business function. Avoid putting conflicting T-codes in the same role (Least Privilege Principle).<br><br>Use <strong>Role Level Simulation</strong> before adding T-codes to verify no new SOD is introduced.</div>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:36px">📊 Video 2 – Topic Coverage</div>
+  <div style="background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);">
+    <div class="progress-wrap"><div class="progress-label"><span>Risk Analysis Types</span><span>Q11–Q14, Q27</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:90%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>Reports</span><span>Q15–Q16, Q25</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:85%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>Batch vs Online</span><span>Q17–Q18, Q24</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:80%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>Rule Set Config (Params/BRF+)</span><span>Q19–Q21</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:75%"></div></div></div>
+    <div class="progress-wrap" style="margin-top:14px"><div class="progress-label"><span>DB Tables</span><span>Q22–Q23</span></div><div class="progress-bar-bg"><div class="progress-bar" style="width:95%"></div></div></div>
+  </div>
+
+</div>
+
+</main>
+
+<footer>
+  <strong>SAP GRC ARA Interview Guide</strong> · Videos 1 &amp; 2 · Access Risk Analysis · Knowledge sharing only
+  <div class="footer-links">
+    <a href="index.html">Notes- ECC</a>
+    <a href="another.html">Practice</a>
+    <a href="questions.html">Questions</a>
+    <a href="fiori-learning.html">Fiori Learning</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+  function switchVideo(videoId, btn) {
+    document.querySelectorAll('.video-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.video-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + videoId).classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.filter-btn').classList.add('active');
+    showAllCards();
+    document.getElementById('noResults').style.display = 'none';
+  }
+
+  function toggle(header) {
+    const card = header.parentElement;
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.q-card.open').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  }
+
+  function showAllCards() {
+    const activePanel = document.querySelector('.video-panel.active');
+    activePanel.querySelectorAll('.q-card').forEach(c => c.style.display = '');
+    activePanel.querySelectorAll('.section-title').forEach(t => t.style.display = '');
+  }
+
+  function handleSearch() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (!q) {
+      document.querySelectorAll('.video-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-v1').classList.add('active');
+      document.querySelectorAll('.video-tab')[0].classList.add('active');
+      document.querySelectorAll('.video-tab')[1].classList.remove('active');
+      showAllCards();
+      document.getElementById('noResults').style.display = 'none';
+      return;
+    }
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    let visible = 0;
+    document.querySelectorAll('.video-panel').forEach(p => p.classList.add('active'));
+    document.querySelectorAll('.q-card').forEach(card => {
+      const text = card.innerText.toLowerCase();
+      const show = text.includes(q);
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.querySelectorAll('.video-panel').forEach(panel => {
+      const hasVisible = [...panel.querySelectorAll('.q-card')].some(c => c.style.display !== 'none');
+      panel.classList.toggle('active', hasVisible);
+    });
+    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function filterByTag(tag, btn) {
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const activePanel = document.querySelector('.video-panel.active');
+    let visible = 0;
+    activePanel.querySelectorAll('.q-card').forEach(card => {
+      const tags = (card.dataset.tags || '').toLowerCase();
+      const show = tag === 'all' || tags.includes(tag);
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.video-panel').forEach(panel => {
+      const first = panel.querySelector('.q-card');
+      if (first) first.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
