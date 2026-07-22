@@ -400,12 +400,46 @@ function handleFormSubmit(e){
     fb.textContent = '⚠ Please fill in name, email, and message before sending.';
     return;
   }
-  // Opens a mailto as fallback (works in static hosting)
+
   var subject = document.getElementById('cf-subject').value || 'Message from Website';
   var body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + msg;
-  window.location.href = 'mailto:sajid@example.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  fb.style.color = 'var(--accent3)';
-  fb.textContent = '✓ Opening your mail client…';
+
+  fb.style.color = 'var(--accent1)';
+  fb.textContent = 'Sending your message…';
+
+  fetch('https://formsubmit.co/ajax/sajideee2015@gmail.com', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      message: body,
+      subject: subject,
+      _subject: subject,
+      _captcha: 'false',
+      _template: 'table',
+      _replyto: email
+    })
+  })
+  .then(function(response){
+    if(response.ok){
+      fb.style.color = 'var(--accent3)';
+      fb.textContent = '✓ Message sent successfully. Thank you!';
+      document.getElementById('cf-name').value = '';
+      document.getElementById('cf-email').value = '';
+      document.getElementById('cf-message').value = '';
+      document.getElementById('cf-subject').value = '';
+    } else {
+      throw new Error('Unable to send message');
+    }
+  })
+  .catch(function(){
+    fb.style.color = 'var(--accent5)';
+    fb.textContent = '⚠ Unable to send right now. Please email sajideee2015@gmail.com directly.';
+  });
 }
 </script>
 </body>

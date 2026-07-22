@@ -1531,9 +1531,40 @@ function handleSend(){
   if(isDrive){
     body += '\n\n---\nReminder: Drive access is shared with supporters. Please confirm you have bought a coffee (https://buymeacoffee.com/sajid) and include the Google account email to share the folder with.';
   }
-  window.location.href='mailto:sajid@example.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body);
-  fb.style.color='var(--accent3)';
-  fb.textContent = isDrive ? '✓ Opening your mail client… (make sure you\'ve bought a coffee first ☕)' : '✓ Opening your mail client…';
+
+  fb.style.color='var(--accent1)';
+  fb.textContent='Sending your message…';
+
+  fetch('https://formsubmit.co/ajax/sajideee2015@gmail.com', {
+    method:'POST',
+    headers:{'Accept':'application/json','Content-Type':'application/json'},
+    body:JSON.stringify({
+      name:name,
+      email:email,
+      message:body,
+      subject:sub,
+      _subject:sub,
+      _captcha:'false',
+      _template:'table',
+      _replyto:email
+    })
+  })
+  .then(function(response){
+    if(response.ok){
+      fb.style.color='var(--accent3)';
+      fb.textContent = isDrive ? '✓ Message sent successfully. Thank you! ☕' : '✓ Message sent successfully. Thank you!';
+      document.getElementById('cf-name').value='';
+      document.getElementById('cf-email').value='';
+      document.getElementById('cf-msg').value='';
+      document.getElementById('cf-subject').value='';
+    } else {
+      throw new Error('Unable to send message');
+    }
+  })
+  .catch(function(){
+    fb.style.color='var(--accent5)';
+    fb.textContent='⚠ Unable to send right now. Please email sajideee2015@gmail.com directly.';
+  });
 }
 document.getElementById('cf-subject').addEventListener('change', function(){
   var hint = document.getElementById('cf-drive-hint');
